@@ -1,0 +1,171 @@
+.bottom-player {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    bottom: 0%;
+    background-color: rgb(242, 242, 242);
+    border-top: 1px solid rgba(120, 120, 120, 0.3);
+    justify-content: center;
+    min-width: 1000px;
+    .bottom-player-container {
+        display: flex;
+        min-width: 1000px;
+        .bottom-player-container-button-panel {
+            display: flex;
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 50px;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+            img {
+                height: 20px;
+                width: 20px;
+            }
+        }
+
+        .bottom-player-container-progressbar {
+            display: flex;
+            align-items: center;
+            font-size: 8pt;
+            font-weight: 600;
+            .bottom-player-container-progressbar-current-time {
+                width: 40px;
+                margin-right: 10px;
+                display: flex;
+                justify-content: center;
+            }
+            .bottom-player-container-progressbar-total-time {
+                width: 40px;
+                margin-left: 10px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .bottom-player-container-progressbar-timeline {
+                min-width: 500px;
+                display: flex;
+                align-items: center;
+                height: 60%;
+                position: relative;
+                &:hover {
+                    cursor: pointer;
+                }
+                .bottom-player-container-progressbar-timeline-line {
+                    height: 1px;
+                    width: 100%;
+                    background-color: rgba(120, 120, 120, 0.7);
+                    border-radius: 1px;
+                    position: absolute;
+                }
+                .bottom-player-container-progressbar-timeline-line-progressed {
+                    height: 1px;
+                    width: 20%;
+                    background-color: rgb(22, 0, 219);
+                    border-radius: 1px;
+                    z-index: 2;
+                    position: relative;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    .bottom-player-container-progressbar-timeline-line-progressed-pointer {
+                        min-height: 8px;
+                        min-width: 8px;
+                        background-color: rgb(22, 0, 219);
+                        border-radius: 50%;
+                        margin-right: -4px;
+                    }
+                }
+            }
+        }
+        .bottom-player-container-volumebar {
+            height: 100%;
+            width: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 26px;
+            position: relative;
+            z-index: 999;
+            // background: rgb(242, 242, 242);
+            // background: linear-gradient(180deg, rgba(242, 242, 242, 1) 0%, rgba(220, 220, 220, 1) 48%);
+            &:hover {
+                cursor: pointer;
+            }
+            img {
+                height: 17px;
+                width: 17px;
+            }
+            .bottom-player-container-volumebar-bar-container {
+                position: absolute;
+                bottom: 90%;
+                width: 100%;
+                left: -10%;
+                border: 1px solid rgba(120, 120, 120, 0.3);
+                background-color: rgb(242, 242, 242);
+                height: 120px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .line-container {
+                    height: 80%;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column-reverse;
+                    align-items: center;
+                    position: relative;
+                    .bottom-player-container-volumebar-bar-container-line {
+                        height: 100%;
+                        width: 2px;
+                        border-radius: 1px;
+                        background-color: rgba(120, 120, 120, 0.7);
+                        position: absolute;
+                    }
+                    .bottom-player-container-volumebar-bar-container-progress-line {
+                        height: 100%;
+                        width: 2px;
+                        border-radius: 1px;
+                        background-color: rgb(22, 0, 219);
+                        z-index: 2;
+                    }
+                    .bottom-player-container-volumebar-bar-container-progress-pointer {
+                        min-height: 8px;
+                        min-width: 8px;
+                        background-color: rgb(22, 0, 219);
+                        border-radius: 50%;
+                        z-index: 2;
+                        // margin-bottom: -4px;
+                    }
+                }
+
+                .bottom-player-container-volumebar-bar-container-triangle {
+                    height: 20px;
+                    width: 20px;
+                    bottom: calc(0% - 20px);
+                    position: absolute;
+                    // bottom: -7px;
+                    overflow: hidden;
+                    left: calc(50% - 8px);
+                    box-shadow: 0 16px 10px -17px rgba(0, 0, 0, .7);
+                }
+                .bottom-player-container-volumebar-bar-container-triangle:after {
+                    content: "";
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    background: rgb(242, 242, 242);
+                    transform: rotate(45deg); /* Prefixes... */
+                    top: -5px;
+                    left: 2.5px;
+                    box-shadow: -1px -1px 10px -1px rgba(0, 0, 0, .7);
+                    z-index: 3;
+
+                }
+            }
+        }
+    }
+}
