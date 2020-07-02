@@ -33,7 +33,7 @@ function Playlist(props) {
         element.className = element.className.replace(re, "");
     }
     function playlistUpdater(trackArray, playlistCounter, isPlayingGlobal) {
-        if (isPlayingGlobal == isPlaying && playlistCounter == currentTrack && notConvertedTrackList[notConvertedTrackList.length - 1]?.name == trackArray[trackArray.length - 1]?.name && notConvertedTrackList.length != 0) {
+        if (isPlayingGlobal == isPlaying && playlistCounter == currentTrack && notConvertedTrackList[notConvertedTrackList.length - 1]?.name == trackArray[trackArray.length - 1]?.name && notConvertedTrackList.length != 0 && trackArray.length == notConvertedTrackList.length) {
             return 0;
         }
         else {

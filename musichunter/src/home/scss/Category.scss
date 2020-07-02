@@ -1,0 +1,47 @@
+.home-page-category {
+    width: 80%;
+    .category {
+        display: flex;
+        justify-content: center;
+        height: 350px;
+        width: 80%;
+        border: 1px solid black;
+        .category-container {
+            width: 80%;
+            .category-title {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                height: 15%;
+                font-size: 16pt;
+            }
+            .category-description {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                font-size: 10pt;
+                color: rgb(150, 150, 150);
+                height: 10%;
+            }
+            .category-carusel {
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-around;
+                .category-carusel-item {
+                    .category-carusel-item-album-cover {
+                        img {
+                            height: 170px;
+                        }
+                    }
+                    .category-carusel-item-title {
+                        font-size: 10pt;
+                    }
+                    .category-carusel-item-description {
+                        font-size: 10pt;
+                        color: rgb(150, 150, 150);
+                    }
+                }
+            }
+        }
+    }
+}
