@@ -1,9 +1,10 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import defaultCover from './../../AlbumCover.jpeg';
 import song2 from './../../shakira.mp3';
 import song3 from './../../lose.mp3';
 import './../scss/Category.scss';
+import Slider from '../../slider/Slider';
 
 const testCategory = [{
     title: "Charts: Top 50",
@@ -51,6 +52,68 @@ const testCategory = [{
     ]
 }];
 
+const arr = [];
+arr.push(<div className="slide-container">
+    <div className="category-carusel-item" >
+        <div className="category-carusel-item-album-cover">
+            <img src={defaultCover}></img>
+        </div>
+        <div className="category-carusel-item-title">All music genres</div>
+        <div className="category-carusel-item-description">Top 50</div>
+    </div>
+    <div className="category-carusel-item">
+        <div className="category-carusel-item-album-cover">
+            <img src={defaultCover}></img>
+        </div>
+        <div className="category-carusel-item-title">All music genres</div>
+        <div className="category-carusel-item-description">Top 50</div>
+    </div>
+    <div className="category-carusel-item">
+        <div className="category-carusel-item-album-cover">
+            <img src={defaultCover}></img>
+        </div>
+        <div className="category-carusel-item-title">All music genres</div>
+        <div className="category-carusel-item-description">Top 50</div>
+    </div>
+    <div className="category-carusel-item">
+        <div className="category-carusel-item-album-cover">
+            <img src={defaultCover}></img>
+        </div>
+        <div className="category-carusel-item-title">All music genres</div>
+        <div className="category-carusel-item-description">Top 50</div>
+    </div>
+</div>);
+arr.push(<div className="slide-container">
+    <div className="category-carusel-item">
+        <div className="category-carusel-item-album-cover">
+            <img src={defaultCover}></img>
+        </div>
+        <div className="category-carusel-item-title">All music genres</div>
+        <div className="category-carusel-item-description">Top 50</div>
+    </div>
+    <div className="category-carusel-item">
+        <div className="category-carusel-item-album-cover">
+            <img src={defaultCover}></img>
+        </div>
+        <div className="category-carusel-item-title">All music genres</div>
+        <div className="category-carusel-item-description">Top 50</div>
+    </div>
+    <div className="category-carusel-item">
+        <div className="category-carusel-item-album-cover">
+            <img src={defaultCover}></img>
+        </div>
+        <div className="category-carusel-item-title">All music genres</div>
+        <div className="category-carusel-item-description">Top 50</div>
+    </div>
+    <div className="category-carusel-item">
+        <div className="category-carusel-item-album-cover">
+            <img src={defaultCover}></img>
+        </div>
+        <div className="category-carusel-item-title">All music genres</div>
+        <div className="category-carusel-item-description">Top 50</div>
+    </div>
+</div>);
+
 function Category(props) {
     const [categoryList, setcategoryList] = useState([])
     function categoryUpdater(categoryArray) {
@@ -58,8 +121,8 @@ function Category(props) {
             let el = <div></div>
         });
     }
-    function categoryCaruselParser(){
-        
+    function categoryCaruselParser() {
+
     }
     return (<div className="home-page-category">
         <div className="category">
@@ -67,34 +130,16 @@ function Category(props) {
                 <div className="category-title">Charts: Top 50</div>
                 <div className="category-description">The most played tracks on SoundCloud this week</div>
                 <div className="category-carusel">
-                    <div className="category-carusel-item">
-                        <div className="category-carusel-item-album-cover">
-                            <img src={defaultCover}></img>
-                        </div>
-                        <div className="category-carusel-item-title">All music genres</div>
-                        <div className="category-carusel-item-description">Top 50</div>
-                    </div>
-                    <div className="category-carusel-item">
-                        <div className="category-carusel-item-album-cover">
-                            <img src={defaultCover}></img>
-                        </div>
-                        <div className="category-carusel-item-title">All music genres</div>
-                        <div className="category-carusel-item-description">Top 50</div>
-                    </div>
-                    <div className="category-carusel-item">
-                        <div className="category-carusel-item-album-cover">
-                            <img src={defaultCover}></img>
-                        </div>
-                        <div className="category-carusel-item-title">All music genres</div>
-                        <div className="category-carusel-item-description">Top 50</div>
-                    </div>
-                    <div className="category-carusel-item">
-                        <div className="category-carusel-item-album-cover">
-                            <img src={defaultCover}></img>
-                        </div>
-                        <div className="category-carusel-item-title">All music genres</div>
-                        <div className="category-carusel-item-description">Top 50</div>
-                    </div>
+                    <Slider width="100%" height="300px" slides={arr} infinity={false} duration={410}></Slider>
+                </div>
+            </div>
+        </div>
+        <div className="category">
+            <div className="category-container">
+                <div className="category-title">Charts: Top 50</div>
+                <div className="category-description">The most played tracks on SoundCloud this week</div>
+                <div className="category-carusel">
+                    <Slider width="100%" height="300px" slides={arr} infinity={false} duration={410}></Slider>
                 </div>
             </div>
         </div>
