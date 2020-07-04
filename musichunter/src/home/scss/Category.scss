@@ -45,7 +45,8 @@
                     
                     .category-carusel-item-album-cover {
                         position: relative;
-                        img {
+                        cursor: pointer;
+                        img:first-child {
                             height: 100%;
                             width: 100%;
                             min-height: 120px;

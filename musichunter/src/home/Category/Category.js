@@ -7,6 +7,7 @@ import './../scss/Category.scss';
 import Slider from '../../slider/Slider';
 
 import testCategory from './testCategory';
+import CategorySubItem from './CategorySubItem';
 
 // const arr = [];
 // arr.push(<div className="slide-container">
@@ -94,13 +95,14 @@ function Category(props) {
             slidesSubArray.forEach((slideElement, index) => {
                 newSlides.push(<div className="slide-container">
                     {slideElement.map((value) => {
-                        return <div className="category-carusel-item">
-                            <div className="category-carusel-item-album-cover">
-                                <img src={defaultCover}></img>
-                            </div>
-                            <div className="category-carusel-item-title">{value.title}</div>
-                            <div className="category-carusel-item-description">{value.description}</div>
-                        </div>
+                        // return <div className="category-carusel-item">
+                        //     <div className="category-carusel-item-album-cover">
+                        //         <img src={defaultCover}></img>
+                        //     </div>
+                        //     <div className="category-carusel-item-title">{value.title}</div>
+                        //     <div className="category-carusel-item-description">{value.description}</div>
+                        // </div>
+                        return <CategorySubItem title={value.title} description={value.description} albumCover={defaultCover}></CategorySubItem>
                     })}
                     {/* {console.log("el = ", slideElement)} */}
                 </div>)
