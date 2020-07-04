@@ -101,7 +101,7 @@ function Playlist(props) {
                     <div className="clear-button-container">
                         <button>Clear</button>
                     </div>
-                    <div className="exit-button-container">
+                    <div className="exit-button-container" onClick={playlistIconClickHandler}>
                         <img src={crossIcon}></img>
                     </div>
                 </div>
