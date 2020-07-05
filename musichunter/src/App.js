@@ -29,7 +29,9 @@ SignalRContext.connection.start().then(() => { console.log("SignalRContext.conne
 });
 
 
-let default_tracklist = {tracklist: [{ name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
+let default_tracklist = {
+  hash: "1231231",
+  tracklist: [{ name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
 , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
 , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
 , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
