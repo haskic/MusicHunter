@@ -15,6 +15,7 @@ import song from "./shakira.mp3";
 import defaultCover from './AlbumCover.jpeg';
 import song2 from './shakira.mp3';
 import song3 from './lose.mp3';
+import CenterContainer from './centerContainer/CenterContainer';
 
 console.log("SONG = ",song)
 SignalRContext.connection = new HubConnectionBuilder().withUrl("http://localhost:5000/notifications").build();
@@ -87,7 +88,7 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <HomePage></HomePage>
+      <CenterContainer></CenterContainer>
       <BottomPlayer></BottomPlayer>
 
       </Provider>

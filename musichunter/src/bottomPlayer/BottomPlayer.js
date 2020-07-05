@@ -185,7 +185,7 @@ function BottomPlayer(props) {
                 <div className="bottom-player-container-volumebar noselect">
                     <VolumeBar></VolumeBar>
                 </div>
-                <SongExposition artistName="Shakira" songName="Waka Waka Waka" albumCoverImage={defaultCover}></SongExposition>
+                <SongExposition artistName="Yelawolf" songName="Box Chevy 5" albumCoverImage={defaultCover}></SongExposition>
                 <div>
                     <Playlist></Playlist>
                 </div>
