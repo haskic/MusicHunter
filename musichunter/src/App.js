@@ -29,7 +29,7 @@ SignalRContext.connection.start().then(() => { console.log("SignalRContext.conne
 });
 
 
-let default_tracklist = [{ name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
+let default_tracklist = {tracklist: [{ name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
 , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
 , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
 , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
@@ -43,7 +43,7 @@ let default_tracklist = [{ name: "Waka Waka Waka", artist: "Shakira", albumCover
 , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
 , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
 , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }];
+, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }]};
 
 
 var store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -52,7 +52,7 @@ store.dispatch({ type: 'SET_SONG', songUrl: song });
 
 store.dispatch({ type: 'PLAYLIST_COUNTER_RESET'});
 store.dispatch({ type: 'SET_PLAYING_STATE', isPlaying: false });
-store.dispatch({type: 'SET_PLAYLIST', tracklist: default_tracklist});
+store.dispatch({type: 'SET_PLAYLIST', playlist: default_tracklist});
 // store.dispatch({ type: 'PLAYLIST_SET_COUNTER', counterValue: -1});
 
 

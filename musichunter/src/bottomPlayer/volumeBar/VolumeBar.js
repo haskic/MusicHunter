@@ -14,8 +14,8 @@ function VolumeBar() {
         audioPlayer = document.getElementById("audio-player");
     });
     useEffect(() => {
+        audioPlayer.volume = 0.1;
         setprogressVolumeHeight(audioPlayer.volume * 100);
-        
     }, [])
     function volumeBarLineClickHandler(e) {
         setVolumeHeightByMousePos({x: e.pageX,y:e.pageY});
@@ -46,7 +46,6 @@ function VolumeBar() {
             setprogressVolumeHeight(0);
             console.log("BBBB",mousePos.y,progressBarLine.rect.bottom);
             audioPlayer.volume = 0;
-
             return;
         }
         let lineHeight = progressBarLine.rect.height - (mousePos.y - progressBarLine.rect.top)*100 / progressBarLine.rect.height;

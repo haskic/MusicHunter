@@ -27,7 +27,6 @@ function Playlist(props) {
             setPlaylistIcon(playlistBlackIcon);
         }
     }
-
     function removeClass(str, element) {
         var re = new RegExp(`\\b${str}\\b`, 'gi');
         element.className = element.className.replace(re, "");

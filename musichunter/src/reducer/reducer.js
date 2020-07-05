@@ -49,10 +49,17 @@ function reducer(state = {}, action) {
         return newState;
     }
     if (action.type == "SET_PLAYLIST"){
-        newState.playlist = {name: "DEFAULT PLAYLIST", tracklist: action.tracklist}
+        // newState.playlist = {name: "DEFAULT PLAYLIST", tracklist: action.tracklist}
+        newState.playlist = action.playlist
+
         return newState;
     }
-    
+    if (action.type == "SET_PLAYLIST_AND_PLAY"){
+        newState.playlist = action.playlist;
+        newState.currentSong = action.playlist.tracklist[0].src;
+        newState.isPlaying = true;
+        return newState;
+    }
     // if (action.type == "AUTH_INFO") {
     //     Object.assign(newState, { email: action.email });
     //     return newState;

@@ -102,7 +102,7 @@ function Category(props) {
                         //     <div className="category-carusel-item-title">{value.title}</div>
                         //     <div className="category-carusel-item-description">{value.description}</div>
                         // </div>
-                        return <CategorySubItem title={value.title} description={value.description} albumCover={defaultCover}></CategorySubItem>
+                        return <CategorySubItem title={value.title} description={value.description} albumCover={defaultCover} playlist={value}></CategorySubItem>
                     })}
                     {/* {console.log("el = ", slideElement)} */}
                 </div>)

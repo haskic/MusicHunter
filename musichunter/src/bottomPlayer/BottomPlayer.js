@@ -29,7 +29,7 @@ function BottomPlayer(props) {
         }
         audioPlayer = document.getElementById("audio-player");
     });
-    
+
     useEffect(() => {
         fullClearInterval();
         audioPlayer.onloadedmetadata = function () {
@@ -40,8 +40,8 @@ function BottomPlayer(props) {
             if (props.store.isPlaying && playerState.isPlaying) {
                 play();
             }
-            else{
-                if (props.store.isPlaying && playerState.isPlaying){
+            else {
+                if (props.store.isPlaying && playerState.isPlaying) {
                     play();
                 }
             }
@@ -55,11 +55,16 @@ function BottomPlayer(props) {
     useEffect(() => {
         audioPlayer.onended = function () {
             console.log("NEW URL = ", props.store.playlist.tracklist[props.store.playlistCounter]);
-            console.log("NEW URL = ", props.store.playlist.tracklist[props.store.playlistCounter + 1]);
+            // console.log("NEW URL = ", props.store.playlist.tracklist[props.store.playlistCounter + 1].url);
+            console.log("PLAYLIST = ",props.store.playlist);
+            console.log("NEXT SONG = ",props.store.playlist.tracklist[props.store.playlistCounter + 1]);
+            props.changeSong("");
+
             props.changeSong(props.store.playlist.tracklist[props.store.playlistCounter + 1].src);
+
             props.changeCurrentTrack(props.store.playlistCounter + 1);
-        }
-    }, [props.store.playlistCounter]);
+        }   
+    }, [props.store.playlistCounter,props.store.playlist]);
 
     function timeLineClickHandler(e) {
         let progressedLineWidth = 100 * (e.pageX - timeLineProgressBar.rect.left) / (timeLineProgressBar.rect.width);
@@ -94,12 +99,12 @@ function BottomPlayer(props) {
         timeLineClickHandler(e);
         if (playerState.isPlaying) {
             // fullClearInterval();
-                setintervalTimeLineUpdate(setInterval(() => {
-                    dispatch({ type: "SET_CURRENT_TIME", currentTime: audioPlayer.currentTime });
-                    let progressedLineWidth = 100 * audioPlayer.currentTime / (audioPlayer.duration);
-                    setprogressedTimelineWidth(progressedLineWidth);
-                }, 100));
-            
+            setintervalTimeLineUpdate(setInterval(() => {
+                dispatch({ type: "SET_CURRENT_TIME", currentTime: audioPlayer.currentTime });
+                let progressedLineWidth = 100 * audioPlayer.currentTime / (audioPlayer.duration);
+                setprogressedTimelineWidth(progressedLineWidth);
+            }, 100));
+
         }
         document.removeEventListener('mousemove', mouseMoveHandler, false);
         document.removeEventListener('mouseup', mouseUpHandler, false);
@@ -115,18 +120,18 @@ function BottomPlayer(props) {
         }
     }
     function play() {
-        if (audioPlayer.paused){
+        if (audioPlayer.paused) {
             dispatch({ type: 'PLAY' });
             audioPlayer.play();
             dispatch({ type: "SET_DURATION", duration: audioPlayer.duration });
             // fullClearInterval();
-            
-                setintervalTimeLineUpdate(setInterval(() => {
-                    dispatch({ type: "SET_CURRENT_TIME", currentTime: audioPlayer.currentTime });
-                    let progressedLineWidth = 100 * audioPlayer.currentTime / (audioPlayer.duration);
-                    setprogressedTimelineWidth(progressedLineWidth);
-                }, 100));
-            
+
+            setintervalTimeLineUpdate(setInterval(() => {
+                dispatch({ type: "SET_CURRENT_TIME", currentTime: audioPlayer.currentTime });
+                let progressedLineWidth = 100 * audioPlayer.currentTime / (audioPlayer.duration);
+                setprogressedTimelineWidth(progressedLineWidth);
+            }, 100));
+
         }
     }
     function pause() {
@@ -149,7 +154,7 @@ function BottomPlayer(props) {
             }
         }
     }
-    function fullClearInterval(){
+    function fullClearInterval() {
         clearInterval(intervalTimeLineUpdate);
         setintervalTimeLineUpdate(false);
     }
