@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import logo from './logo.svg';
 import { Provider, connect, ReactReduxContext } from 'react-redux';
 import { createStore } from 'redux';
@@ -17,7 +18,7 @@ import song2 from './shakira.mp3';
 import song3 from './lose.mp3';
 import CenterContainer from './centerContainer/CenterContainer';
 
-console.log("SONG = ",song)
+console.log("SONG = ", song)
 SignalRContext.connection = new HubConnectionBuilder().withUrl("http://localhost:5000/notifications").build();
 SignalRContext.connection.start().then(() => { console.log("SignalRContext.connection STARTED") }).catch((e) => { console.log("Error") }).then(() => {
   console.log("STATE = ", SignalRContext.connection.connectionState);
@@ -33,29 +34,30 @@ SignalRContext.connection.start().then(() => { console.log("SignalRContext.conne
 let default_tracklist = {
   hash: "1231231",
   tracklist: [{ name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-, { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-, { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-, { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-, { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-, { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-, { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-, { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-, { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }]};
+    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }]
+};
 
 
 var store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 store.dispatch({ type: 'ZHAKAR', isLogin: "alexader" });
 store.dispatch({ type: 'SET_SONG', songUrl: song });
 
-store.dispatch({ type: 'PLAYLIST_COUNTER_RESET'});
+store.dispatch({ type: 'PLAYLIST_COUNTER_RESET' });
 store.dispatch({ type: 'SET_PLAYING_STATE', isPlaying: false });
-store.dispatch({type: 'SET_PLAYLIST', playlist: default_tracklist});
+store.dispatch({ type: 'SET_PLAYLIST', playlist: default_tracklist });
 // store.dispatch({ type: 'PLAYLIST_SET_COUNTER', counterValue: -1});
 
 
@@ -64,35 +66,38 @@ function App() {
 
   return (
     <div className="App">
-      <Provider store={store}>
+      <Router>
+        <Provider store={store}>
 
-      <NotificationsContext.Provider value={{ name: "Vladick" }}>
-        <TopMenu></TopMenu>
-      </NotificationsContext.Provider>
-      {/* <audio controls>
-        <source src={song} type="audio/mpeg"></source>
+          <NotificationsContext.Provider value={{ name: "Vladick" }}>
+            <TopMenu></TopMenu>
+          </NotificationsContext.Provider>
+          {/* <audio controls>
+  <source src={song} type="audio/mpeg"></source>
 
-      </audio> */}
-      {/* <header className="App-header">
-        <HomePage></HomePage>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <CenterContainer></CenterContainer>
-      <BottomPlayer></BottomPlayer>
+</audio> */}
+          {/* <header className="App-header">
+  <HomePage></HomePage>
+  <img src={logo} className="App-logo" alt="logo" />
+  <p>
+    Edit <code>src/App.js</code> and save to reload.
+  </p>
+  <a
+    className="App-link"
+    href="https://reactjs.org"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Learn React
+  </a>
+</header> */}
+          <CenterContainer></CenterContainer>
+          <BottomPlayer></BottomPlayer>
 
-      </Provider>
-      
+        </Provider>
+      </Router>
+
+
     </div>
   );
 }

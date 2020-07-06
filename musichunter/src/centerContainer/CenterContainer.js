@@ -9,17 +9,15 @@ function CenterContainer() {
 
 
     return (<div className='center-container'>
-        <Router>
             <Switch>
-                <Route path="/profile">
-                    <Profile></Profile>
+                <Route path="/profile" component={Profile}>
                 </Route>
-                <Route path="/">
-                    <HomePage></HomePage>
+                <Route path="/home" component={HomePage}>
+                </Route>
+                <Route path="/" component={HomePage}>
                 </Route>
 
             </Switch>
-        </Router>
 
 
     </div>);

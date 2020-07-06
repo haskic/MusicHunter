@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link, BrowserRouter as Router} from 'react-router-dom';
 
 import Notifications from './Notifications';
 import './scss/TopMenu.scss';
@@ -17,7 +18,7 @@ function TopMenu(props){
                 <NotificationsContext.Consumer>
                     {value => <div>{value.name}</div>}
                 </NotificationsContext.Consumer>
-                <div className="top-menu-container-home">Home</div>
+                <div className="top-menu-container-home"><Link to="/home">Home</Link></div>
                 <div className="top-menu-container-library">Library</div>
                 <div className="top-menu-container-search">
                     <input type="text" placeholder="Search"></input>
@@ -26,8 +27,8 @@ function TopMenu(props){
                     {/* {NotificationsContext.name} */}
                     Upload</div>
                 
-                
-                <div className="top-menu-container-profile-button">Alexander Speek</div>
+                <div className="top-menu-container-profile-button"><Link to="/profile">Alexander Speek</Link></div>
+
                 <Notifications></Notifications>
                 <div className="top-menu-container-messages"><img src={envelopeLogo}></img></div>
                 {/* <button onClick={() => {console.log("VALUE = ",NotificationsContext.name)}}>click</button> */}
