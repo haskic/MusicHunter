@@ -25,7 +25,7 @@ function TopMenu(props){
                 </div>
                 <div className="top-menu-container-upload">
                     {/* {NotificationsContext.name} */}
-                    Upload</div>
+                    <Link to="/upload">Upload</Link></div>
                 
                 <div className="top-menu-container-profile-button"><Link to="/profile">Alexander Speek</Link></div>
 
