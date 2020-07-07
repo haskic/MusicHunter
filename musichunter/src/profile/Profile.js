@@ -3,6 +3,7 @@ import {Switch,Route,useRouteMatch,Link} from 'react-router-dom';
 import './scss/Profile.scss';
 
 import default_image from './default_profile_image.jpg';
+import TrackViewer from './sections/trackViewer/TracksViewer';
 
 
 
@@ -38,7 +39,7 @@ function Profile() {
                         <div>ALexander</div>
                     </Route>
                     <Route path={`${path}/tracks`}>
-                        <div>Tracks</div>
+                        <TrackViewer></TrackViewer>
                     </Route>
                     <Route path="/">
                         <div>DEfault</div>
