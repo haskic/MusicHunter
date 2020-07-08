@@ -51,7 +51,7 @@ function Playlist(props) {
                                 isShowPlayOnHover={true} playIconImage={play2Icon} pauseIconImage={pause2Icon}
                                 isPlaying={false}
                                 isShowIcon={false}
-                                clickAlbumCoverHandler={() => { props.changeCurrentTrack(index); props.changeSong(element.src); props.changeIsPlayingState(true); }}></SongExposition>
+                                clickAlbumCoverHandler={() => { props.changeCurrentTrack(index); props.changeSong(element); props.changeIsPlayingState(true); }}></SongExposition>
                             <div className="right-form">
                                 <img src={crossIcon} title="remove from Next Up"></img>
                                 <img src={heartBlackIcon} title="Like"></img>
@@ -128,7 +128,7 @@ export default connect(
             dispatch({ type: 'PLAYING_TOGGLE' })
         },
         changeSong: (value) => {
-            dispatch({ type: 'SET_SONG', songUrl: value })
+            dispatch({ type: 'SET_SONG', song: value })
         },
         changeIsPlayingState: (value) => {
             dispatch({ type: 'SET_PLAYING_STATE', isPlaying: value })

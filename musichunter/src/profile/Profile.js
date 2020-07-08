@@ -35,15 +35,9 @@ function Profile() {
             </div>
             <div className="content-data">
                 <Switch>
-                    <Route path={`${path}/all`}>
-                        <div>ALexander</div>
-                    </Route>
-                    <Route path={`${path}/tracks`}>
-                        <TrackViewer></TrackViewer>
-                    </Route>
-                    <Route path="/">
-                        <div>DEfault</div>
-                    </Route>
+                    <Route path={`${path}/all`} component={() => <div>ALexander</div>}></Route>
+                    <Route path={`${path}/tracks`} component={TrackViewer}></Route>
+                    <Route path="/" component={() => <div>DEfault</div>}></Route>
                 </Switch>
             </div>
         </div>

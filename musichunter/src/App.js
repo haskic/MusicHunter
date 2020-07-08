@@ -53,7 +53,7 @@ let default_tracklist = {
 
 var store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 store.dispatch({ type: 'ZHAKAR', isLogin: "alexader" });
-store.dispatch({ type: 'SET_SONG', songUrl: song });
+store.dispatch({ type: 'SET_SONG', song: { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 } });
 
 store.dispatch({ type: 'PLAYLIST_COUNTER_RESET' });
 store.dispatch({ type: 'SET_PLAYING_STATE', isPlaying: false });

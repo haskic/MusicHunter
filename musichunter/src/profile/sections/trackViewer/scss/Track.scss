@@ -27,6 +27,7 @@
     display: flex;
     background-color: rgba(0, 0, 255, 0.8);
     align-items: center;
+    justify-content: center;
     height: 40px;
     width: 40px;
     border-radius: 50%;
@@ -35,7 +36,6 @@
         background-color: rgba(0, 0, 255, 0.85);
     }
     img {
-        margin-left: 9px;
         width: 25px;
         height: 25px;
     }

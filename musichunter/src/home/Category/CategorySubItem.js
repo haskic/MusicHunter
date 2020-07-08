@@ -81,7 +81,7 @@ export default connect(
             dispatch({ type: 'PLAYING_TOGGLE' })
         },
         changeSong: (value) => {
-            dispatch({ type: 'SET_SONG', songUrl: value })
+            dispatch({ type: 'SET_SONG', song: value })
         },
         changeIsPlayingState: (value) => {
             dispatch({ type: 'SET_PLAYING_STATE', isPlaying: value })

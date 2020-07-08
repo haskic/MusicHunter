@@ -60,7 +60,7 @@ function BottomPlayer(props) {
             console.log("NEXT SONG = ",props.store.playlist.tracklist[props.store.playlistCounter + 1]);
             props.changeSong("");
 
-            props.changeSong(props.store.playlist.tracklist[props.store.playlistCounter + 1].src);
+            props.changeSong(props.store.playlist.tracklist[props.store.playlistCounter + 1]);
 
             props.changeCurrentTrack(props.store.playlistCounter + 1);
         }   
@@ -161,7 +161,7 @@ function BottomPlayer(props) {
     return (
         <div className="bottom-player">
             <ReactReduxContext.Consumer>
-                {({ store }) => <audio id="audio-player" src={store.getState().currentSong} type="audio/mpeg" >
+                {({ store }) => <audio id="audio-player" src={store.getState().currentSong.src} type="audio/mpeg" >
                 </audio>}
             </ReactReduxContext.Consumer>
             <div className="bottom-player-container" onDragStart={(e) => e.preventDefault()}>
@@ -207,7 +207,7 @@ export default connect(
             dispatch({ type: 'SET_PLAYING_STATE', isPlaying: value })
         },
         changeSong: (value) => {
-            dispatch({ type: 'SET_SONG', songUrl: value })
+            dispatch({ type: 'SET_SONG', song: value })
         },
     })
 )(BottomPlayer);

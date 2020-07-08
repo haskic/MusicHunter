@@ -12,7 +12,7 @@ function reducer(state = {}, action) {
         return newState;
     }
     if (action.type == "SET_SONG"){
-        newState.currentSong = action.songUrl;
+        newState.currentSong = action.song;
         return newState;
     }
     if (action.type == "PLAYLIST_NEXT_SONG"){
@@ -56,7 +56,7 @@ function reducer(state = {}, action) {
     }
     if (action.type == "SET_PLAYLIST_AND_PLAY"){
         newState.playlist = action.playlist;
-        newState.currentSong = action.playlist.tracklist[0].src;
+        newState.currentSong = action.playlist.tracklist[0];
         newState.isPlaying = true;
         return newState;
     }
