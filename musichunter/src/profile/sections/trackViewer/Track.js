@@ -39,9 +39,9 @@ function Track(props) {
         else {
             setisPlaying(false);
         }
-    }, [props.store.currentSong,props.store.isPlaying]);
+    }, [props.store.currentSong, props.store.isPlaying]);
     useEffect(() => {
-        
+
         return () => {
             console.log("TRACK UNMOUNT");
         }

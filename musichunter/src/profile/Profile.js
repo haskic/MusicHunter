@@ -4,6 +4,7 @@ import './scss/Profile.scss';
 
 import default_image from './default_profile_image.jpg';
 import TrackViewer from './sections/trackViewer/TracksViewer';
+import AlbumViewer from './sections/albumViewer/AlbumViewer';
 
 
 
@@ -37,6 +38,7 @@ function Profile() {
                 <Switch>
                     <Route path={`${path}/all`} component={() => <div>ALexander</div>}></Route>
                     <Route path={`${path}/tracks`} component={TrackViewer}></Route>
+                    <Route path={`${path}/albums`} component={AlbumViewer}></Route>
                     <Route path="/" component={() => <div>DEfault</div>}></Route>
                 </Switch>
             </div>

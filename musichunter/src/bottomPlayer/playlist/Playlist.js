@@ -47,7 +47,7 @@ function Playlist(props) {
                     newTrackList.push(
                         <div className="track-item" key={index}>
                             <SongExposition artistName={element.artist}
-                                songName={element.name} albumCoverImage={element.albumCoverImage}
+                                songName={element.name} albumCoverImage={element.coverImage}
                                 isShowPlayOnHover={true} playIconImage={play2Icon} pauseIconImage={pause2Icon}
                                 isPlaying={false}
                                 isShowIcon={false}
@@ -63,7 +63,7 @@ function Playlist(props) {
                 else {
                     newTrackList.push(
                         <div className="track-item" key={index}>
-                            <SongExposition artistName={element.artist} songName={element.name} albumCoverImage={element.albumCoverImage} playIconImage={play2Icon}
+                            <SongExposition artistName={element.artist} songName={element.name} albumCoverImage={element.coverImage} playIconImage={play2Icon}
                                 pauseIconImage={pause2Icon} isShowIcon={true} isPlaying={isPlayingGlobal ? true : false}
                                 clickAlbumCoverHandler={() => { props.changePlayingToggle() }}></SongExposition>
                             <div className="right-form">

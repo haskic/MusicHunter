@@ -17,9 +17,12 @@
 
 .profile-header {
     display: flex;
-    min-height: 270px;
+    min-height: 260px;
     width: 100%;
-    background-color: rgb(180, 180, 180);
+    background-color: black;
+    background-image: url('./../defaultProfileBack.jpg');
+    background-repeat: no-repeat;
+
 }
 
 .profile-image {
@@ -39,6 +42,7 @@
     flex-direction: column;
     padding-top: 70px;
     width: 75%;
+    color: white;
     div {
         margin-bottom: 10px;
         font-weight: 400;

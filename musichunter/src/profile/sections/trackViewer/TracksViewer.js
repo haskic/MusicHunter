@@ -43,12 +43,6 @@ const default_track5 = {
 }
 
 function TrackViewer(props){
-    useEffect(() => {
-        
-        return () => {
-            console.log("UNMOUNT beach");
-        }
-    }, []); 
     return(<div className="track-viewer">
         <Track track={default_track1}></Track>
         <Track track={default_track2}></Track>

@@ -1,7 +1,6 @@
-.track-container {
+.album-container {
     display: flex;
     width: 100%;
-    height: 170px;
     margin-bottom: 20px;
 }
 .album-cover {
@@ -12,18 +11,18 @@
     margin-right: 10px;
 }
 
-.track-data {
+.album-data {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 10px;
     padding-bottom: 0;
 }
-.track-control-info {
+.album-control-info {
     display: flex;
 }
 
-.track-control {
+.album-control {
     cursor: pointer;
     display: flex;
     background-color: rgba(0, 0, 255, 0.8);
@@ -41,17 +40,17 @@
         height: 25px;
     }
 }
-.track-info {
+.album-info {
     display: flex;
     flex-direction: column;
     font-size: 10pt;
     justify-content: center;
-    .track-artist {
+    .album-artist {
         color: rgb(120, 120, 120);
     }
 }
 
-.track-options {
+.album-options {
     display: flex;
     button {
         border: 1px solid black;
