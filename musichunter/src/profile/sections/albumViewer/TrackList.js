@@ -4,10 +4,14 @@ import AlbumTrack from './AlbumTrack';
 import './scss/TrackList.scss';
 function TrackList(props) {
 
-
     return (<div className="tracklist">
         {props.tracklist.map((value, index) => {
-            return <AlbumTrack track={value} number={index + 1}/>
+            if (value.hash == props.currentTrack.hash){
+                return <AlbumTrack track={value} number={index + 1} current={true}/>
+            }
+            else{
+                return <AlbumTrack track={value} number={index + 1} />
+            }
         })}
     </div>)
 }

@@ -10,14 +10,14 @@ import TrackList from './TrackList';
 
 function Album(props) {
     const [isPlaying, setisPlaying] = useState(false);
-    const [currentSong, setcurrentSong] = useState(null);
+    const [currentTrack, setcurrentTrack] = useState({hash: ""});
     function controlClickHandler() {
         if (isPlaying) {
             props.changeIsPlayingState(false);
             setisPlaying(false);
         }
         else {
-            // if (props.store.currentSong.hash !== props.track.hash) {
+            // if (props.store.playlist.hash !== props.album.hash) {
             //     let mypromise = new Promise((resolve, reject) => {
             //         props.changeSong({ src: "" });
             //         resolve();
@@ -28,24 +28,31 @@ function Album(props) {
             // }
             if (props.store.playlist.hash !== props.album.hash){
                 props.changePlaylist(props.album);
+                setcurrentTrack(props.album.tracklist[0]);
             }
-            // props.changeIsPlayingState(true);
+            props.changeIsPlayingState(true);
             setisPlaying(true);
         }
     }
-    // useEffect(() => {
-    //     if (props.store.currentSong.hash == props.track.hash) {
-    //         if (props.store.isPlaying) {
-    //             setisPlaying(true);
-    //         }
-    //         else {
-    //             setisPlaying(false);
-    //         }
-    //     }
-    //     else {
-    //         setisPlaying(false);
-    //     }
-    // }, [props.store.currentSong, props.store.isPlaying]);
+    useEffect(() => {
+        if (props.store.playlist.hash == props.album.hash) {
+            if (props.store.isPlaying) {
+                setisPlaying(true);
+            }
+            else {
+                setisPlaying(false);
+            }
+        }
+        else {
+            setisPlaying(false);
+        }
+    }, [props.store.currentSong, props.store.isPlaying]);
+    useEffect(() => {
+        if (props.album.hash == props.store.playlist.hash){
+            setcurrentTrack(props.store.currentSong);
+        }
+        
+    }, [props.store.currentSong])
     // useEffect(() => {
 
     //     return () => {
@@ -68,8 +75,8 @@ function Album(props) {
                     <div className="album-name">{props.album.name}</div>
                 </div>
             </div>
-            <TrackDiagram hash={props.album.hash}></TrackDiagram>
-            <TrackList tracklist={props.album.tracklist}></TrackList>
+            <TrackDiagram hash={currentTrack.hash}></TrackDiagram>
+            <TrackList tracklist={props.album.tracklist} currentTrack={currentTrack}></TrackList>
             <div className="album-options">
                 <button>Like</button>
                 <button>Reposts</button>

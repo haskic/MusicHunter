@@ -89,11 +89,11 @@ function TrackDiagram(props) {
             let audioPlayer = document.getElementById("audio-player");
             let timer = setInterval(() => {
                 let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
-                updateDiagram(canvasElement,currentX);
+                updateDiagram(canvasElement, currentX);
             }, 50);
             setupdateInterval(timer);
-            console.log("TIMER ID  = ",updateInterval);
-            console.log("TIMER ID normal = ",timer);
+            console.log("TIMER ID  = ", updateInterval);
+            console.log("TIMER ID normal = ", timer);
 
         }
         else {
@@ -103,7 +103,7 @@ function TrackDiagram(props) {
 
         }
     }, [props.store.currentSong]);
-    
+
     function drawDiagram() {
         let rect = canvasElement.current.getBoundingClientRect();
         let ctx = canvasElement.current.getContext('2d');
