@@ -33,27 +33,27 @@ SignalRContext.connection.start().then(() => { console.log("SignalRContext.conne
 
 let default_tracklist = {
   hash: "1231231",
-  tracklist: [{ name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }
-    , { name: "Lose Yourself", artist: "Eminem", albumCoverImage: defaultCover, src: song3 }
-    , { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 }]
+  tracklist: [{ name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", coverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", coverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", coverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", coverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", coverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", coverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }
+    , { name: "Lose Yourself", artist: "Eminem", coverImage: defaultCover, src: song3 }
+    , { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }]
 };
 
 
 var store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 store.dispatch({ type: 'ZHAKAR', isLogin: "alexader" });
-store.dispatch({ type: 'SET_SONG', song: { name: "Waka Waka Waka", artist: "Shakira", albumCoverImage: defaultCover, src: song2 } });
+store.dispatch({ type: 'SET_SONG', song: { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 } });
 
 store.dispatch({ type: 'PLAYLIST_COUNTER_RESET' });
 store.dispatch({ type: 'SET_PLAYING_STATE', isPlaying: false });

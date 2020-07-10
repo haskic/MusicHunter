@@ -30,7 +30,7 @@ function TopMenu(props){
                 <div className="top-menu-container-profile-button"><Link to="/profile">Alexander Speek</Link></div>
 
                 <Notifications></Notifications>
-                <div className="top-menu-container-messages"><img src={envelopeLogo}></img></div>
+                <div className="top-menu-container-messages"><Link to="/messenger"><img src={envelopeLogo}></img></Link> </div>
                 {/* <button onClick={() => {console.log("VALUE = ",NotificationsContext.name)}}>click</button> */}
             </div>
         </div>
