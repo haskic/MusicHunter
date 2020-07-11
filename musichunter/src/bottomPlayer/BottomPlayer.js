@@ -21,6 +21,7 @@ function BottomPlayer(props) {
     let progressPointerIsActive = false;
     const [intervalTimeLineUpdate, setintervalTimeLineUpdate] = useState(false);
     const [playerState, dispatch] = useReducer(reducer, { icon: playIcon, isPlaying: false, audio: { name: "default", duration: 1, currentTime: 2 } });
+    const [isShowPointer, setisShowPointer] = useState(false);
     let timeLineProgressBar;
     let audioPlayer;
     useEffect(() => {
@@ -158,6 +159,14 @@ function BottomPlayer(props) {
         clearInterval(intervalTimeLineUpdate);
         setintervalTimeLineUpdate(false);
     }
+
+
+    function timeLineMouseEnterHandler(){
+        setisShowPointer(true);
+    }
+    function timeLineMouseLeaveHandler(){
+        setisShowPointer(false);
+    }
     return (
         <div className="bottom-player">
             <ReactReduxContext.Consumer>
@@ -174,10 +183,10 @@ function BottomPlayer(props) {
                 </div>
                 <div className="bottom-player-container-progressbar"  >
                     <div className="bottom-player-container-progressbar-current-time noselect">{playerState.audio.currentTime}</div>
-                    <div className="bottom-player-container-progressbar-timeline" onMouseDown={(e) => mouseDownProgressPointerHandler(e)} onClick={(e) => timeLineClickHandler(e)}>
+                    <div className="bottom-player-container-progressbar-timeline" onMouseDown={(e) => mouseDownProgressPointerHandler(e)} onClick={(e) => timeLineClickHandler(e)} onMouseEnter={timeLineMouseEnterHandler} onMouseLeave={timeLineMouseLeaveHandler}>
                         <div className="bottom-player-container-progressbar-timeline-line"></div>
                         <div className="bottom-player-container-progressbar-timeline-line-progressed" style={{ width: progressedTimelineWidth + "%" }}>
-                            <div className="bottom-player-container-progressbar-timeline-line-progressed-pointer" ></div>
+                            {isShowPointer?<div className="bottom-player-container-progressbar-timeline-line-progressed-pointer" ></div>: null}
                         </div>
                     </div>
                     <div className="bottom-player-container-progressbar-total-time noselect">{playerState.audio.duration}</div>
