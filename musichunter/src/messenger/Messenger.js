@@ -7,14 +7,12 @@ import './scss/Messenger.scss';
 
 
 function Messenger() {
-
     return (<div className="messenger">
         <div className="messenger-container">
             <LeftMenu></LeftMenu>
             <MessageContainer></MessageContainer>
         </div>
     </div>)
-
 }
 
 
