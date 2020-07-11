@@ -1,16 +1,16 @@
-import React,{useEffect,useState} from 'react';
-import {connect} from 'react-redux';
-import playIcon from  './../../../bottomPlayer/icons/play.png';
-import pauseIcon from  './../../../bottomPlayer/icons/pause.png';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import playIcon from './../../../bottomPlayer/icons/play.png';
+import pauseIcon from './../../../bottomPlayer/icons/pause.png';
 
-import TrackDiagram from  './../trackViewer/TrackDiagram';
+import TrackDiagram from './../trackViewer/TrackDiagram';
 
 import './scss/Album.scss';
 import TrackList from './TrackList';
 
 function Album(props) {
     const [isPlaying, setisPlaying] = useState(false);
-    const [currentTrack, setcurrentTrack] = useState({hash: ""});
+    const [currentTrack, setcurrentTrack] = useState({ hash: "" });
     function controlClickHandler() {
         if (isPlaying) {
             props.changeIsPlayingState(false);
@@ -26,8 +26,17 @@ function Album(props) {
             //         props.changeSong(props.track);
             //     })
             // }
-            if (props.store.playlist.hash !== props.album.hash){
-                props.changePlaylist(props.album);
+            if (props.store.playlist.hash !== props.album.hash) {
+                let mypromise = new Promise((resolve, reject) => {
+                    props.changeSong({ src: "" });
+                    resolve();
+                });
+                mypromise.then(() => {
+                    props.changePlaylist(props.album);
+
+                })
+                console.log("PLAYLIST CHANHED !!!!");
+                // props.changeSong({ hash: "", src: "" });
                 setcurrentTrack(props.album.tracklist[0]);
             }
             props.changeIsPlayingState(true);
@@ -35,7 +44,8 @@ function Album(props) {
         }
     }
     useEffect(() => {
-        if (props.store.playlist.hash == props.album.hash) {
+        console.log("PLAYLIST CHANGE")
+        if (props.store.playlist.hash === props.album.hash) {
             if (props.store.isPlaying) {
                 setisPlaying(true);
             }
@@ -46,12 +56,12 @@ function Album(props) {
         else {
             setisPlaying(false);
         }
-    }, [props.store.currentSong, props.store.isPlaying]);
+    }, [props.store.currentSong, props.store.isPlaying, props.store.playlist]);
     useEffect(() => {
-        if (props.album.hash == props.store.playlist.hash){
+        if (props.album.hash == props.store.playlist.hash) {
             setcurrentTrack(props.store.currentSong);
         }
-        
+
     }, [props.store.currentSong])
     // useEffect(() => {
 
@@ -60,7 +70,7 @@ function Album(props) {
     //     }
     // }, [])
 
-    
+
     return (<div className="album-container">
         <div className="album-cover">
             <img src={props.album.coverImage}></img>
@@ -75,7 +85,7 @@ function Album(props) {
                     <div className="album-name">{props.album.name}</div>
                 </div>
             </div>
-            <TrackDiagram hash={currentTrack.hash}></TrackDiagram>
+            <TrackDiagram hash={currentTrack.hash} albumHash={props.album.hash}></TrackDiagram>
             <TrackList tracklist={props.album.tracklist} currentTrack={currentTrack}></TrackList>
             <div className="album-options">
                 <button>Like</button>

@@ -84,24 +84,46 @@ function TrackDiagram(props) {
         };
     }, [updateInterval])
     useEffect(() => {
-        if (props.hash === props.store.currentSong.hash) {
-            setisActive(true);
-            let audioPlayer = document.getElementById("audio-player");
-            let timer = setInterval(() => {
-                let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
-                updateDiagram(canvasElement, currentX);
-            }, 50);
-            setupdateInterval(timer);
-            console.log("TIMER ID  = ", updateInterval);
-            console.log("TIMER ID normal = ", timer);
+        if (props.albumHash) {
+            if (props.albumHash == props.store.playlist.hash && props.hash === props.store.currentSong.hash) {
+                setisActive(true);
+                let audioPlayer = document.getElementById("audio-player");
+                let timer = setInterval(() => {
+                    let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
+                    updateDiagram(canvasElement, currentX);
+                }, 50);
+                setupdateInterval(timer);
+                console.log("TIMER ID  = ", updateInterval);
+                console.log("TIMER ID normal = ", timer);
+            }
+            else {
+                clearInterval(updateInterval);
+                setisActive(false);
+                drawDiagram();
 
+            }
         }
         else {
-            clearInterval(updateInterval);
-            setisActive(false);
-            drawDiagram();
+            if (props.hash === props.store.currentSong.hash) {
+                setisActive(true);
+                let audioPlayer = document.getElementById("audio-player");
+                let timer = setInterval(() => {
+                    let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
+                    updateDiagram(canvasElement, currentX);
+                }, 50);
+                setupdateInterval(timer);
+                console.log("TIMER ID  = ", updateInterval);
+                console.log("TIMER ID normal = ", timer);
 
+            }
+            else {
+                clearInterval(updateInterval);
+                setisActive(false);
+                drawDiagram();
+
+            }
         }
+
     }, [props.store.currentSong]);
 
     function drawDiagram() {
