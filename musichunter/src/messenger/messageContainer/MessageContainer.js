@@ -1,5 +1,7 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import Message from './../message/Message';
+
+import MessengerContext from './../messengerContext/MessengerContext';
 
 import './../scss/MessageContainer.scss';
 import default_image from './../leftMenu/techN9neImage.jpg';
@@ -50,12 +52,14 @@ const default_messages = [
 ]
 
 export default function MessageContainer(props) {
+    const [context,setContext] = useContext(MessengerContext);
+
     return (
         <div className="messages-main">
             <div className="recipient-container">
                 <div className="left-options">
                     <div className="recipient-name">
-                        oxxxymiron
+                        {context.name}
                     </div>
                     <button>Block</button>
                     <button>Report</button>
@@ -65,7 +69,7 @@ export default function MessageContainer(props) {
                 </div>
             </div>
             <div className="message-container">
-                {default_messages.map((message) => {
+                {context.messages && context.messages.map((message) => {
                     return <Message message={message} photo={default_image}></Message>
                 })}
             </div>
