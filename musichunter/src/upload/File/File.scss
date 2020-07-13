@@ -1,0 +1,63 @@
+.file {
+    display: flex;
+    margin-top: 20px;
+    width: 40%;
+    .track-cover {
+        img {
+            width: 250px;
+            height: 250px;
+        }
+        margin-right: 20px;
+    }
+    .track-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        flex-grow: 1;
+        label {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            &:first-child {
+                span::after {
+                    content: "*";
+                    margin-left: 3px;
+                    color: red;
+                }
+            }
+        }
+        input[type="text"] {
+            padding: 3px;
+            &:focus {
+                outline: none;
+            }
+            margin-top: 5px;
+        }
+        textarea[name="track-description"] {
+            margin-top: 5px;
+            min-height: 100px;
+            resize: vertical;
+            padding: 5px;
+            &:focus {
+                outline: rgb(220, 220, 220);
+            }
+        }
+        .buttons {
+            display: flex;
+            flex-direction: row-reverse;
+            button {
+                padding: 6px;
+                width: 70px;
+                margin-left: 5px;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+                &:first-child {
+                    background-color: rgb(0, 0, 255);
+                    border: none;
+                    color: white;
+                }
+            }
+        }
+    }
+}

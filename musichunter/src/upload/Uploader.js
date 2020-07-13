@@ -1,12 +1,26 @@
 import React from 'react';
-
+import File from './File/File';
 import './scss/Uploader.scss';
+
+
+import default_cover from './../AlbumCover.jpeg'
 
 
 function Uploader() {
 
     async function UploadFile(){
         let fileInput = document.getElementById("file-upload");
+
+
+        
+
+
+
+
+
+
+
+
         const formData = new FormData();
         for (var i = 0; i < fileInput.files.length; i++) {
             formData.append("files",fileInput.files[i]);
@@ -53,6 +67,7 @@ function Uploader() {
     return (<div className="uploader-container">
         <label for="file-upload" className="custom-file-upload">choose files to upload</label>
         <input id="file-upload" type="file" multiple={true} onChange={UploadFile}></input>
+        <File trackCover={default_cover}></File>
         <label className="playlist-maker">
             <input type="checkbox"></input>
             Make playlist when multiple files are selected
