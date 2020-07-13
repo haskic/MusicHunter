@@ -5,6 +5,7 @@ import Notifications from './Notifications';
 import './scss/TopMenu.scss';
 
 import envelopeLogo from './logo/envelope.png';
+import mainLogo from './logo/musicHunterLogo4.png';
 
 import NotificationsContext from '../NotificationsContext';
 
@@ -13,11 +14,11 @@ function TopMenu(props){
         <div className="top-menu">
             <div className="top-menu-container">
                 <div className="top-menu-container-logo">
-                    <img></img>
+                    <img src={mainLogo}></img>
                 </div>
-                <NotificationsContext.Consumer>
+                {/* <NotificationsContext.Consumer>
                     {value => <div>{value.name}</div>}
-                </NotificationsContext.Consumer>
+                </NotificationsContext.Consumer> */}
                 <div className="top-menu-container-home"><Link to="/home">Home</Link></div>
                 <div className="top-menu-container-library">Library</div>
                 <div className="top-menu-container-search">
