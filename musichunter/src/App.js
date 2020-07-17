@@ -17,6 +17,7 @@ import defaultCover from './AlbumCover.jpeg';
 import song2 from './shakira.mp3';
 import song3 from './lose.mp3';
 import CenterContainer from './centerContainer/CenterContainer';
+import Registration from './registration/Registration';
 
 console.log("SONG = ", song)
 SignalRContext.connection = new HubConnectionBuilder().withUrl("http://localhost:5000/notifications").build();
@@ -72,6 +73,7 @@ function App() {
           <NotificationsContext.Provider value={{ name: "Vladick" }}>
             <TopMenu></TopMenu>
           </NotificationsContext.Provider>
+          <Registration></Registration>
           {/* <audio controls>
   <source src={song} type="audio/mpeg"></source>
 
