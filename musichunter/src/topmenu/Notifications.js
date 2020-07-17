@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import SignalRContext from './../signalRContext';
 import notifactionsLogo from './logo/notifications.png';
 
-let default_notifications = [<div className="top-menu-container-notifications-list-container-notification">Notification 1 </div>,
-<div className="top-menu-container-notifications-list-container-notification">Notification 2 </div>]
+let default_notifications = [<div className="top-menu-container-notifications-list-container-notification"> Tech N9ne added new playlist</div>,
+<div className="top-menu-container-notifications-list-container-notification">You have new message from Tech N9ne </div>]
 
 
 

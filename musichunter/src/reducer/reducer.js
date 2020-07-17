@@ -60,6 +60,14 @@ function reducer(state = {}, action) {
         newState.isPlaying = true;
         return newState;
     }
+    if (action.type == "LOGIN_USER"){
+        newState.currentUser = action.payload;
+        return newState;
+    }
+    if (action.type == "LOGOUT_USER"){
+        newState.currentUser = {};
+        return newState;
+    }
     // if (action.type == "AUTH_INFO") {
     //     Object.assign(newState, { email: action.email });
     //     return newState;

@@ -17,7 +17,7 @@ const default_messages = [
     {
         sender: 'Me',
         to: 'Tech N9ne',
-        text: "What're u doing today?",
+        text: "Nice music man",
         attachment: null,
         time: '11:52'
     },
@@ -31,21 +31,21 @@ const default_messages = [
     {
         sender: 'Tech N9ne',
         to: 'Me',
-        text: "Thanks a lot man,Thanks a lot man,Thanks a lot man,Thanks a lot man,Thanks a lot man,Thanks a lot man,Thanks a lot man,Thanks a lot man,Thanks a lot man,Thanks a lot man",
+        text: "Hello",
         attachment: null,
         time: '00:52'
     },
     {
         sender: 'Me',
         to: 'Tech N9ne',
-        text: "Nice music man!",
+        text: "Hello",
         attachment: null,
         time: '8:52'
     },
     {
         sender: 'Me',
         to: 'Tech N9ne',
-        text: "With love from belarus",
+        text: "What's up",
         attachment: null,
         time: '00:52'
     }
@@ -102,7 +102,7 @@ const testMembers = [
         messages: default_messages
     },
     {
-        name: 'Oxxymiron',
+        name: 'Zhakarchenko',
         photo: testImage,
         messages: default_messages2
     }

@@ -78,7 +78,7 @@ function Uploader() {
     return (<div className="uploader-container">
         <label for="file-upload" className="custom-file-upload">choose files to upload</label>
         <input id="file-upload" type="file" multiple={true} onChange={(e) => UploadFile(e)}></input>
-        <File trackCover={default_cover}></File>
+        {/* <File trackCover={default_cover}></File> */}
         <label className="playlist-maker">
             <input type="checkbox"></input>
             Make playlist when multiple files are selected
