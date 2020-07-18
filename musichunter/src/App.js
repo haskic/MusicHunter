@@ -6,6 +6,7 @@ import { createStore } from 'redux';
 import reducer from './reducer/reducer';
 import './App.css';
 import HomePage from './home/HomePage';
+import Registration from './auth/registration/Registration';
 import TopMenu from './topmenu/TopMenu';
 import BottomPlayer from './bottomPlayer/BottomPlayer';
 import NotificationsContext from './NotificationsContext';
@@ -17,7 +18,6 @@ import defaultCover from './AlbumCover.jpeg';
 import song2 from './shakira.mp3';
 import song3 from './lose.mp3';
 import CenterContainer from './centerContainer/CenterContainer';
-import Registration from './registration/Registration';
 
 console.log("SONG = ", song)
 SignalRContext.connection = new HubConnectionBuilder().withUrl("http://localhost:5000/notifications").build();

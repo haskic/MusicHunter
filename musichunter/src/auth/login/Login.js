@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 
-import crossIcon from './../bottomPlayer/icons/cross.png';
+import crossIcon from './../../bottomPlayer/icons/cross.png';
 
 import './scss/Login.scss';
 

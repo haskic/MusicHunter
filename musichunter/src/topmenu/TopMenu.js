@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Registration from './../registration/Registration';
+import Registration from '../auth/registration/Registration';
 
 import Notifications from './Notifications';
 import './scss/TopMenu.scss';
@@ -10,7 +10,7 @@ import envelopeLogo from './logo/envelope.png';
 import mainLogo from './logo/musicHunterLogo4.png';
 
 import NotificationsContext from '../NotificationsContext';
-import Login from '../login/Login';
+import Login from '../auth/login/Login';
 
 function TopMenu(props) {
     function regButtonClickHandler() {
