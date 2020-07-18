@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-
+import {connect} from 'react-redux';
 import crossIcon from './../bottomPlayer/icons/cross.png';
 
 import './scss/Registration.scss';
@@ -11,11 +11,14 @@ function Registration(props) {
 
     function clickOutOfFormHandler(event) {
         if (event.target.className === regElement.current.className) {
-            regElement.current.style.display = "none";
+            props.changeIsShowState({isShow: false});
+            // regElement.current.style.display = "none";
         }
+
     }
     function clickButtonExitHandler() {
-        regElement.current.style.display = "none";
+        // regElement.current.style.display = "none";
+        props.changeIsShowState({isShow: false});
     }
 
     return (<div className="registration" ref={regElement} onClick={clickOutOfFormHandler}>
@@ -38,4 +41,24 @@ function Registration(props) {
 }
 
 
-export default Registration;
+
+export default connect(
+    state => ({ store: state }),
+    dispatch => ({
+        changeIslogin: (value) => {
+            dispatch({ type: 'ZHAKAR', isLogin: value })
+        },
+        changeCurrentTrack: (value) => {
+            dispatch({ type: 'PLAYLIST_SET_COUNTER', counterValue: value })
+        },
+        changeIsPlayingState: (value) => {
+            dispatch({ type: 'SET_PLAYING_STATE', isPlaying: value })
+        },
+        changeSong: (value) => {
+            dispatch({ type: 'SET_SONG', song: value })
+        },
+        changeIsShowState: (value) => {
+            dispatch({type: 'SET_IS_SHOW_REGISTRATION_FORM', payload: value})
+        }
+    })
+)(Registration);

@@ -50,9 +50,12 @@ let default_tracklist = {
     , { name: "Lose Yourself", artist: "Eminem", coverImage: defaultCover, src: song3 }
     , { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 }]
 };
+const initStore = {
+  regForm: {isShow: false},
+  loginForm: {isShow: false}
+}
 
-
-var store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+var store = createStore(reducer,initStore, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 store.dispatch({ type: 'ZHAKAR', isLogin: "alexader" });
 store.dispatch({ type: 'SET_SONG', song: { name: "Waka Waka Waka", artist: "Shakira", coverImage: defaultCover, src: song2 } });
 
@@ -73,7 +76,7 @@ function App() {
           <NotificationsContext.Provider value={{ name: "Vladick" }}>
             <TopMenu></TopMenu>
           </NotificationsContext.Provider>
-          <Registration></Registration>
+          {/* <Registration></Registration> */}
           {/* <audio controls>
   <source src={song} type="audio/mpeg"></source>
 

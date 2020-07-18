@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import Registration from './../registration/Registration';
 
 import Notifications from './Notifications';
 import './scss/TopMenu.scss';
@@ -10,10 +10,19 @@ import envelopeLogo from './logo/envelope.png';
 import mainLogo from './logo/musicHunterLogo4.png';
 
 import NotificationsContext from '../NotificationsContext';
+import Login from '../login/Login';
 
 function TopMenu(props) {
+    function regButtonClickHandler() {
+        props.changeRegFormState({ isShow: true });
+    }
+    function loginButtonClickHandler(){
+        props.changeLoginFormState({ isShow: true });
+    }
     return (
         <div className="top-menu">
+            {props.store.regForm?.isShow ? <Registration></Registration> : null}
+            {props.store.loginForm?.isShow ? <Login></Login>: null}
             <div className="top-menu-container">
                 <div className="top-menu-container-logo">
                     <img src={mainLogo}></img>
@@ -27,10 +36,10 @@ function TopMenu(props) {
                     <input type="text" placeholder="Search"></input>
                 </div>
                 <div className="login-button">
-                    <button>Sign In</button>
+                    <button onClick={loginButtonClickHandler}>Sign In</button>
                 </div>
                 <div className="registration-button">
-                    <button>Create account</button>
+                    <button onClick={regButtonClickHandler}>Create account</button>
                 </div>
                 <div className="top-menu-container-upload">
                     {/* {NotificationsContext.name} */}
@@ -62,5 +71,11 @@ export default connect(
         changeSong: (value) => {
             dispatch({ type: 'SET_SONG', song: value })
         },
+        changeRegFormState: (value) => {
+            dispatch({ type: "SET_IS_SHOW_REGISTRATION_FORM", payload: value })
+        },
+        changeLoginFormState: (value) => {
+            dispatch({ type: "SET_IS_SHOW_LOGIN_FORM", payload: value })
+        }
     })
 )(TopMenu);

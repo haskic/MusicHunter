@@ -68,6 +68,13 @@ function reducer(state = {}, action) {
         newState.currentUser = {};
         return newState;
     }
+    if (action.type == "SET_IS_SHOW_REGISTRATION_FORM"){
+        newState.regForm = Object.assign(newState.regForm,action.payload);
+    }
+    if (action.type == "SET_IS_SHOW_LOGIN_FORM"){
+        newState.loginForm = Object.assign(newState.loginForm,action.payload);
+    }
+    
     // if (action.type == "AUTH_INFO") {
     //     Object.assign(newState, { email: action.email });
     //     return newState;
