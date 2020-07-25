@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Registration from '../auth/registration/Registration';
@@ -19,6 +19,7 @@ function TopMenu(props) {
     function loginButtonClickHandler(){
         props.changeLoginFormState({ isShow: true });
     }
+   
     return (
         <div className="top-menu">
             {props.store.regForm?.isShow ? <Registration></Registration> : null}

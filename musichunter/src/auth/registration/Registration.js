@@ -4,12 +4,41 @@ import crossIcon from './../../bottomPlayer/icons/cross.png';
 
 import './scss/Registration.scss';
 import PasswordForm from '../passwordForm/PasswordForm';
+import Success from '../../events/success/Success';
 
+
+
+
+const successAttachmentStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    button: {
+        height: '40px',
+        width: '100%'
+    }
+}
+
+
+function successAttachment(handler) {
+    const element = <div style={successAttachmentStyle}>
+        <button style={successAttachmentStyle.button} onClick={handler}>Login Now</button>
+    </div>
+    return element;
+}
 
 function Registration(props) {
     const [isShowPasswordForm, setisShowPasswordForm] = useState(false);
-    const regElement = useRef(null)
+    const [isSuccess, setisSuccess] = useState(false);
+    const [userData, setUserData] = useState({});
+    const regElement = useRef(null);
+    const emailInput = useRef(null);
 
+    function successNextHanlder() {
+        props.changeIsShowState({ isShow: false });
+        props.changeIsShowLoginState({ isShow: true });
+
+    }
     function clickOutOfFormHandler(event) {
         if (event.target.className === regElement.current.className) {
             props.changeIsShowState({ isShow: false });
@@ -22,8 +51,17 @@ function Registration(props) {
         props.changeIsShowState({ isShow: false });
     }
 
-    function clickContinueButtonHandler(){
+    function clickContinueButtonHandler() {
+        setUserData(Object.assign(userData, { email: emailInput.current.value }));
+
         setisShowPasswordForm(true);
+    }
+    function passwordNextHandler(password) {
+
+        if (true) {
+            setisShowPasswordForm(false);
+            setisSuccess(true);
+        }
     }
 
     return (<div className="registration" ref={regElement} onClick={clickOutOfFormHandler}>
@@ -32,16 +70,21 @@ function Registration(props) {
         </div>
         <div className="reg-form">
             <div className="reg-form-container">
-                {isShowPasswordForm ? <PasswordForm></PasswordForm> :
+                {isShowPasswordForm ? <PasswordForm title="Create your Music Hunter account" userData={userData} nextHandler={passwordNextHandler}></PasswordForm> :
                     <React.Fragment>
-                        <div className="title">Registration</div>
-                        <label for="email-input">
-                            <input type="text" name="email-input" placeholder="Enter your email address" autoComplete="off"></input>
-                        </label>
-                        <button onClick={clickContinueButtonHandler}>Continue</button>
-                        <div className="helper">
-                            <span>Need help?</span>
-                        </div>
+
+                        {isSuccess ?
+                            <Success title="Success" text="Now you can login at platform!" attachment={() => successAttachment(successNextHanlder)}></Success> :
+                            <React.Fragment>
+                                <div className="title">Registration</div>
+                                <label for="email-input">
+                                    <input type="text" name="email-input" placeholder="Enter your email address" autoComplete="off" ref={emailInput}></input>
+                                </label>
+                                <button onClick={clickContinueButtonHandler}>Continue</button>
+                                <div className="helper">
+                                    <span>Need help?</span>
+                                </div>
+                            </React.Fragment>}
                     </React.Fragment>
                 }
 
@@ -69,6 +112,9 @@ export default connect(
         },
         changeIsShowState: (value) => {
             dispatch({ type: 'SET_IS_SHOW_REGISTRATION_FORM', payload: value })
+        },
+        changeIsShowLoginState: (value) => {
+            dispatch({ type: 'SET_IS_SHOW_LOGIN_FORM', payload: value })
         }
     })
 )(Registration);

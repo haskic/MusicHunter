@@ -1,13 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 import crossIcon from './../../bottomPlayer/icons/cross.png';
 
 import './scss/Login.scss';
+import PasswordForm from '../passwordForm/PasswordForm';
 
 function Login(props) {
 
-    const loginElement = useRef(null)
+    const loginElement = useRef(null);
+    const emailInput = useRef(null);
+
+    const [isShowPasswordForm, setisShowPasswordForm] = useState(false);
+    const [userData, setUserData] = useState({});
+
 
     function clickOutOfFormHandler(event) {
         if (event.target.className === loginElement.current.className) {
@@ -21,21 +27,40 @@ function Login(props) {
         props.changeIsShowState({ isShow: false });
     }
 
+    function clickContinueButtonHandler() {
+        setUserData(Object.assign(userData, { email: emailInput.current.value }));
+
+        setisShowPasswordForm(true);
+    }
+
+    function passwordNextHandler(password) {
+
+        if (true) {
+            console.log("Login success");
+        }
+
+    }
+
     return (<div className="login" ref={loginElement} onClick={clickOutOfFormHandler}>
         <div className="exit-button" onClick={clickButtonExitHandler}>
             <img src={crossIcon}></img>
         </div>
         <div className="login-form">
             <div className="login-form-container">
-                <div className="title">Login</div>
+                {isShowPasswordForm ? <PasswordForm title="Login" userData={userData} nextHandler={passwordNextHandler}></PasswordForm> :
+                    <React.Fragment>
+                        <div className="title">Login</div>
 
-                <label for="email-input">
-                    <input type="text" name="email-input" placeholder="Enter your email address" autoComplete="off"></input>
-                </label>
-                <button>Continue</button>
-                <div className="helper">
-                    <span>Need help?</span>
-                </div>
+                        <label for="email-input">
+                            <input type="text" name="email-input" placeholder="Enter your email address" autoComplete="off" ref={emailInput}></input>
+                        </label>
+                        <button onClick={clickContinueButtonHandler}>Continue</button>
+                        <div className="helper">
+                            <span>Need help?</span>
+                        </div>
+                    </React.Fragment>
+                }
+
             </div>
         </div>
     </div>)
