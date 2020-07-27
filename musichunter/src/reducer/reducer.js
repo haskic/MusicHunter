@@ -7,10 +7,7 @@ function reducer(state = {}, action) {
     //     Object.assign(newState, { words: [...newState.words, { word: action.word, translate: action.translate }] });
     //     return newState;
     // }
-    if (action.type == "ZHAKAR") {
-        Object.assign(newState, { isLogin: action.isLogin });
-        return newState;
-    }
+
     if (action.type == "SET_SONG"){
         newState.currentSong = action.song;
         return newState;
@@ -62,10 +59,12 @@ function reducer(state = {}, action) {
     }
     if (action.type == "LOGIN_USER"){
         newState.currentUser = action.payload;
+        newState.isLogin = true;
         return newState;
     }
     if (action.type == "LOGOUT_USER"){
         newState.currentUser = {};
+        newState.isLogin = false;
         return newState;
     }
     if (action.type == "SET_IS_SHOW_REGISTRATION_FORM"){

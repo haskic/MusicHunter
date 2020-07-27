@@ -18,6 +18,7 @@ import defaultCover from './AlbumCover.jpeg';
 import song2 from './shakira.mp3';
 import song3 from './lose.mp3';
 import CenterContainer from './centerContainer/CenterContainer';
+import IsLoginChecker from './auth/isLoginChecker/IsLoginChecker';
 
 console.log("SONG = ", song)
 SignalRContext.connection = new HubConnectionBuilder().withUrl("http://localhost:5000/notifications").build();
@@ -73,6 +74,7 @@ function App() {
       <Router>
         <Provider store={store}>
 
+          <IsLoginChecker></IsLoginChecker>
           <NotificationsContext.Provider value={{ name: "Vladick" }}>
             <TopMenu></TopMenu>
           </NotificationsContext.Provider>

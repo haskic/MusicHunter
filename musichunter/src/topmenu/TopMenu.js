@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Registration from '../auth/registration/Registration';
@@ -16,14 +16,14 @@ function TopMenu(props) {
     function regButtonClickHandler() {
         props.changeRegFormState({ isShow: true });
     }
-    function loginButtonClickHandler(){
+    function loginButtonClickHandler() {
         props.changeLoginFormState({ isShow: true });
     }
-   
+
     return (
         <div className="top-menu">
             {props.store.regForm?.isShow ? <Registration></Registration> : null}
-            {props.store.loginForm?.isShow ? <Login></Login>: null}
+            {props.store.loginForm?.isShow ? <Login></Login> : null}
             <div className="top-menu-container">
                 <div className="top-menu-container-logo">
                     <img src={mainLogo}></img>
@@ -31,29 +31,37 @@ function TopMenu(props) {
                 {/* <NotificationsContext.Consumer>
                     {value => <div>{value.name}</div>}
                 </NotificationsContext.Consumer> */}
-                <div className="top-menu-container-home"><Link to="/home">Home</Link></div>
+                <Link to="/home"><div className="top-menu-container-home">Home</div></Link>
                 <div className="top-menu-container-library">Library</div>
                 <div className="top-menu-container-search">
                     <input type="text" placeholder="Search"></input>
                 </div>
-                <div className="login-button">
-                    <button onClick={loginButtonClickHandler}>Sign In</button>
-                </div>
-                <div className="registration-button">
-                    <button onClick={regButtonClickHandler}>Create account</button>
-                </div>
-                <div className="top-menu-container-upload">
-                    {/* {NotificationsContext.name} */}
-                    <Link to="/upload">Upload</Link>
-                </div>
+                {props.store.isLogin ?
+                    <React.Fragment>
+                        <Link to="/profile"><div className="top-menu-container-profile-button">{props.store.currentUser.name}</div></Link>
 
-                {/* <div className="top-menu-container-profile-button"><Link to="/profile">Alexander Speek</Link></div>
+                        <Notifications></Notifications>
+                        <Link to="/messenger"><div className="top-menu-container-messages"><img src={envelopeLogo}></img></div></Link>
+                    </React.Fragment>
+                    : <React.Fragment>
+                        <div className="login-button">
+                            <button onClick={loginButtonClickHandler}>Sign In</button>
+                        </div>
+                        <div className="registration-button">
+                            <button onClick={regButtonClickHandler}>Create account</button>
+                        </div>
+                    </React.Fragment>
+                }
 
-                <Notifications></Notifications>
-                <div className="top-menu-container-messages"><Link to="/messenger"><img src={envelopeLogo}></img></Link> </div> */}
+
+                {/* {NotificationsContext.name} */}
+                <Link to="/upload"><div className="top-menu-container-upload">Upload</div></Link>
+
+
+
                 {/* <button onClick={() => {console.log("VALUE = ",NotificationsContext.name)}}>click</button> */}
             </div>
-        </div>
+        </div >
     );
 }
 
@@ -77,6 +85,9 @@ export default connect(
         },
         changeLoginFormState: (value) => {
             dispatch({ type: "SET_IS_SHOW_LOGIN_FORM", payload: value })
+        },
+        setLoginState: (value) => {
+            dispatch({type: 'LOGIN_USER', payload: value})
         }
     })
 )(TopMenu);

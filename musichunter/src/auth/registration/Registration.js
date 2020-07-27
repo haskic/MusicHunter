@@ -1,12 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
+import GoogleLogin from 'react-google-login';
 import crossIcon from './../../bottomPlayer/icons/cross.png';
-
+import googleIcon from './../icons/google.png';
 import './scss/Registration.scss';
 import PasswordForm from '../passwordForm/PasswordForm';
 import Success from '../../events/success/Success';
 
-
+import googleAPI from './../../API/googleAPI';
 
 
 const successAttachmentStyle = {
@@ -16,6 +17,20 @@ const successAttachmentStyle = {
     button: {
         height: '40px',
         width: '100%'
+    }
+}
+const googleButtonStyle = {
+    display: 'flex',
+    backgroundColor: 'white',
+    border: '1px solid black',
+    color: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    img: {
+        height: '25px',
+        width: '25px',
+        marginRight: '10px'
+
     }
 }
 
@@ -64,6 +79,15 @@ function Registration(props) {
         }
     }
 
+    function responseGoogle(response) {
+        console.log("Google Response ", response);
+        const currentUser = {
+            name: response.profileObj.name,
+            email: response.profileObj.email,
+            imageUrl: response.profileObj.imageUrl
+        };
+        props.setLoginState(currentUser);
+    }
     return (<div className="registration" ref={regElement} onClick={clickOutOfFormHandler}>
         <div className="exit-button" onClick={clickButtonExitHandler}>
             <img src={crossIcon}></img>
@@ -72,7 +96,6 @@ function Registration(props) {
             <div className="reg-form-container">
                 {isShowPasswordForm ? <PasswordForm title="Create your Music Hunter account" userData={userData} nextHandler={passwordNextHandler}></PasswordForm> :
                     <React.Fragment>
-
                         {isSuccess ?
                             <Success title="Success" text="Now you can login at platform!" attachment={() => successAttachment(successNextHanlder)}></Success> :
                             <React.Fragment>
@@ -84,6 +107,22 @@ function Registration(props) {
                                 <div className="helper">
                                     <span>Need help?</span>
                                 </div>
+                                <div className="delimiter">
+                                    <div></div>
+                                    <div className="delimiter-title">or</div>
+                                    <div></div>
+                                </div>
+                                <GoogleLogin
+                                    clientId={googleAPI.clientId}
+                                    render={renderProps => (
+                                        <button onClick={renderProps.onClick} style={googleButtonStyle} disabled={renderProps.disabled}><img style={googleButtonStyle.img} src={googleIcon}></img> Sign In with Google</button>
+                                    )}
+                                    buttonText="Login"
+                                    onSuccess={responseGoogle}
+                                    onFailure={responseGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                    isSignedIn={true}
+                                />
                             </React.Fragment>}
                     </React.Fragment>
                 }
@@ -115,6 +154,9 @@ export default connect(
         },
         changeIsShowLoginState: (value) => {
             dispatch({ type: 'SET_IS_SHOW_LOGIN_FORM', payload: value })
+        },
+        setLoginState: (value) => {
+            dispatch({type: 'LOGIN_USER', payload: value})
         }
     })
 )(Registration);
