@@ -74,7 +74,7 @@ function App() {
       <Router>
         <Provider store={store}>
 
-          <IsLoginChecker></IsLoginChecker>
+          {/* <IsLoginChecker></IsLoginChecker> */}
           <NotificationsContext.Provider value={{ name: "Vladick" }}>
             <TopMenu></TopMenu>
           </NotificationsContext.Provider>

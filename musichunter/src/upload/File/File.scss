@@ -1,61 +1,100 @@
 .file {
-    display: flex;
-    margin-top: 20px;
-    width: 40%;
-    .track-cover {
-        img {
+    width: 45%;
+    .progress-bar{
+        display: flex;
+    }
+    .track-data {
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+        padding: 0;
+        .track-cover {
+            margin-left: 0;
             width: 250px;
             height: 250px;
-        }
-        margin-right: 20px;
-    }
-    .track-info {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        flex-grow: 1;
-        label {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            &:first-child {
-                span::after {
-                    content: "*";
-                    margin-left: 3px;
-                    color: red;
+            position: relative;
+            img {
+                width: 250px;
+                height: 250px;
+            }
+            margin-right: 20px;
+            label {
+                font-size: 10pt;
+                font-weight: 400;
+                color: black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                margin-left: auto;
+                margin-right: auto;
+                left: 0;
+                right: 0;
+                bottom: 20px;
+                padding: 3px;
+                cursor: pointer;
+                background-color: rgb(220, 220, 220);
+                border: 1px solid black;
+                height: 25px;
+                width: 130px;
+                border-radius: 2px;
+                img {
+                    height: 15px;
+                    width: 15px;
+                    margin-right: 5px;
                 }
             }
         }
-        input[type="text"] {
-            padding: 3px;
-            &:focus {
-                outline: none;
-            }
-            margin-top: 5px;
-        }
-        textarea[name="track-description"] {
-            margin-top: 5px;
-            min-height: 100px;
-            resize: vertical;
-            padding: 5px;
-            &:focus {
-                outline: rgb(220, 220, 220);
-            }
-        }
-        .buttons {
+
+        .track-info {
             display: flex;
-            flex-direction: row-reverse;
-            button {
-                padding: 6px;
-                width: 70px;
-                margin-left: 5px;
-                border-radius: 5px;
-                border: none;
-                cursor: pointer;
+            flex-direction: column;
+            justify-content: flex-start;
+            flex-grow: 1;
+            label {
+                margin-bottom: 20px;
+                display: flex;
+                flex-direction: column;
                 &:first-child {
-                    background-color: rgb(0, 0, 255);
+                    span::after {
+                        content: "*";
+                        margin-left: 3px;
+                        color: red;
+                    }
+                }
+            }
+            input[type="text"] {
+                padding: 3px;
+                &:focus {
+                    outline: none;
+                }
+                margin-top: 5px;
+            }
+            textarea[name="track-description"] {
+                margin-top: 5px;
+                min-height: 100px;
+                resize: vertical;
+                padding: 5px;
+                &:focus {
+                    outline: rgb(220, 220, 220);
+                }
+            }
+            .buttons {
+                display: flex;
+                flex-direction: row-reverse;
+                button {
+                    padding: 6px;
+                    width: 70px;
+                    margin-left: 5px;
+                    border-radius: 5px;
                     border: none;
-                    color: white;
+                    cursor: pointer;
+                    &:first-child {
+                        background-color: rgb(0, 0, 255);
+                        border: none;
+                        color: white;
+                    }
                 }
             }
         }

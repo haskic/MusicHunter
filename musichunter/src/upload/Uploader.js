@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import axios from 'axios';
 
 import * as mm from 'music-metadata-browser';
 import testFile from './../lose.mp3';
@@ -10,6 +11,7 @@ import './scss/Uploader.scss';
 
 
 import default_cover from './../AlbumCover.jpeg'
+import ProgressBar from './uploadProgressBar/ProgressBar';
 
 
 function Uploader() {
@@ -32,10 +34,18 @@ function Uploader() {
     //     });
 
     // }
-    const UploadFile = () => {
-        const fileFromFileInput = document.getElementById("file-upload").files[0];
+
+    async function UploadFile() {
+        const fileInput = document.getElementById("file-upload");
+        const fileFromFileInput = fileInput.files[0];
         let fileOne = new Blob([fileFromFileInput]);
         console.log("File = ", fileFromFileInput, fileOne);
+
+        const formData = new FormData();
+        for (var i = 0; i < fileInput.files.length; i++) {
+            formData.append("files", fileInput.files[i]);
+        }
+
         mm.parseBlob(fileOne).then(metadata => {
             // metadata has all the metadata found in the blob or file
             console.log('Metadata: ', metadata);
@@ -54,6 +64,13 @@ function Uploader() {
                 image: url
             }
             setfileData(fileData);
+        });
+        await axios.post('https://localhost:5001/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4"
+            },
+            onUploadProgress: progressEvent => console.log("Progress", progressEvent.loaded)
         });
         setisShowFileInfo(true);
     }
@@ -80,7 +97,9 @@ function Uploader() {
                 Private
             </label>
                 </div>
+
             </React.Fragment>
+
         }
     </div>);
 
