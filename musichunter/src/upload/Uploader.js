@@ -17,6 +17,7 @@ import ProgressBar from './uploadProgressBar/ProgressBar';
 function Uploader() {
     const [isShowFileInfo, setisShowFileInfo] = useState(false);
     const [fileData, setfileData] = useState({});
+    const [uploadProgress, setuploadProgress] = useState(0);
     // async function UploadFile(e) {
     //     let fileInput = document.getElementById("file-upload");
     //     const formData = new FormData();
@@ -70,14 +71,17 @@ function Uploader() {
                 'Content-Type': 'multipart/form-data',
                 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4"
             },
-            onUploadProgress: progressEvent => console.log("Progress", progressEvent.loaded)
+            onUploadProgress: progressEvent => {
+                console.log("Progress", progressEvent.loaded);
+                setuploadProgress(progressEvent.loaded * 100 / fileFromFileInput.size);
+            }
         });
         setisShowFileInfo(true);
     }
 
     return (<div className="uploader-container">
         {isShowFileInfo ?
-            <File fileData={fileData}></File> :
+            <File fileData={fileData} uploadProgress={uploadProgress}></File> :
             <React.Fragment>
                 <label for="file-upload" className="custom-file-upload">choose files to upload</label>
                 <input id="file-upload" type="file" multiple={true} onChange={(e) => UploadFile()}></input>

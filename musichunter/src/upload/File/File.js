@@ -7,20 +7,20 @@ import ProgressBar from '../uploadProgressBar/ProgressBar';
 
 
 function File(props) {
-    const [uploadProgress, setUploadProgress] = useState(0);
+    // const [uploadProgress, setUploadProgress] = useState(0);
     const r = useRef(null);
-    r.current = { uploadProgress, setUploadProgress };
-    useEffect(() => {
-        const id = setInterval(() => {
-            setUploadProgress(r.current.uploadProgress + 0.1);
-            console.log("SET INTERVAL");
-            console.log(uploadProgress);
-            if (r.current.uploadProgress >= 100){
-                clearInterval(id);
-            }
-        }, 5);
-        return () => {clearInterval(id)};
-    }, []);
+    // r.current = { uploadProgress, setUploadProgress };
+    // useEffect(() => {
+    //     const id = setInterval(() => {
+    //         setUploadProgress(r.current.uploadProgress + 0.1);
+    //         console.log("SET INTERVAL");
+    //         console.log(uploadProgress);
+    //         if (r.current.uploadProgress >= 100){
+    //             clearInterval(id);
+    //         }
+    //     }, 5);
+    //     return () => {clearInterval(id)};
+    // }, []);
     function onFileSelect(event) {
 
         let files = event.target.files;
@@ -31,13 +31,12 @@ function File(props) {
             }
             fr.readAsDataURL(files[0]);
         }
-        setUploadProgress(50);
 
     }
 
     return (<div className="file" style={fileStyle.file}>
         <div className="progress-bar">
-            <ProgressBar progress={uploadProgress}></ProgressBar>
+            <ProgressBar progress={props.uploadProgress}></ProgressBar>
         </div>
         <div className="track-data">
             <div className="track-cover">
