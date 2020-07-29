@@ -67,12 +67,12 @@ function FileList(props) {
                 <img src={menuIcon}></img>
             </div>
             <input type="text" value={item.title}></input>
-            <div className="image-container" onClick={() => setfileList(fileList.filter((value)=> {return value.id !== item.id}))}>
+            <div className="image-container" onClick={() => setfileList(fileList.filter((value) => { return value.id !== item.id }))}>
                 <img src={crossIcon}></img>
             </div>
         </div>
     }
-    
+
 
     return (<div className="file-list">
         <div className="track-data">
@@ -114,17 +114,21 @@ function FileList(props) {
                     <label><input type="radio" name="privacy" checked></input>Public</label>
                     <label><input type="radio" name="privacy"></input>Private</label>
                 </div>
+                <div className="files-drag-drops-container">
+                    <RLDD
+                        items={fileList}
+                        itemRenderer={(item) => { return itemRender(item) }}
+                        onChange={(items) => { setfileList(items) }}
+                    >
+
+                    </RLDD>
+                </div>
+
                 <div className="buttons">
                     <button>Save</button>
                     <button>Cancel</button>
                 </div>
-                <RLDD
-                    items={fileList}
-                    itemRenderer={(item) => { return itemRender(item) }}
-                    onChange={(items) => { setfileList(items)}}
-                    >
 
-                </RLDD>
             </div>
             <input id="file-upload" type="file" multiple={false} onChange={(e) => onFileSelect(e)}></input>
         </div>

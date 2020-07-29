@@ -157,6 +157,10 @@
                     }
                 }
             }
+            .files-drag-drops-container{
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
         }
     }
 }
@@ -164,7 +168,7 @@
 .files-file-item {
     display: flex;
     justify-content: space-between;
-
+    margin-bottom: 10px;
     height: 35px;
     input {
         padding-left: 10px !important;
