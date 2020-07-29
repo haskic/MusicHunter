@@ -1,6 +1,6 @@
 .file {
     width: 45%;
-    .progress-bar{
+    .progress-bar {
         display: flex;
     }
     .track-data {
@@ -52,6 +52,28 @@
             flex-direction: column;
             justify-content: flex-start;
             flex-grow: 1;
+            .privacy-block {
+                display: flex;
+                width: 100%;
+                justify-content: flex-start;
+                align-items: flex-end;
+                flex-direction: row;
+                margin-top: 10;
+                
+                label {
+                    display: flex;
+                    margin: 0;
+                    flex-direction: row;
+                    margin-left: 15px;
+                    align-items: center;
+                    height: 100%;
+                }
+                div {
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                }
+            }
             label {
                 margin-bottom: 20px;
                 display: flex;
@@ -63,6 +85,10 @@
                         color: red;
                     }
                 }
+                
+            }
+            .description-label{
+                margin: 0;
             }
             input[type="text"] {
                 padding: 3px;
@@ -73,7 +99,8 @@
             }
             textarea[name="track-description"] {
                 margin-top: 5px;
-                min-height: 100px;
+                margin-bottom: 0px;
+                min-height: 95px;
                 resize: vertical;
                 padding: 5px;
                 &:focus {

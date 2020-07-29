@@ -47,7 +47,12 @@ function File(props) {
             <div className="track-info">
                 <label for="track-title"><span>Title</span><input name="track-title" type="text" value={props.fileData.title}></input></label>
                 <label for="track-genre">Genre<input name="track-genre" type="text" value={props.fileData.genre}></input></label>
-                <label for="track-description">Description<textarea name="track-description"></textarea></label>
+                <label for="track-description" className="description-label">Description<textarea name="track-description"></textarea></label>
+                <div className="privacy-block">
+                    <div>Privacy:</div>
+                    <label><input type="radio" name="privacy" checked></input>Public</label>
+                    <label><input type="radio" name="privacy"></input>Private</label>
+                </div>
                 <div className="buttons">
                     <button>Save</button>
                     <button>Cancel</button>
