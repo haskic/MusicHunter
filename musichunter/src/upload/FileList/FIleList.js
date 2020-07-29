@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
+import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 import cameraIcon from './../../icons/cameraIcon.png';
+import menuIcon from './../../icons/menuIcon.png';
+import crossIcon from './../../icons/cross.png';
 
 import './FileList.scss';
 import 'react-datepicker/dist/react-datepicker.css'
@@ -11,6 +14,13 @@ const playlistTypeOptions = [
     { value: 'Album', label: 'Album' },
     { value: 'EP', label: 'EP' },
     { value: 'Single', label: 'Single' },
+]
+
+const testDragItems = [
+    { id: 1, title: "Alexander1" },
+    { id: 2, title: "Alexander2" },
+    { id: 3, title: "Alexander3" },
+    { id: 4, title: "Alexander4" },
 ]
 
 const reactSelectStyles = {
@@ -37,6 +47,7 @@ const reactSelectStyles = {
 
 function FileList(props) {
     const [startDate, setStartDate] = useState(new Date());
+    const [fileList, setfileList] = useState(testDragItems);
     function onFileSelect(event) {
 
         let files = event.target.files;
@@ -49,6 +60,20 @@ function FileList(props) {
         }
 
     }
+
+    function itemRender(item) {
+        return <div className="files-file-item">
+            <div className="image-container">
+                <img src={menuIcon}></img>
+            </div>
+            <input type="text" value={item.title}></input>
+            <div className="image-container" onClick={() => setfileList(fileList.filter((value)=> {return value.id !== item.id}))}>
+                <img src={crossIcon}></img>
+            </div>
+        </div>
+    }
+    
+
     return (<div className="file-list">
         <div className="track-data">
             <div className="track-cover">
@@ -93,6 +118,13 @@ function FileList(props) {
                     <button>Save</button>
                     <button>Cancel</button>
                 </div>
+                <RLDD
+                    items={fileList}
+                    itemRenderer={(item) => { return itemRender(item) }}
+                    onChange={(items) => { setfileList(items)}}
+                    >
+
+                </RLDD>
             </div>
             <input id="file-upload" type="file" multiple={false} onChange={(e) => onFileSelect(e)}></input>
         </div>

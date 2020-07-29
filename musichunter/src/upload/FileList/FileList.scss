@@ -160,3 +160,26 @@
         }
     }
 }
+
+.files-file-item {
+    display: flex;
+    justify-content: space-between;
+
+    height: 35px;
+    input {
+        padding-left: 10px !important;
+        flex-grow: 1;
+    }
+    .image-container {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        width: 40px;
+        margin-top: 10px;
+        cursor: pointer;
+        img {
+            height: 20px;
+            width: 20px;
+        }
+    }
+}
