@@ -8,7 +8,7 @@ import testFile from './../lose.mp3';
 
 import File from './file/File';
 import './scss/Uploader.scss';
-
+import FileList from './fileList/FileList';
 
 import default_cover from './../AlbumCover.jpeg'
 import ProgressBar from './uploadProgressBar/ProgressBar';
@@ -83,25 +83,15 @@ function Uploader() {
         {isShowFileInfo ?
             <File fileData={fileData} uploadProgress={uploadProgress}></File> :
             <React.Fragment>
-                <label for="file-upload" className="custom-file-upload">choose files to upload</label>
+                {/* <label for="file-upload" className="custom-file-upload">choose files to upload</label>
                 <input id="file-upload" type="file" multiple={true} onChange={(e) => UploadFile()}></input>
-                {/* <File trackCover={default_cover}></File> */}
-                <label className="playlist-maker">
-                    <input type="checkbox"></input>
-            Make playlist when multiple files are selected
-            </label>
+                <label className="playlist-maker"><input type="checkbox"></input>Make playlist when multiple files are selected</label>
                 <div className="privacy-block">
                     Privacy:
-            <label>
-                        <input type="radio" name="privacy" checked></input>
-                Public
-            </label>
-                    <label>
-                        <input type="radio" name="privacy"></input>
-                Private
-            </label>
-                </div>
-
+                    <label><input type="radio" name="privacy" checked></input>Public</label>
+                    <label><input type="radio" name="privacy"></input>Private</label>
+                </div> */}
+                <FileList></FileList>
             </React.Fragment>
 
         }

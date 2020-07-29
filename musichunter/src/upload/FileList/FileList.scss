@@ -1,0 +1,162 @@
+.file-list {
+    width: 45%;
+    input {
+        border: 1px solid rgb(200, 200, 200);
+        border-radius: 3px;
+    }
+    .progress-bar {
+        display: flex;
+    }
+    .track-data {
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+        padding: 0;
+        .track-cover {
+            margin-left: 0;
+            width: 250px;
+            height: 250px;
+            position: relative;
+            img {
+                width: 250px;
+                height: 250px;
+            }
+            margin-right: 20px;
+            label {
+                font-size: 10pt;
+                font-weight: 400;
+                color: black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                margin-left: auto;
+                margin-right: auto;
+                left: 0;
+                right: 0;
+                bottom: 20px;
+                padding: 3px;
+                cursor: pointer;
+                background-color: rgb(220, 220, 220);
+                border: 1px solid black;
+                height: 25px;
+                width: 130px;
+                border-radius: 2px;
+                img {
+                    height: 15px;
+                    width: 15px;
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .track-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            flex-grow: 1;
+            .playlist-type-date {
+                display: flex;
+                justify-content: space-between;
+                label {
+                    width: 48%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    &:first-child {
+                        span::after {
+                            content: "";
+                            margin-left: 3px;
+                            color: red;
+                        }
+                    }
+                    .date-picker-container {
+                        width: 100%;
+                        .release-date {
+                            width: 100%;
+                            height: 28px;
+                        }
+                        .react-datepicker-wrapper {
+                            width: 100%;
+                        }
+                    }
+                }
+                height: 55px;
+                margin-bottom: 10px;
+            }
+            .privacy-block {
+                display: flex;
+                width: 100%;
+                justify-content: flex-start;
+                align-items: flex-end;
+                flex-direction: row;
+                margin-top: 10;
+
+                label {
+                    display: flex;
+                    margin: 0;
+                    flex-direction: row;
+                    margin-left: 15px;
+                    align-items: center;
+                    height: 100%;
+                }
+                div {
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                }
+            }
+            label {
+                margin-bottom: 20px;
+                display: flex;
+                flex-direction: column;
+                &:first-child {
+                    span::after {
+                        content: "*";
+                        margin-left: 3px;
+                        color: red;
+                    }
+                }
+            }
+            .description-label {
+                margin: 0;
+            }
+            input[type="text"] {
+                padding: 3px;
+                &:focus {
+                    outline: none;
+                }
+                margin-top: 5px;
+            }
+            textarea[name="track-description"] {
+                margin-top: 5px;
+                margin-bottom: 0px;
+                min-height: 95px;
+                resize: vertical;
+                padding: 5px;
+                &:focus {
+                    outline: rgb(220, 220, 220);
+                }
+            }
+            .buttons {
+                display: flex;
+                flex-direction: row-reverse;
+                button {
+                    padding: 6px;
+                    width: 70px;
+                    margin-left: 5px;
+                    border-radius: 5px;
+                    border: none;
+                    cursor: pointer;
+                    &:first-child {
+                        background-color: rgb(0, 0, 255);
+                        border: none;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}
