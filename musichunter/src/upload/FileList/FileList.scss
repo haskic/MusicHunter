@@ -1,4 +1,9 @@
 .file-list {
+    // overflow-y: scroll;
+    // &::-webkit-scrollbar {
+    //     display: none;
+    //   }
+    height: 100%;
     width: 45%;
     input {
         border: 1px solid rgb(200, 200, 200);
@@ -140,6 +145,23 @@
                     outline: rgb(220, 220, 220);
                 }
             }
+            .add-button-container {
+                display: flex;
+                width: 100%;
+                label {
+                    display: flex;
+                    width: 100%;
+                    justify-content: center;
+                    height: 30px;
+                    align-items: center;
+                    cursor: pointer;
+                    background-color: rgb(0, 150, 0);
+                    border: 1px solid rgb(180, 180, 180);
+                    border-radius: 2px;
+                    font-size: 10pt;
+                }
+                margin-bottom: 5px;
+            }
             .buttons {
                 display: flex;
                 flex-direction: row-reverse;
@@ -156,8 +178,10 @@
                         color: white;
                     }
                 }
+                margin-bottom: 20px;
             }
-            .files-drag-drops-container{
+
+            .files-drag-drops-container {
                 margin-top: 20px;
                 margin-bottom: 20px;
             }
@@ -184,6 +208,18 @@
         img {
             height: 20px;
             width: 20px;
+        }
+    }
+    .delete-button-container {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        margin-top: 13px;
+        width: 40px;
+        cursor: pointer;
+        img {
+            height: 13px;
+            width: 13px;
         }
     }
 }

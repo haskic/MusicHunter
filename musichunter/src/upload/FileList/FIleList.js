@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 import cameraIcon from './../../icons/cameraIcon.png';
 import menuIcon from './../../icons/menuIcon.png';
@@ -15,13 +17,66 @@ const playlistTypeOptions = [
     { value: 'EP', label: 'EP' },
     { value: 'Single', label: 'Single' },
 ]
-
+const getItems = count =>
+    Array.from({ length: count }, (v, k) => k).map(k => ({
+        id: `item-${k}`,
+        content: `item ${k}`
+    }));
 const testDragItems = [
-    { id: 1, title: "Alexander1" },
-    { id: 2, title: "Alexander2" },
-    { id: 3, title: "Alexander3" },
-    { id: 4, title: "Alexander4" },
+    { id: "item-1", content: "Alexander1" },
+    { id: "item-2", content: "Alexander2" },
+    { id: "item-3", content: "Alexander3" },
+    { id: "item-4", content: "Alexander4" },
+    { id: "item-5", content: "Alexander1" },
+    { id: "item-6", content: "Alexander2" },
+    { id: "item-7", content: "Alexander3" },
+    { id: "item-8", content: "Alexander4" },
+    { id: "item-9", content: "Alexander1" },
+    { id: "item-10", content: "Alexander2" },
+    { id: "item-11", content: "Alexander3" },
+    { id: "item-12", content: "Alexander4" },
 ]
+const testDragItems2 = [
+    { id: 1, content: "Alexander1" },
+    { id: 2, content: "Alexander2" },
+    { id: 3, content: "Alexander3" },
+    { id: 4, content: "Alexander4" },
+    { id: 5, content: "Alexander1" },
+    { id: 6, content: "Alexander2" },
+    { id: 7, content: "Alexander3" },
+    { id: 8, content: "Alexander4" },
+    { id: 9, content: "Alexander1" },
+    { id: 10, content: "Alexander2" },
+    { id: 11, content: "Alexander3" },
+    { id: 12, content: "Alexander4" },
+]
+const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+};
+
+const grid = 0;
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: "none",
+    padding: grid * 2,
+    margin: `0 0 ${grid}px 0`,
+
+    // change background colour if dragging
+    background: "rgb(242,242,242)",
+
+    // styles we need to apply on draggables
+    ...draggableStyle
+});
+
+const getListStyle = isDraggingOver => ({
+    padding: grid,
+    width: "100%"
+});
 
 const reactSelectStyles = {
     container: (provided, state) => ({
@@ -49,7 +104,6 @@ function FileList(props) {
     const [startDate, setStartDate] = useState(new Date());
     const [fileList, setfileList] = useState(testDragItems);
     function onFileSelect(event) {
-
         let files = event.target.files;
         if (FileReader && files.length) {
             let fr = new FileReader();
@@ -58,21 +112,61 @@ function FileList(props) {
             }
             fr.readAsDataURL(files[0]);
         }
-
     }
 
+    function onFileAdd(event) {
+        let files = event.target.files;
+        let toFileListState = [];
+        let lastFileIndex = fileList.length ? fileList[fileList.length - 1].id : 0;
+        for (let i = 0; i < files.length; i++) {
+            toFileListState.push({ name: files[i].name, id: lastFileIndex })
+            lastFileIndex++;
+        }
+        if (toFileListState == true) {
+            setfileList([...fileList, ...toFileListState]);
+        }
+    }
+
+    function addFileToFileList(file) {
+        setfileList([...fileList, file]);
+    }
+
+    function saveAndLoad() {
+        const fileInput = document.getElementById("file-upload");
+        const fileFromFileInput = fileInput.files[0];
+        let fileOne = new Blob([fileFromFileInput]);
+        console.log("File = ", fileFromFileInput, fileOne);
+
+        const formData = new FormData();
+        for (var i = 0; i < fileInput.files.length; i++) {
+            formData.append("files", fileInput.files[i]);
+        }
+    }
     function itemRender(item) {
         return <div className="files-file-item">
             <div className="image-container">
                 <img src={menuIcon}></img>
             </div>
-            <input type="text" value={item.title}></input>
-            <div className="image-container" onClick={() => setfileList(fileList.filter((value) => { return value.id !== item.id }))}>
+            <input type="text" value={item.content}></input>
+            <div className="delete-button-container" onClick={() => setfileList(fileList.filter((value) => { return value.id !== item.id }))}>
                 <img src={crossIcon}></img>
             </div>
         </div>
     }
+    function onDragEnd(result) {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
 
+        const items = reorder(
+            fileList,
+            result.source.index,
+            result.destination.index
+        );
+
+        setfileList(items);
+    }
 
     return (<div className="file-list">
         <div className="track-data">
@@ -115,15 +209,57 @@ function FileList(props) {
                     <label><input type="radio" name="privacy"></input>Private</label>
                 </div>
                 <div className="files-drag-drops-container">
-                    <RLDD
+                    {/* <RLDD
                         items={fileList}
                         itemRenderer={(item) => { return itemRender(item) }}
                         onChange={(items) => { setfileList(items) }}
                     >
+                    </RLDD> */}
 
-                    </RLDD>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="droppable">
+                            {(provided, snapshot) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                    style={getListStyle(snapshot.isDraggingOver)}
+                                >
+                                    {fileList.map((item, index) => (
+                                        <Draggable key={item.id} draggableId={item.id} index={index}>
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    style={getItemStyle(
+                                                        snapshot.isDragging,
+                                                        provided.draggableProps.style
+                                                    )}
+                                                >
+                                                    <div className="files-file-item">
+                                                        <div className="image-container">
+                                                            <img src={menuIcon}></img>
+                                                        </div>
+                                                        <input type="text" value={item.content}></input>
+                                                        <div className="delete-button-container" onClick={() => setfileList(fileList.filter((value) => { return value.id !== item.id }))}>
+                                                            <img src={crossIcon}></img>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </div>
-
+                <div className="add-button-container">
+                    {/* <button>Add file</button> */}
+                    <label for="music-file-upload" className="custom-file-upload">Add File</label>
+                </div>
                 <div className="buttons">
                     <button>Save</button>
                     <button>Cancel</button>
@@ -131,6 +267,7 @@ function FileList(props) {
 
             </div>
             <input id="file-upload" type="file" multiple={false} onChange={(e) => onFileSelect(e)}></input>
+            <input id="music-file-upload" type="file" multiple={true} onChange={(e) => onFileAdd(e)}></input>
         </div>
 
     </div>);
