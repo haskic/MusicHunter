@@ -23,18 +23,18 @@ const getItems = count =>
         content: `item ${k}`
     }));
 const testDragItems = [
-    { id: "item-1", content: "Alexander1" },
-    { id: "item-2", content: "Alexander2" },
-    { id: "item-3", content: "Alexander3" },
-    { id: "item-4", content: "Alexander4" },
-    { id: "item-5", content: "Alexander1" },
-    { id: "item-6", content: "Alexander2" },
-    { id: "item-7", content: "Alexander3" },
-    { id: "item-8", content: "Alexander4" },
-    { id: "item-9", content: "Alexander1" },
-    { id: "item-10", content: "Alexander2" },
-    { id: "item-11", content: "Alexander3" },
-    { id: "item-12", content: "Alexander4" },
+    { id: "1", content: "Alexander1" },
+    { id: "2", content: "Alexander2" },
+    { id: "3", content: "Alexander3" },
+    { id: "4", content: "Alexander4" },
+    { id: "5", content: "Alexander1" },
+    { id: "6", content: "Alexander2" },
+    { id: "7", content: "Alexander3" },
+    { id: "8", content: "Alexander4" },
+    { id: "9", content: "Alexander1" },
+    { id: "10", content: "Alexander2" },
+    { id: "11", content: "Alexander3" },
+    { id: "12", content: "Alexander4" },
 ]
 const testDragItems2 = [
     { id: 1, content: "Alexander1" },
@@ -116,14 +116,17 @@ function FileList(props) {
 
     function onFileAdd(event) {
         let files = event.target.files;
+        console.log("FILES:",files);
         let toFileListState = [];
-        let lastFileIndex = fileList.length ? fileList[fileList.length - 1].id : 0;
+        let lastFileIndex = fileList.length ? parseInt(fileList[fileList.length - 1].id) : 0;
         for (let i = 0; i < files.length; i++) {
-            toFileListState.push({ name: files[i].name, id: lastFileIndex })
             lastFileIndex++;
+            toFileListState.push({ content: files[i].name, id: lastFileIndex.toString() })
         }
-        if (toFileListState == true) {
-            setfileList([...fileList, ...toFileListState]);
+        console.log("TO STATE:",toFileListState);
+
+        if (toFileListState != false) {
+            setfileList([...fileList,...toFileListState]);
         }
     }
 
@@ -141,17 +144,6 @@ function FileList(props) {
         for (var i = 0; i < fileInput.files.length; i++) {
             formData.append("files", fileInput.files[i]);
         }
-    }
-    function itemRender(item) {
-        return <div className="files-file-item">
-            <div className="image-container">
-                <img src={menuIcon}></img>
-            </div>
-            <input type="text" value={item.content}></input>
-            <div className="delete-button-container" onClick={() => setfileList(fileList.filter((value) => { return value.id !== item.id }))}>
-                <img src={crossIcon}></img>
-            </div>
-        </div>
     }
     function onDragEnd(result) {
         // dropped outside the list
@@ -209,13 +201,6 @@ function FileList(props) {
                     <label><input type="radio" name="privacy"></input>Private</label>
                 </div>
                 <div className="files-drag-drops-container">
-                    {/* <RLDD
-                        items={fileList}
-                        itemRenderer={(item) => { return itemRender(item) }}
-                        onChange={(items) => { setfileList(items) }}
-                    >
-                    </RLDD> */}
-
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
                             {(provided, snapshot) => (
@@ -245,7 +230,7 @@ function FileList(props) {
                                                             <img src={crossIcon}></img>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             )}
                                         </Draggable>
@@ -257,7 +242,6 @@ function FileList(props) {
                     </DragDropContext>
                 </div>
                 <div className="add-button-container">
-                    {/* <button>Add file</button> */}
                     <label for="music-file-upload" className="custom-file-upload">Add File</label>
                 </div>
                 <div className="buttons">
