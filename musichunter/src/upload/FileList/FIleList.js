@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import ProgressBar from './../uploadProgressBar/ProgressBar';
 
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 import cameraIcon from './../../icons/cameraIcon.png';
@@ -113,20 +114,29 @@ function FileList(props) {
             fr.readAsDataURL(files[0]);
         }
     }
-
+    function maxIdinObjectArray(objArray){
+        let maxValue = 0;
+        objArray.forEach(element => {
+            if (parseInt(element.id) > maxValue){
+                maxValue = parseInt(element.id);
+            }
+        });
+        return maxValue;
+    }
     function onFileAdd(event) {
         let files = event.target.files;
-        console.log("FILES:",files);
+        console.log("FILES:", files);
         let toFileListState = [];
-        let lastFileIndex = fileList.length ? parseInt(fileList[fileList.length - 1].id) : 0;
+        let maxIndex = maxIdinObjectArray(fileList);
+        let lastFileIndex = fileList.length ? maxIndex : 0;
         for (let i = 0; i < files.length; i++) {
             lastFileIndex++;
             toFileListState.push({ content: files[i].name, id: lastFileIndex.toString() })
         }
-        console.log("TO STATE:",toFileListState);
+        console.log("TO STATE:", toFileListState);
 
         if (toFileListState != false) {
-            setfileList([...fileList,...toFileListState]);
+            setfileList([...fileList, ...toFileListState]);
         }
     }
 
@@ -161,6 +171,7 @@ function FileList(props) {
     }
 
     return (<div className="file-list">
+        <div className="file-list-title">Playlist</div>
         <div className="track-data">
             <div className="track-cover">
                 <img id="album-cover">
@@ -222,13 +233,19 @@ function FileList(props) {
                                                     )}
                                                 >
                                                     <div className="files-file-item">
-                                                        <div className="image-container">
-                                                            <img src={menuIcon}></img>
+                                                        <div className="progress-bar">
+                                                            <ProgressBar progress={40}></ProgressBar>
                                                         </div>
-                                                        <input type="text" value={item.content}></input>
-                                                        <div className="delete-button-container" onClick={() => setfileList(fileList.filter((value) => { return value.id !== item.id }))}>
-                                                            <img src={crossIcon}></img>
+                                                        <div className="file-info">
+                                                            <div className="image-container">
+                                                                <img src={menuIcon}></img>
+                                                            </div>
+                                                            <input type="text" value={item.content}></input>
+                                                            <div className="delete-button-container" onClick={() => setfileList(fileList.filter((value) => { return value.id !== item.id }))}>
+                                                                <img src={crossIcon}></img>
+                                                            </div>
                                                         </div>
+
                                                     </div>
 
                                                 </div>
