@@ -16,8 +16,11 @@ import ProgressBar from './uploadProgressBar/ProgressBar';
 
 function Uploader() {
     const [isShowFileInfo, setisShowFileInfo] = useState(false);
+    const [isMultipleFiles, setIsMultipleFiles] = useState(false)
     const [fileData, setfileData] = useState({});
     const [uploadProgress, setuploadProgress] = useState(0);
+    const [files, setFiles] = useState(null);
+
     // async function UploadFile(e) {
     //     let fileInput = document.getElementById("file-upload");
     //     const formData = new FormData();
@@ -35,7 +38,20 @@ function Uploader() {
     //     });
 
     // }
+    function fileChangeHandler(event){
+        let fileList = event.target.files;
+        console.log("TARGET",event.target.files, "   ",fileList.length);
 
+        if (fileList.length > 1){
+            setFiles(fileList);
+            setIsMultipleFiles(true);
+        }
+        else{
+            setFiles(fileList[0]);
+            setIsMultipleFiles(false);
+        }
+        setisShowFileInfo(true);
+    }
     async function UploadFile() {
         const fileInput = document.getElementById("file-upload");
         const fileFromFileInput = fileInput.files[0];
@@ -80,20 +96,22 @@ function Uploader() {
     }
 
     return (<div className="uploader-container">
-        {isShowFileInfo ?
-            <File fileData={fileData} uploadProgress={uploadProgress}></File> :
+        {!isShowFileInfo ?
             <React.Fragment>
-                {/* <label for="file-upload" className="custom-file-upload">choose files to upload</label>
-                <input id="file-upload" type="file" multiple={true} onChange={(e) => UploadFile()}></input>
+                <label for="file-upload" className="custom-file-upload">choose files to upload</label>
+                <input id="file-upload" type="file" multiple={true} onChange={(e) => fileChangeHandler(e)}></input>
                 <label className="playlist-maker"><input type="checkbox"></input>Make playlist when multiple files are selected</label>
                 <div className="privacy-block">
                     Privacy:
-                    <label><input type="radio" name="privacy" checked></input>Public</label>
+               <label><input type="radio" name="privacy" checked></input>Public</label>
                     <label><input type="radio" name="privacy"></input>Private</label>
-                </div> */}
-                <FileList></FileList>
+                </div>
             </React.Fragment>
-
+            :
+            isMultipleFiles? 
+                <FileList files={files}></FileList>
+            :
+            <File file={files}></File>
         }
     </div>);
 
