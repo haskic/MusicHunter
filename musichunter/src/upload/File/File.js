@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import API from './../api';
 import * as mm from 'music-metadata-browser';
 
 import cameraIcon from './../../icons/cameraIcon.png';
@@ -11,8 +12,8 @@ import ProgressBar from '../uploadProgressBar/ProgressBar';
 function File(props) {
     // const [uploadProgress, setUploadProgress] = useState(0);
     const [fileData, setFileData] = useState({});
+    const [hash, setHash] = useState("");
     const [uploadProgress, setuploadProgress] = useState(0);
-
     const r = useRef(null);
 
     useEffect(() => {
@@ -51,16 +52,29 @@ function File(props) {
             }
             setFileData(fileData);
         });
-        await axios.post('https://localhost:5001/upload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4"
-            },
-            onUploadProgress: progressEvent => {
-                console.log("Progress", progressEvent.loaded);
-                setuploadProgress(progressEvent.loaded * 100 / fileFromFileInput.size);
-            }
-        }).then(() => setuploadProgress(100));
+
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4";
+        API.sendFile(formData, token, (progressEvent) => {
+            console.log("Progress", progressEvent.loaded);
+            setuploadProgress(progressEvent.loaded * 100 / fileFromFileInput.size);
+        }, (res) =>  {
+            // console.log("RESPONSE-1 ",fileData);
+            // console.log("RESPONSE ",{...fileData,...{hash: res.data.hash}});
+            // setFileData({...fileData,...{hash: res.data.hash}});
+            setHash(res.data.hash);
+            setuploadProgress(100);
+        });
+
+        // await axios.post('https://localhost:5001/upload', formData, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4"
+        //     },
+        //     onUploadProgress: progressEvent => {
+        //         console.log("Progress", progressEvent.loaded);
+        //         setuploadProgress(progressEvent.loaded * 100 / fileFromFileInput.size);
+        //     }
+        // }).then(() => setuploadProgress(100));
         // setisShowFileInfo(true);
     }
 

@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ProgressBar from './../uploadProgressBar/ProgressBar';
 import axios from 'axios';
-
+import API from './../api';
 
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 import cameraIcon from './../../icons/cameraIcon.png';
@@ -91,16 +91,21 @@ const reactSelectStyles = {
 
 function FileList(props) {
     const [startDate, setStartDate] = useState(new Date());
-    const [fileList, setfileList] = useState(testDragItems);
+    const [fileList, setfileList] = useState([]);
     const [progressState, setProgressState] = useState({});
+    const [hashes, setHashes] = useState([]);
+    let callBack = React.useMemo((hashString,file) => {
+        hashUpdater({id: file.id, hash: hashString});
+        setProgressState({ ...progressState, [file.id]: 100 });
+    },[hashes]);
     useEffect(() => {
         if (props.files) {
             let newFilelist = [];
 
             for (let index = 0; index < props.files.length; index++) {
-                sendFile({id : index, entity: props.files[index]});
-                newFilelist.push({id : index.toString(), content: props.files[index].name})
-                console.log("NewFileList: ",newFilelist);
+                sendFile({ id: index, entity: props.files[index] });
+                newFilelist.push({ id: index.toString(), content: props.files[index].name })
+                console.log("NewFileList: ", newFilelist);
             }
 
             // props.files.forEach((value,index) => {
@@ -138,30 +143,54 @@ function FileList(props) {
         for (let i = 0; i < files.length; i++) {
             lastFileIndex++;
             toFileListState.push({ content: files[i].name, id: lastFileIndex.toString() });
-            sendFile({id : lastFileIndex.toString(), entity: files[i]});
+            sendFile({ id: lastFileIndex.toString(), entity: files[i] });
         }
         console.log("TO STATE:", toFileListState);
         if (toFileListState != false) {
             setfileList([...fileList, ...toFileListState]);
         }
     }
-
+    function hashUpdater(newHashObj){
+        setHashes([...hashes,newHashObj]);
+        console.log("HASH LIST:",hashes);
+    }
     function sendFile(file) {
         const formData = new FormData();
         formData.append("files", file.entity);
         // for (var i = 0; i < fileInput.files.length; i++) {
         //     formData.append("files", fileInput.files[i]);
         // }
-        axios.post('https://localhost:5001/upload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4"
-            },
-            onUploadProgress: progressEvent => {
-                console.log("Progress", progressEvent.loaded);
-                setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
-            }
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4";
+       
+        API.sendFile(formData, token, (progressEvent) => {
+            console.log("Progress", progressEvent.loaded);
+            setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
+        }, (res) =>  {
+            // let newFileList = [...fileList];
+            // console.log("NEW FILES LIST",newFileList);
+            // newFileList.forEach((value) => {
+            //     if (parseInt(value.id) == file.id){
+            //         value.hash = res.data.hash;
+            //     }
+            // })
+            // setfileList(newFileList);
+            // console.log("HASH ",res.data.hash);
+            // setHashes([...hashes,]);
+            // hashUpdater({id: file.id, hash: res.data.hash});
+            // setProgressState({ ...progressState, [file.id]: 100 });
+            // console.log("HASH LIST:",hashes);
+            callBack(res.data.hash,{id : 1});
         });
+        // axios.post('https://localhost:5001/upload', formData, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4"
+        //     },
+        //     onUploadProgress: progressEvent => {
+        //         console.log("Progress", progressEvent.loaded);
+        //         setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
+        //     }
+        // });
     }
     function addFileToFileList(file) {
         setfileList([...fileList, file]);
