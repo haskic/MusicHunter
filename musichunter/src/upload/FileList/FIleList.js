@@ -94,10 +94,10 @@ function FileList(props) {
     const [fileList, setfileList] = useState([]);
     const [progressState, setProgressState] = useState({});
     const [hashes, setHashes] = useState([]);
-    let callBack = React.useMemo((hashString,file) => {
-        hashUpdater({id: file.id, hash: hashString});
-        setProgressState({ ...progressState, [file.id]: 100 });
-    },[hashes]);
+    // let callBack = React.useMemo((hashString,file) => {
+    //     hashUpdater({id: file.id, hash: hashString});
+    //     setProgressState({ ...progressState, [file.id]: 100 });
+    // },[hashes]);
     useEffect(() => {
         if (props.files) {
             let newFilelist = [];
@@ -143,16 +143,16 @@ function FileList(props) {
         for (let i = 0; i < files.length; i++) {
             lastFileIndex++;
             toFileListState.push({ content: files[i].name, id: lastFileIndex.toString() });
-            sendFile({ id: lastFileIndex.toString(), entity: files[i] });
+            sendFile({ id: lastFileIndex, entity: files[i] });
         }
         console.log("TO STATE:", toFileListState);
         if (toFileListState != false) {
             setfileList([...fileList, ...toFileListState]);
         }
     }
-    function hashUpdater(newHashObj){
-        setHashes([...hashes,newHashObj]);
-        console.log("HASH LIST:",hashes);
+    function hashUpdater(newHashObj) {
+        setHashes(prevState => [...prevState, newHashObj]);
+        console.log("HASH LIST:", hashes);
     }
     function sendFile(file) {
         const formData = new FormData();
@@ -161,11 +161,11 @@ function FileList(props) {
         //     formData.append("files", fileInput.files[i]);
         // }
         let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4";
-       
+
         API.sendFile(formData, token, (progressEvent) => {
             console.log("Progress", progressEvent.loaded);
             setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
-        }, (res) =>  {
+        }, (res) => {
             // let newFileList = [...fileList];
             // console.log("NEW FILES LIST",newFileList);
             // newFileList.forEach((value) => {
@@ -179,7 +179,9 @@ function FileList(props) {
             // hashUpdater({id: file.id, hash: res.data.hash});
             // setProgressState({ ...progressState, [file.id]: 100 });
             // console.log("HASH LIST:",hashes);
-            callBack(res.data.hash,{id : 1});
+            setHashes(prevState => [...prevState, {id: file.id, hash: res.data.hash}]);
+            console.log("HASH LIST:", hashes);
+            // callBack(res.data.hash, { id: 1 });
         });
         // axios.post('https://localhost:5001/upload', formData, {
         //     headers: {
@@ -315,7 +317,7 @@ function FileList(props) {
                 </div>
                 <div className="buttons">
                     <button>Save</button>
-                    <button>Cancel</button>
+                    <button onClick={() => { console.log("HASH ARR = ",hashes)}}>Cancel</button>
                 </div>
 
             </div>
