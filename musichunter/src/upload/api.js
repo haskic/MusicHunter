@@ -12,8 +12,6 @@ export default {
                     onProgressHandler(progressEvent);
 
                 }
-                // console.log("Progress", progressEvent.loaded);
-                // setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
             }
         }).then((res) => {
             if (callback) {
@@ -33,8 +31,6 @@ export default {
                     onProgressHandler(progressEvent);
 
                 }
-                // console.log("Progress", progressEvent.loaded);
-                // setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
             }
         }).then((res) => {
             if (callback) {
