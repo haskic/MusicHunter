@@ -7,34 +7,26 @@ import cameraIcon from './../../icons/cameraIcon.png';
 import fileStyle from './File.scss';
 import ProgressBar from '../uploadProgressBar/ProgressBar';
 
-
+//test token
+import token from './../../testData/token';
+//test token
 
 function File(props) {
-    // const [uploadProgress, setUploadProgress] = useState(0);
     const [fileData, setFileData] = useState({});
     const [hash, setHash] = useState("");
     const [uploadProgress, setuploadProgress] = useState(0);
-    const r = useRef(null);
 
     useEffect(() => {
         uploadFile(props.file);
-
     }, [])
 
     async function uploadFile(file) {
-        // const fileInput = document.getElementById("file-upload");
         const fileFromFileInput = file;
         let fileOne = new Blob([fileFromFileInput]);
         console.log("File = ", fileFromFileInput, fileOne);
-
         const formData = new FormData();
         formData.append("files", file);
-        // for (var i = 0; i < fileInput.files.length; i++) {
-        //     formData.append("files", fileInput.files[i]);
-        // }
-
         mm.parseBlob(fileOne).then(metadata => {
-            // metadata has all the metadata found in the blob or file
             console.log('Metadata: ', metadata);
 
             const blob = new Blob([metadata.common.picture[0].data], { type: metadata.common.picture[0].format });
@@ -53,30 +45,15 @@ function File(props) {
             setFileData(fileData);
         });
 
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4";
         API.sendFile(formData, token, (progressEvent) => {
             console.log("Progress", progressEvent.loaded);
             setuploadProgress(progressEvent.loaded * 100 / fileFromFileInput.size);
-        }, (res) =>  {
-            // console.log("RESPONSE-1 ",fileData);
-            // console.log("RESPONSE ",{...fileData,...{hash: res.data.hash}});
-            // setFileData({...fileData,...{hash: res.data.hash}});
+        }, (res) => {
             setHash(res.data.hash);
             setuploadProgress(100);
         });
-
-        // await axios.post('https://localhost:5001/upload', formData, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4"
-        //     },
-        //     onUploadProgress: progressEvent => {
-        //         console.log("Progress", progressEvent.loaded);
-        //         setuploadProgress(progressEvent.loaded * 100 / fileFromFileInput.size);
-        //     }
-        // }).then(() => setuploadProgress(100));
-        // setisShowFileInfo(true);
     }
+
 
 
     function onFileSelect(event) {
@@ -88,6 +65,11 @@ function File(props) {
             }
             fr.readAsDataURL(files[0]);
         }
+    }
+    function saveButtonHandler() {
+        console.log("SAVE BUTTON CLICK");
+        let trackObj = { Name: fileData.title, Artist: fileData.artist, Hash: hash, OwnerId: 1 };
+        API.addTrack(trackObj, token, (res) => {console.log("SAVE BUTTON RESPONSE ", res.data)});
     }
 
     return (<div className="file" style={fileStyle.file}>
@@ -110,7 +92,7 @@ function File(props) {
                     <label><input type="radio" name="privacy"></input>Private</label>
                 </div>
                 <div className="buttons">
-                    <button>Save</button>
+                    <button onClick={saveButtonHandler}>Save</button>
                     <button>Cancel</button>
                 </div>
             </div>

@@ -223,6 +223,9 @@ function FileList(props) {
 
         setfileList(items);
     }
+    function saveButtonHandler(){
+        
+    }
 
     return (<div className="file-list">
         <div className="file-list-title">Playlist</div>
