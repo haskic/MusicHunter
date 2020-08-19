@@ -2,23 +2,27 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import * as mm from 'music-metadata-browser';
 import ProgressBar from './../uploadProgressBar/ProgressBar';
 import axios from 'axios';
 import API from './../api';
+import usePlaylistInfo from './usePlaylistInfo';
 
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 import cameraIcon from './../../icons/cameraIcon.png';
 import menuIcon from './../../icons/menuIcon.png';
 import crossIcon from './../../icons/cross.png';
 
+import token from './../../testData/token';
+
 import './FileList.scss';
 import 'react-datepicker/dist/react-datepicker.css'
 
 const playlistTypeOptions = [
-    { value: 'Playlist', label: 'Playlist' },
-    { value: 'Album', label: 'Album' },
-    { value: 'EP', label: 'EP' },
-    { value: 'Single', label: 'Single' },
+    { value: 'playlist', label: 'Playlist' },
+    { value: 'album', label: 'Album' },
+    { value: 'ep', label: 'EP' },
+    { value: 'single', label: 'Single' },
 ]
 const getItems = count =>
     Array.from({ length: count }, (v, k) => k).map(k => ({
@@ -94,24 +98,37 @@ function FileList(props) {
     const [fileList, setfileList] = useState([]);
     const [progressState, setProgressState] = useState({});
     const [hashes, setHashes] = useState([]);
+    const playlistInfo = usePlaylistInfo({title: "", genre: "", playlistType: "playlist",description: ""});
     // let callBack = React.useMemo((hashString,file) => {
     //     hashUpdater({id: file.id, hash: hashString});
     //     setProgressState({ ...progressState, [file.id]: 100 });
     // },[hashes]);
     useEffect(() => {
+        playlistInfo.setPlaylistInfo(startDate,"date");
         if (props.files) {
             let newFilelist = [];
-
             for (let index = 0; index < props.files.length; index++) {
-                sendFile({ id: index, entity: props.files[index] });
-                newFilelist.push({ id: index.toString(), content: props.files[index].name })
-                console.log("NewFileList: ", newFilelist);
-            }
+                let musicFile = new Blob([props.files[index]]);
+                mm.parseBlob(musicFile).then(metadata => {
+                    console.log('Metadata: ', metadata);
 
-            // props.files.forEach((value,index) => {
-            //     sendFile({id : index, entity: value.entity});
-            //     newFilelist.push({id : index, content: value.entity.name})
-            // });
+                    // const blob = new Blob([metadata.common.picture[0].data], { type: metadata.common.picture[0].format });
+                    // const url = window.URL.createObjectURL(blob);
+                    // const img = document.getElementById('song-image');
+                    // img.src = url;
+                    const fileData = {
+                        title: metadata.common.title,
+                        year: metadata.common.year,
+                        album: metadata.common.album,
+                        artist: metadata.common.artist,
+                        comment: metadata.common.comment,
+                        genre: metadata.common.genre[0],
+                    }
+                    sendFile({ id: index, entity: props.files[index] });
+                    newFilelist.push({ id: index.toString(), content: props.files[index].name, fileData: fileData })
+                    console.log("NewFileList: ", newFilelist);
+                });
+            }
             setfileList(newFilelist);
         }
     }, [])
@@ -124,6 +141,7 @@ function FileList(props) {
             }
             fr.readAsDataURL(files[0]);
         }
+        playlistInfo.setPlaylistInfo(files[0], "image");
     }
     function maxIdinObjectArray(objArray) {
         let maxValue = 0;
@@ -157,42 +175,13 @@ function FileList(props) {
     function sendFile(file) {
         const formData = new FormData();
         formData.append("files", file.entity);
-        // for (var i = 0; i < fileInput.files.length; i++) {
-        //     formData.append("files", fileInput.files[i]);
-        // }
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4";
-
         API.sendFile(formData, token, (progressEvent) => {
             console.log("Progress", progressEvent.loaded);
             setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
         }, (res) => {
-            // let newFileList = [...fileList];
-            // console.log("NEW FILES LIST",newFileList);
-            // newFileList.forEach((value) => {
-            //     if (parseInt(value.id) == file.id){
-            //         value.hash = res.data.hash;
-            //     }
-            // })
-            // setfileList(newFileList);
-            // console.log("HASH ",res.data.hash);
-            // setHashes([...hashes,]);
-            // hashUpdater({id: file.id, hash: res.data.hash});
-            // setProgressState({ ...progressState, [file.id]: 100 });
-            // console.log("HASH LIST:",hashes);
-            setHashes(prevState => [...prevState, {id: file.id, hash: res.data.hash}]);
+            setHashes(prevState => [...prevState, { id: file.id, hash: res.data.hash }]);
             console.log("HASH LIST:", hashes);
-            // callBack(res.data.hash, { id: 1 });
         });
-        // axios.post('https://localhost:5001/upload', formData, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IkFsZXhhZGVyIiwiaWF0IjoiMjAyMC0wNy0xM1QxNjozMTozMS4xNzUzNDA3WiJ9.7PXC2f3F2SnY1zWJgT9tJ_qahHqT7bF65AZPNekdQh4"
-        //     },
-        //     onUploadProgress: progressEvent => {
-        //         console.log("Progress", progressEvent.loaded);
-        //         setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
-        //     }
-        // });
     }
     function addFileToFileList(file) {
         setfileList([...fileList, file]);
@@ -223,7 +212,35 @@ function FileList(props) {
 
         setfileList(items);
     }
-    function saveButtonHandler(){
+    function saveButtonHandler() {
+        let tracklist = [];
+        
+        fileList.forEach((value,index) => {
+            tracklist.push({ Name: value.fileData.title, Artist: value.fileData.title, Hash: hashes[index].hash, OwnerId: 13});
+        });
+        let playlistobj = {
+            Name: playlistInfo.playlistInfo.title,
+            Type: playlistInfo.playlistInfo.playlistType,
+            OwnerId: 112,
+            ImageUrl: "",
+        };
+        console.log("TRACKLIST:" ,tracklist);
+        API.addTracks(tracklist,token,() => {
+            const imageFormData = new FormData();
+            imageFormData.append("files",playlistInfo.playlistInfo.image);
+            API.uploadImage(imageFormData,token,null,(response) => {
+                playlistobj.ImageUrl = response.data.hashUrl;
+                API.addPlaylist(playlistobj,token,(response) => {
+                    let relations = [];
+                    tracklist.forEach((value) => {
+                        relations.push({TrackHash: value.Hash, PlaylistHash: response.data.hash});
+                    });
+                    API.addPlaylistRelations(relations,token, (response) => {
+                        console.log("RELATIONS: " + response.data.message)
+                    });
+                });
+            });
+        });
         
     }
 
@@ -236,7 +253,7 @@ function FileList(props) {
                 <label for="file-upload" className="custom-file-upload"><img src={cameraIcon}></img> Update image</label>
             </div>
             <div className="track-info">
-                <label for="track-title"><span>Title</span><input name="track-title" type="text" ></input></label>
+                <label for="track-title"><span>Title</span><input name="track-title" type="text" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value,"title")}></input></label>
                 <div className="playlist-type-date">
                     <label for="playlist-type" className="description-label">Playlist type
                     <Select
@@ -244,15 +261,16 @@ function FileList(props) {
                             styles={reactSelectStyles}
                             isSearchable={false}
                             defaultValue={playlistTypeOptions[0]}
+                            onChange={item => {playlistInfo.setPlaylistInfo(item.value,"playlistType")}}
                         >
                         </Select>
                     </label>
-                    <label for="playlist-type" className="description-label">Description
+                    <label for="playlist-type" className="description-label">Release
                     <div className="date-picker-container">
                             <DatePicker
                                 closeOnScroll={true}
                                 selected={startDate}
-                                onChange={date => setStartDate(date)}
+                                onChange={date => {setStartDate(date); playlistInfo.setPlaylistInfo(date,"date")}}
                                 className="release-date"
                             ></DatePicker>
                         </div>
@@ -261,8 +279,8 @@ function FileList(props) {
 
                 </div>
 
-                <label for="track-genre">Genre<input name="track-genre" type="text" ></input></label>
-                <label for="track-description" className="description-label">Description<textarea name="track-description"></textarea></label>
+                <label for="track-genre">Genre<input name="track-genre" type="text" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value,"genre")}></input></label>
+                <label for="track-description" className="description-label">Description<textarea name="track-description" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value,"description")}></textarea></label>
                 <div className="privacy-block">
                     <div>Privacy:</div>
                     <label><input type="radio" name="privacy" checked></input>Public</label>
@@ -319,8 +337,8 @@ function FileList(props) {
                     <label for="music-file-upload" className="custom-file-upload">Add File</label>
                 </div>
                 <div className="buttons">
-                    <button>Save</button>
-                    <button onClick={() => { console.log("HASH ARR = ",hashes)}}>Cancel</button>
+                    <button onClick={() => saveButtonHandler()}>Save</button>
+                    <button onClick={() => { console.log("HASH ARR = ", hashes) }}>Cancel</button>
                 </div>
 
             </div>
