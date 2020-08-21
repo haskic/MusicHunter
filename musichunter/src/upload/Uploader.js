@@ -110,7 +110,7 @@ function Uploader() {
     }
 
     return (<div className="uploader-container">
-        <div className="slide slide-1">
+        <div className="uploadSlide uploadSlide-1">
             {!isShowFileInfo ?
                 <React.Fragment>
                     <label for="file-upload" className="custom-file-upload">choose files to upload</label>
@@ -129,7 +129,7 @@ function Uploader() {
                     <File file={files}></File>
             }
         </div>
-        <div className="slide slide-2">
+        <div className="uploadSlide uploadSlide-2">
             <Success title="Success" text="Track was uploaded"></Success>
         </div>
 

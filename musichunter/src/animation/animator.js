@@ -5,8 +5,13 @@ function removeClass(str, element) {
 
 
 export default {
-    animate: function(element,classTitle){
-        removeClass(classTitle,element)
-        element.className = element.className  + " "+ classTitle;
+    animate: function (element, classTitle, classesForDelete) {
+        if (classesForDelete) {
+            classesForDelete.forEach((value) => {
+                removeClass(" " + value, element)
+            });
+        }
+        removeClass(" " + classTitle, element)
+        element.className = element.className + " " + classTitle;
     }
 }

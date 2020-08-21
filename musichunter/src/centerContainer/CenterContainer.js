@@ -59,9 +59,7 @@ function CenterContainer(props) {
         </Switch>
         <GoogleLogin
             clientId={googleAPI.clientId}
-            render={renderProps => (
-                <button onClick={renderProps.onClick} style={googleButtonStyle} disabled={renderProps.disabled}><img style={googleButtonStyle.img} src={googleIcon}></img> Sign In with Google</button>
-            )}
+            render={renderProps => null}
             buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}

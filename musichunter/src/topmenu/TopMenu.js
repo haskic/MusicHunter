@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Registration from '../auth/registration/Registration';
+import animator from './../animation/animator';
 
 import Notifications from './Notifications';
 import './scss/TopMenu.scss';
@@ -13,13 +14,22 @@ import NotificationsContext from '../NotificationsContext';
 import Login from '../auth/login/Login';
 
 function TopMenu(props) {
+    const [isShowProfileMenu, setIsShowProfileMenu] = useState(false)
     function regButtonClickHandler() {
         props.changeRegFormState({ isShow: true });
     }
     function loginButtonClickHandler() {
         props.changeLoginFormState({ isShow: true });
     }
+    function profileMenuShow(){
+        animator.animate(document.getElementsByClassName("profile-menu")[0],"profile-menu-show",["profile-menu-hide"]);
+        setIsShowProfileMenu(true);
+    }
 
+    function profileMenuHide(){
+        animator.animate(document.getElementsByClassName("profile-menu")[0],"profile-menu-hide",["profile-menu-show"]);
+        setIsShowProfileMenu(false);
+    }
     return (
         <div className="top-menu">
             {props.store.regForm?.isShow ? <Registration></Registration> : null}
@@ -38,7 +48,16 @@ function TopMenu(props) {
                 </div>
                 {props.store.isLogin ?
                     <React.Fragment>
-                        <Link to="/profile"><div className="top-menu-container-profile-button">{props.store.currentUser.name}</div></Link>
+                        <div className="top-menu-container-profile-button" onClick={() => {isShowProfileMenu?profileMenuHide(): profileMenuShow()}}>
+                            {props.store.currentUser.name}
+                            <div className="profile-menu">
+                                <div className="profile-menu-container">
+                                <Link to="/profile"><div>Profile</div></Link>
+                                    <div>Likes</div>
+                                    <div>Sign Out</div>
+                                </div>
+                            </div>
+                        </div>
 
                         <Notifications></Notifications>
                         <Link to="/messenger"><div className="top-menu-container-messages"><img src={envelopeLogo}></img></div></Link>
@@ -87,7 +106,7 @@ export default connect(
             dispatch({ type: "SET_IS_SHOW_LOGIN_FORM", payload: value })
         },
         setLoginState: (value) => {
-            dispatch({type: 'LOGIN_USER', payload: value})
+            dispatch({ type: 'LOGIN_USER', payload: value })
         }
     })
 )(TopMenu);
