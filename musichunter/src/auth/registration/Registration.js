@@ -87,6 +87,7 @@ function Registration(props) {
             imageUrl: response.profileObj.imageUrl
         };
         props.setLoginState(currentUser);
+        props.changeIsShowState({ isShow: false });
     }
     return (<div className="registration" ref={regElement} onClick={clickOutOfFormHandler}>
         <div className="exit-button" onClick={clickButtonExitHandler}>
