@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
+import {GoogleLogout} from 'react-google-login';
 import { connect } from 'react-redux';
 import Registration from '../auth/registration/Registration';
 import animator from './../animation/animator';
@@ -12,6 +13,14 @@ import mainLogo from './logo/musicHunterLogo4.png';
 
 import NotificationsContext from '../NotificationsContext';
 import Login from '../auth/login/Login';
+
+const googleButtonStyle = {
+    display: 'flex',
+    color: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    
+}
 
 function TopMenu(props) {
     const [isShowProfileMenu, setIsShowProfileMenu] = useState(false)
@@ -29,6 +38,9 @@ function TopMenu(props) {
     function profileMenuHide(){
         animator.animate(document.getElementsByClassName("profile-menu")[0],"profile-menu-hide",["profile-menu-show"]);
         setIsShowProfileMenu(false);
+    }
+    function logoutHandler(){
+        props.logoutUser();
     }
     return (
         <div className="top-menu">
@@ -55,6 +67,11 @@ function TopMenu(props) {
                                 <Link to="/profile"><div>Profile</div></Link>
                                     <div>Likes</div>
                                     <div>Sign Out</div>
+                                    <GoogleLogout
+                                    render={renderProps => (
+                                        <div onClick={() => {renderProps.onClick(); logoutHandler()}} style={googleButtonStyle} disabled={renderProps.disabled} >Sign Out</div>
+                                    )}
+                                    ></GoogleLogout>
                                 </div>
                             </div>
                         </div>
@@ -107,6 +124,9 @@ export default connect(
         },
         setLoginState: (value) => {
             dispatch({ type: 'LOGIN_USER', payload: value })
+        },
+        logoutUser: () => {
+            dispatch({type: "LOGOUT_USER"})
         }
     })
 )(TopMenu);

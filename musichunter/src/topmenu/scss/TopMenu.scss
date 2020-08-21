@@ -155,7 +155,8 @@
 
         .profile-menu {
             position: absolute;
-            top: -300%;
+            top: -400%;
+            opacity: -3;
             background-color: rgb(150, 150, 150);
             width: 100%;
             border-bottom-left-radius: 5px;
@@ -184,13 +185,12 @@
 
 @keyframes showProfileMenu {
     0% {
-        top: -300%;
+        top: -400%;
         opacity: -3;
     }
     100% {
         top: 100%;
         opacity: 1;
-
     }
 }
 
@@ -198,19 +198,17 @@
     0% {
         top: 100%;
         opacity: 1;
-
     }
     100% {
-        top: -300%;
+        top: -400%;
         opacity: 0;
-
     }
 }
 
 .profile-menu-show {
-    animation: showProfileMenu .5s forwards;
+    animation: showProfileMenu 0.5s forwards;
 }
 
 .profile-menu-hide {
-    animation: hideProfileMenu .5s forwards;
+    animation: hideProfileMenu 0.5s forwards;
 }
