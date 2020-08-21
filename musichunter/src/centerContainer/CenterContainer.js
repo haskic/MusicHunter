@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import HomePage from '../home/HomePage';
 import Uploader from './../upload/Uploader';
 import Messenger from './../messenger/Messenger';
@@ -7,12 +8,48 @@ import Profile from '../profile/Profile';
 
 import './scss/CenterContainer.scss';
 
-function CenterContainer() {
+
+import googleAPI from './../API/googleAPI';
+import googleIcon from './../auth/icons/google.png';
+import GoogleLogin from 'react-google-login';
+
+
+const googleButtonStyle = {
+    display: 'flex',
+    backgroundColor: 'white',
+    border: '1px solid black',
+    color: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    img: {
+        height: '25px',
+        width: '25px',
+        marginRight: '10px'
+
+    }
+}
+
+
+function CenterContainer(props) {
+
+    useEffect(() => {
+
+
+    }, [])
+
+    function responseGoogle(response) {
+        console.log("Google Response ", response);
+        const currentUser = {
+            name: response.profileObj.name,
+            email: response.profileObj.email,
+            imageUrl: response.profileObj.imageUrl
+        };
+        props.setLoginState(currentUser);
+    }
 
 
 
     return (<div className='center-container'>
-        
         <Switch>
             <Route path="/profile" component={Profile}></Route>
             <Route path="/home" component={HomePage}></Route>
@@ -20,7 +57,41 @@ function CenterContainer() {
             <Route path="/messenger" component={Messenger}></Route>
             <Route path="/" component={HomePage}></Route>
         </Switch>
+        <GoogleLogin
+            clientId={googleAPI.clientId}
+            render={renderProps => (
+                <button onClick={renderProps.onClick} style={googleButtonStyle} disabled={renderProps.disabled}><img style={googleButtonStyle.img} src={googleIcon}></img> Sign In with Google</button>
+            )}
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+            isSignedIn={true}
+        />
+
     </div>);
 }
 
-export default CenterContainer;
+export default connect(
+    state => ({ store: state }),
+    dispatch => ({
+        changeIslogin: (value) => {
+            dispatch({ type: 'ZHAKAR', isLogin: value })
+        },
+        changeCurrentTrack: (value) => {
+            dispatch({ type: 'PLAYLIST_SET_COUNTER', counterValue: value })
+        },
+        changeIsPlayingState: (value) => {
+            dispatch({ type: 'SET_PLAYING_STATE', isPlaying: value })
+        },
+        changeSong: (value) => {
+            dispatch({ type: 'SET_SONG', song: value })
+        },
+        changeIsShowState: (value) => {
+            dispatch({ type: 'SET_IS_SHOW_LOGIN_FORM', payload: value })
+        },
+        setLoginState: (value) => {
+            dispatch({type: 'LOGIN_USER', payload: value})
+        }
+    })
+)(CenterContainer);

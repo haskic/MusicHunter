@@ -247,7 +247,7 @@ function FileList(props) {
         let tracklist = [];
 
         fileList.forEach((value, index) => {
-            tracklist.push({ Name: value.fileData.title, Artist: value.fileData.title, Hash: hashes[index].hash, OwnerId: 13 });
+            tracklist.push({ Name: value.fileData.title, Artist: value.fileData.title, HashUrl: hashes[index].hash, OwnerId: 13 });
         });
         let playlistobj = {
             Name: playlistInfo.playlistInfo.title,
@@ -264,7 +264,7 @@ function FileList(props) {
                 API.addPlaylist(playlistobj, token, (response) => {
                     let relations = [];
                     tracklist.forEach((value) => {
-                        relations.push({ TrackHash: value.Hash, PlaylistHash: response.data.hash });
+                        relations.push({ TrackHashUrl: value.Hash, PlaylistHash: response.data.hash });
                     });
                     API.addPlaylistRelations(relations, token, (response) => {
                         console.log("RELATIONS: " + response.data.message);
