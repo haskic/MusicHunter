@@ -61,11 +61,16 @@ input[type="file"] {
 .slide-2{
     background-color: white;
     left: 100%;
-    border: 1px solid black;
-
+    z-index: 4;
 }
 .nextSlide-animated{
     animation: nextSlide .85s forwards;
+}
+.hide-animated{
+    animation: hideAnimation .3s forwards;
+}
+.show-animated{
+    animation: showAnimation .3s forwards;
 }
 @keyframes nextSlide{
     0%{
@@ -73,5 +78,21 @@ input[type="file"] {
     }
     100%{
        left: 0%;
+    }
+}
+@keyframes hideAnimation{
+    0%{
+        opacity: 1;
+    }
+    100%{
+       opacity: 0;
+    }
+}
+@keyframes showAnimation{
+    0%{
+        opacity: 0;
+    }
+    100%{
+       opacity: 1;
     }
 }

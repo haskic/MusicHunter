@@ -237,7 +237,11 @@ function FileList(props) {
         setfileList(items);
     }
     function successAnimation() {
+        animator.animate(document.getElementsByClassName("slide-1")[0], "hide-animated");
         animator.animate(document.getElementsByClassName("slide-2")[0], "nextSlide-animated");
+        setTimeout(() => {
+            document.getElementsByClassName("slide-1")[0].style.display = "none";
+        }, 500);
     }
     function saveButtonHandler() {
         let tracklist = [];
