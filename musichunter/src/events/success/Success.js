@@ -22,7 +22,7 @@ export default function Success(props) {
                     <div className="bottom-text">
                         {props.text}
                     </div>
-                    {props.attachment()}
+                    {props.attachment?props.attachment():null}
                 </div>
 
             </div>

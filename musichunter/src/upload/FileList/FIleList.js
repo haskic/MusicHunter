@@ -6,6 +6,8 @@ import * as mm from 'music-metadata-browser';
 import ProgressBar from './../uploadProgressBar/ProgressBar';
 import axios from 'axios';
 import API from './../api';
+import animator from './../../animation/animator';
+
 import usePlaylistInfo from './usePlaylistInfo';
 
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
@@ -98,13 +100,13 @@ function FileList(props) {
     const [fileList, setfileList] = useState([]);
     const [progressState, setProgressState] = useState({});
     const [hashes, setHashes] = useState([]);
-    const playlistInfo = usePlaylistInfo({title: "", genre: "", playlistType: "playlist",description: ""});
+    const playlistInfo = usePlaylistInfo({ title: "", genre: "", playlistType: "playlist", description: "" });
     // let callBack = React.useMemo((hashString,file) => {
     //     hashUpdater({id: file.id, hash: hashString});
     //     setProgressState({ ...progressState, [file.id]: 100 });
     // },[hashes]);
     useEffect(() => {
-        playlistInfo.setPlaylistInfo(startDate,"date");
+        playlistInfo.setPlaylistInfo(startDate, "date");
         if (props.files) {
             let newFilelist = [];
             for (let index = 0; index < props.files.length; index++) {
@@ -152,21 +154,43 @@ function FileList(props) {
         });
         return maxValue;
     }
-    function onFileAdd(event) {
+    async function onFileAdd(event) {
         let files = event.target.files;
+
         console.log("FILES:", files);
-        let toFileListState = [];
+        let newFileList = [];
         let maxIndex = maxIdinObjectArray(fileList);
         let lastFileIndex = fileList.length ? maxIndex : 0;
         for (let i = 0; i < files.length; i++) {
             lastFileIndex++;
-            toFileListState.push({ content: files[i].name, id: lastFileIndex.toString() });
-            sendFile({ id: lastFileIndex, entity: files[i] });
+
+            let musicFile = new Blob([files[i]]);
+            await mm.parseBlob(musicFile).then(metadata => {
+                console.log('Metadata: ', metadata);
+
+                // const blob = new Blob([metadata.common.picture[0].data], { type: metadata.common.picture[0].format });
+                // const url = window.URL.createObjectURL(blob);
+                // const img = document.getElementById('song-image');
+                // img.src = url;
+                const fileData = {
+                    title: metadata.common.title,
+                    year: metadata.common.year,
+                    album: metadata.common.album,
+                    artist: metadata.common.artist,
+                    comment: metadata.common.comment,
+                    genre: metadata.common.genre[0],
+                }
+
+                newFileList.push({ content: files[i].name, id: lastFileIndex.toString(), fileData: fileData });
+                sendFile({ id: lastFileIndex, entity: files[i] });
+                // console.log("NewFileList: ", newFilelist);
+            });
+
+
+
         }
-        console.log("TO STATE:", toFileListState);
-        if (toFileListState != false) {
-            setfileList([...fileList, ...toFileListState]);
-        }
+        console.log("File ADD [EVENT] fileList after change: ",[...fileList,...newFileList]);
+        setfileList([...fileList,...newFileList]);
     }
     function hashUpdater(newHashObj) {
         setHashes(prevState => [...prevState, newHashObj]);
@@ -212,11 +236,14 @@ function FileList(props) {
 
         setfileList(items);
     }
+    function successAnimation() {
+        animator.animate(document.getElementsByClassName("slide-2")[0], "nextSlide-animated");
+    }
     function saveButtonHandler() {
         let tracklist = [];
-        
-        fileList.forEach((value,index) => {
-            tracklist.push({ Name: value.fileData.title, Artist: value.fileData.title, Hash: hashes[index].hash, OwnerId: 13});
+
+        fileList.forEach((value, index) => {
+            tracklist.push({ Name: value.fileData.title, Artist: value.fileData.title, Hash: hashes[index].hash, OwnerId: 13 });
         });
         let playlistobj = {
             Name: playlistInfo.playlistInfo.title,
@@ -224,24 +251,28 @@ function FileList(props) {
             OwnerId: 112,
             ImageUrl: "",
         };
-        console.log("TRACKLIST:" ,tracklist);
-        API.addTracks(tracklist,token,() => {
+        console.log("TRACKLIST:", tracklist);
+        API.addTracks(tracklist, token, () => {
             const imageFormData = new FormData();
-            imageFormData.append("files",playlistInfo.playlistInfo.image);
-            API.uploadImage(imageFormData,token,null,(response) => {
+            imageFormData.append("files", playlistInfo.playlistInfo.image);
+            API.uploadImage(imageFormData, token, null, (response) => {
                 playlistobj.ImageUrl = response.data.hashUrl;
-                API.addPlaylist(playlistobj,token,(response) => {
+                API.addPlaylist(playlistobj, token, (response) => {
                     let relations = [];
                     tracklist.forEach((value) => {
-                        relations.push({TrackHash: value.Hash, PlaylistHash: response.data.hash});
+                        relations.push({ TrackHash: value.Hash, PlaylistHash: response.data.hash });
                     });
-                    API.addPlaylistRelations(relations,token, (response) => {
-                        console.log("RELATIONS: " + response.data.message)
+                    API.addPlaylistRelations(relations, token, (response) => {
+                        console.log("RELATIONS: " + response.data.message);
+                        if (response.data.status) {
+                            successAnimation();
+                        }
+
                     });
                 });
             });
         });
-        
+
     }
 
     return (<div className="file-list">
@@ -253,7 +284,7 @@ function FileList(props) {
                 <label for="file-upload" className="custom-file-upload"><img src={cameraIcon}></img> Update image</label>
             </div>
             <div className="track-info">
-                <label for="track-title"><span>Title</span><input name="track-title" type="text" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value,"title")}></input></label>
+                <label for="track-title"><span>Title</span><input name="track-title" type="text" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value, "title")}></input></label>
                 <div className="playlist-type-date">
                     <label for="playlist-type" className="description-label">Playlist type
                     <Select
@@ -261,7 +292,7 @@ function FileList(props) {
                             styles={reactSelectStyles}
                             isSearchable={false}
                             defaultValue={playlistTypeOptions[0]}
-                            onChange={item => {playlistInfo.setPlaylistInfo(item.value,"playlistType")}}
+                            onChange={item => { playlistInfo.setPlaylistInfo(item.value, "playlistType") }}
                         >
                         </Select>
                     </label>
@@ -270,7 +301,7 @@ function FileList(props) {
                             <DatePicker
                                 closeOnScroll={true}
                                 selected={startDate}
-                                onChange={date => {setStartDate(date); playlistInfo.setPlaylistInfo(date,"date")}}
+                                onChange={date => { setStartDate(date); playlistInfo.setPlaylistInfo(date, "date") }}
                                 className="release-date"
                             ></DatePicker>
                         </div>
@@ -279,8 +310,8 @@ function FileList(props) {
 
                 </div>
 
-                <label for="track-genre">Genre<input name="track-genre" type="text" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value,"genre")}></input></label>
-                <label for="track-description" className="description-label">Description<textarea name="track-description" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value,"description")}></textarea></label>
+                <label for="track-genre">Genre<input name="track-genre" type="text" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value, "genre")}></input></label>
+                <label for="track-description" className="description-label">Description<textarea name="track-description" onChange={(e) => playlistInfo.setPlaylistInfo(e.target.value, "description")}></textarea></label>
                 <div className="privacy-block">
                     <div>Privacy:</div>
                     <label><input type="radio" name="privacy" checked></input>Public</label>

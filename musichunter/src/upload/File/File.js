@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import API from './../api';
 import * as mm from 'music-metadata-browser';
+import animator from './../../animation/animator';
 
 import cameraIcon from './../../icons/cameraIcon.png';
 import fileStyle from './File.scss';
@@ -66,10 +67,18 @@ function File(props) {
             fr.readAsDataURL(files[0]);
         }
     }
+    function successAnimation(){
+            animator.animate(document.getElementsByClassName("slide-2")[0], "nextSlide-animated");
+    }
     function saveButtonHandler() {
         console.log("SAVE BUTTON CLICK");
         let trackObj = { Name: fileData.title, Artist: fileData.artist, Hash: hash, OwnerId: 1 };
-        API.addTrack(trackObj, token, (res) => {console.log("SAVE BUTTON RESPONSE ", res.data)});
+        API.addTrack(trackObj, token, (res) => {
+            console.log("SAVE BUTTON RESPONSE ", res.data);
+            if (res.data.status){
+                successAnimation();
+            }
+        });
     }
 
     return (<div className="file" style={fileStyle.file}>

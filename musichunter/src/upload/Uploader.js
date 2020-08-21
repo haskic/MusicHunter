@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import animator from './../animation/animator';
 
 import * as mm from 'music-metadata-browser';
 import testFile from './../lose.mp3';
@@ -12,6 +13,7 @@ import FileList from './fileList/FileList';
 
 import default_cover from './../AlbumCover.jpeg'
 import ProgressBar from './uploadProgressBar/ProgressBar';
+import Success from '../events/success/Success';
 
 
 function Uploader() {
@@ -20,6 +22,7 @@ function Uploader() {
     const [fileData, setfileData] = useState({});
     const [uploadProgress, setuploadProgress] = useState(0);
     const [files, setFiles] = useState(null);
+    const [successText, setSuccessText] = useState("Track was uploaded");
 
     // async function UploadFile(e) {
     //     let fileInput = document.getElementById("file-upload");
@@ -38,17 +41,28 @@ function Uploader() {
     //     });
 
     // }
-    function fileChangeHandler(event){
-        let fileList = event.target.files;
-        console.log("TARGET",event.target.files, "   ",fileList.length);
 
-        if (fileList.length > 1){
+    // React.useEffect(() => {
+    //     setTimeout(() => {
+    //         console.log("ELEMENT",document.getElementsByClassName("slide-2")[0]);
+    //         animator.animate(document.getElementsByClassName("slide-2")[0], "nextSlide-animated");
+    //     }, 2000);
+
+    // }, [])
+
+    function fileChangeHandler(event) {
+        let fileList = event.target.files;
+        console.log("TARGET", event.target.files, "   ", fileList.length);
+
+        if (fileList.length > 1) {
             setFiles(fileList);
             setIsMultipleFiles(true);
+            setSuccessText("Playlist was uploaded.");
         }
-        else{
+        else {
             setFiles(fileList[0]);
             setIsMultipleFiles(false);
+            setSuccessText("Track was uploaded.");
         }
         setisShowFileInfo(true);
     }
@@ -96,23 +110,29 @@ function Uploader() {
     }
 
     return (<div className="uploader-container">
-        {!isShowFileInfo ?
-            <React.Fragment>
-                <label for="file-upload" className="custom-file-upload">choose files to upload</label>
-                <input id="file-upload" type="file" multiple={true} onChange={(e) => fileChangeHandler(e)}></input>
-                <label className="playlist-maker"><input type="checkbox"></input>Make playlist when multiple files are selected</label>
-                <div className="privacy-block">
-                    Privacy:
+        <div className="slide slide-1">
+            {!isShowFileInfo ?
+                <React.Fragment>
+                    <label for="file-upload" className="custom-file-upload">choose files to upload</label>
+                    <input id="file-upload" type="file" multiple={true} onChange={(e) => fileChangeHandler(e)}></input>
+                    <label className="playlist-maker"><input type="checkbox"></input>Make playlist when multiple files are selected</label>
+                    <div className="privacy-block">
+                        Privacy:
                <label><input type="radio" name="privacy" checked></input>Public</label>
-                    <label><input type="radio" name="privacy"></input>Private</label>
-                </div>
-            </React.Fragment>
-            :
-            isMultipleFiles? 
-                <FileList files={files}></FileList>
-            :
-            <File file={files}></File>
-        }
+                        <label><input type="radio" name="privacy"></input>Private</label>
+                    </div>
+                </React.Fragment>
+                :
+                isMultipleFiles ?
+                    <FileList files={files}></FileList>
+                    :
+                    <File file={files}></File>
+            }
+        </div>
+        <div className="slide slide-2">
+            <Success title="Success" text="Track was uploaded"></Success>
+        </div>
+
     </div>);
 
 }
