@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import GoogleLogin from 'react-google-login';
+// import GoogleLogin from 'react-google-login';
 import crossIcon from './../../bottomPlayer/icons/cross.png';
-import googleIcon from './../icons/google.png';
+// import googleIcon from './../icons/google.png';
 import './scss/Registration.scss';
 import PasswordForm from '../passwordForm/PasswordForm';
 import Success from '../../events/success/Success';
 
-import googleAPI from './../../API/googleAPI';
+// import googleAPI from './../../API/googleAPI';
+import GoogleButton from '../components/GoogleButton';
 
 
 const successAttachmentStyle = {
@@ -19,20 +20,20 @@ const successAttachmentStyle = {
         width: '100%'
     }
 }
-const googleButtonStyle = {
-    display: 'flex',
-    backgroundColor: 'white',
-    border: '1px solid black',
-    color: 'black',
-    justifyContent: 'center',
-    alignItems: 'center',
-    img: {
-        height: '25px',
-        width: '25px',
-        marginRight: '10px'
+// const googleButtonStyle = {
+//     display: 'flex',
+//     backgroundColor: 'white',
+//     border: '1px solid black',
+//     color: 'black',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     img: {
+//         height: '25px',
+//         width: '25px',
+//         marginRight: '10px'
 
-    }
-}
+//     }
+// }
 
 
 function successAttachment(handler) {
@@ -113,7 +114,7 @@ function Registration(props) {
                                     <div className="delimiter-title">or</div>
                                     <div></div>
                                 </div>
-                                <GoogleLogin
+                                {/* <GoogleLogin
                                     clientId={googleAPI.clientId}
                                     render={renderProps => (
                                         <button onClick={renderProps.onClick} style={googleButtonStyle} disabled={renderProps.disabled}><img style={googleButtonStyle.img} src={googleIcon}></img> Sign In with Google</button>
@@ -123,7 +124,8 @@ function Registration(props) {
                                     onFailure={responseGoogle}
                                     cookiePolicy={'single_host_origin'}
                                     isSignedIn={true}
-                                />
+                                /> */}
+                                <GoogleButton onSuccess={responseGoogle} onFailure={responseGoogle}></GoogleButton>
                             </React.Fragment>}
                     </React.Fragment>
                 }

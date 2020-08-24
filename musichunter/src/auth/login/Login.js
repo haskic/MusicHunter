@@ -5,6 +5,7 @@ import crossIcon from './../../bottomPlayer/icons/cross.png';
 
 import './scss/Login.scss';
 import PasswordForm from '../passwordForm/PasswordForm';
+import GoogleButton from '../components/GoogleButton';
 
 function Login(props) {
 
@@ -41,6 +42,17 @@ function Login(props) {
 
     }
 
+    function responseGoogle(response) {
+        console.log("Google Response ", response);
+        const currentUser = {
+            name: response.profileObj.name,
+            email: response.profileObj.email,
+            imageUrl: response.profileObj.imageUrl
+        };
+        props.setLoginState(currentUser);
+        props.changeIsShowState({ isShow: false });
+    }
+
     return (<div className="login" ref={loginElement} onClick={clickOutOfFormHandler}>
         <div className="exit-button" onClick={clickButtonExitHandler}>
             <img src={crossIcon}></img>
@@ -58,6 +70,12 @@ function Login(props) {
                         <div className="helper">
                             <span>Need help?</span>
                         </div>
+                        <div className="delimiter">
+                            <div></div>
+                            <div className="delimiter-title">or</div>
+                            <div></div>
+                        </div>
+                        <GoogleButton onSuccess={responseGoogle}></GoogleButton>
                     </React.Fragment>
                 }
 
@@ -83,6 +101,9 @@ export default connect(
         },
         changeIsShowState: (value) => {
             dispatch({ type: 'SET_IS_SHOW_LOGIN_FORM', payload: value })
+        },
+        setLoginState: (value) => {
+            dispatch({type: 'LOGIN_USER', payload: value})
         }
     })
 )(Login);

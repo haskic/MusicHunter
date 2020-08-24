@@ -83,3 +83,30 @@
         }
     }
 }
+.delimiter {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin-bottom: 20px;
+    div:first-child {
+        width: 40%;
+        height: 1px;
+        border-bottom: 1px solid black;
+    }
+    div:last-child {
+        width: 40%;
+        height: 1px;
+        border-bottom: 1px solid black;
+    }
+    .delimiter-title {
+        height: 100%;
+        width: 20%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        font-size: 13pt;
+        vertical-align: middle;
+        font-weight: 600;
+        color: rgb(100,100,100);
+    }
+}
