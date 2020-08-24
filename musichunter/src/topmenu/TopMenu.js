@@ -1,6 +1,6 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
-import {GoogleLogout} from 'react-google-login';
+import { GoogleLogout } from 'react-google-login';
 import { connect } from 'react-redux';
 import Registration from '../auth/registration/Registration';
 import animator from './../animation/animator';
@@ -19,7 +19,7 @@ const googleButtonStyle = {
     color: 'black',
     justifyContent: 'center',
     alignItems: 'center',
-    
+
 }
 
 function TopMenu(props) {
@@ -30,16 +30,16 @@ function TopMenu(props) {
     function loginButtonClickHandler() {
         props.changeLoginFormState({ isShow: true });
     }
-    function profileMenuShow(){
-        animator.animate(document.getElementsByClassName("profile-menu")[0],"profile-menu-show",["profile-menu-hide"]);
+    function profileMenuShow() {
+        animator.animate(document.getElementsByClassName("profile-menu")[0], "profile-menu-show", ["profile-menu-hide"]);
         setIsShowProfileMenu(true);
     }
 
-    function profileMenuHide(){
-        animator.animate(document.getElementsByClassName("profile-menu")[0],"profile-menu-hide",["profile-menu-show"]);
+    function profileMenuHide() {
+        animator.animate(document.getElementsByClassName("profile-menu")[0], "profile-menu-hide", ["profile-menu-show"]);
         setIsShowProfileMenu(false);
     }
-    function logoutHandler(){
+    function logoutHandler() {
         props.logoutUser();
     }
     return (
@@ -60,17 +60,17 @@ function TopMenu(props) {
                 </div>
                 {props.store.isLogin ?
                     <React.Fragment>
-                        <div className="top-menu-container-profile-button" onClick={() => {isShowProfileMenu?profileMenuHide(): profileMenuShow()}}>
+                        <div className="top-menu-container-profile-button" onClick={() => { isShowProfileMenu ? profileMenuHide() : profileMenuShow() }}>
                             {props.store.currentUser.name}
                             <div className="profile-menu">
                                 <div className="profile-menu-container">
-                                <Link to="/profile"><div>Profile</div></Link>
+                                    <Link to="/profile"><div>Profile</div></Link>
                                     <div>Likes</div>
-                                    <div>Sign Out</div>
+                                    <div>Settings</div>
                                     <GoogleLogout
-                                    render={renderProps => (
-                                        <div onClick={() => {renderProps.onClick(); logoutHandler()}} style={googleButtonStyle} disabled={renderProps.disabled} >Sign Out</div>
-                                    )}
+                                        render={renderProps => (
+                                            <div onClick={() => { renderProps.onClick(); logoutHandler() }} style={googleButtonStyle} disabled={renderProps.disabled} >Sign Out</div>
+                                        )}
                                     ></GoogleLogout>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ export default connect(
             dispatch({ type: 'LOGIN_USER', payload: value })
         },
         logoutUser: () => {
-            dispatch({type: "LOGOUT_USER"})
+            dispatch({ type: "LOGOUT_USER" })
         }
     })
 )(TopMenu);

@@ -1,15 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
-// import GoogleLogin from 'react-google-login';
 import crossIcon from './../../bottomPlayer/icons/cross.png';
-// import googleIcon from './../icons/google.png';
 import './scss/Registration.scss';
 import PasswordForm from '../passwordForm/PasswordForm';
 import Success from '../../events/success/Success';
 
-// import googleAPI from './../../API/googleAPI';
 import GoogleButton from '../components/GoogleButton';
-
+import InfoReceiver from './components/InfoReceiver';
 
 const successAttachmentStyle = {
     display: 'flex',
@@ -20,21 +17,6 @@ const successAttachmentStyle = {
         width: '100%'
     }
 }
-// const googleButtonStyle = {
-//     display: 'flex',
-//     backgroundColor: 'white',
-//     border: '1px solid black',
-//     color: 'black',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     img: {
-//         height: '25px',
-//         width: '25px',
-//         marginRight: '10px'
-
-//     }
-// }
-
 
 function successAttachment(handler) {
     const element = <div style={successAttachmentStyle}>
@@ -46,6 +28,8 @@ function successAttachment(handler) {
 function Registration(props) {
     const [isShowPasswordForm, setisShowPasswordForm] = useState(false);
     const [isSuccess, setisSuccess] = useState(false);
+    const [isShowInfoReceiver, setisShowInfoReceiver] = useState(false);
+    const [isShowEmailInputForm, setIsShowEmailInputForm] = useState(true);
     const [userData, setUserData] = useState({});
     const regElement = useRef(null);
     const emailInput = useRef(null);
@@ -58,28 +42,28 @@ function Registration(props) {
     function clickOutOfFormHandler(event) {
         if (event.target.className === regElement.current.className) {
             props.changeIsShowState({ isShow: false });
-            // regElement.current.style.display = "none";
         }
 
     }
     function clickButtonExitHandler() {
-        // regElement.current.style.display = "none";
         props.changeIsShowState({ isShow: false });
     }
 
     function clickContinueButtonHandler() {
         setUserData(Object.assign(userData, { email: emailInput.current.value }));
-
+        setIsShowEmailInputForm(false);
         setisShowPasswordForm(true);
     }
     function passwordNextHandler(password) {
-
-        if (true) {
-            setisShowPasswordForm(false);
-            setisSuccess(true);
-        }
+        setUserData({ ...userData, ...{ password: password } });
+        setisShowPasswordForm(false);
+        setisShowInfoReceiver(true);
     }
-
+    function infoReceiverSuccessHandler(infoObj) {
+        setUserData({ ...userData, ...{ name: infoObj.name,lastname: infoObj.lastname } });
+        setisShowInfoReceiver(false);
+        setisSuccess(true);
+    }
     function responseGoogle(response) {
         console.log("Google Response ", response);
         const currentUser = {
@@ -98,35 +82,24 @@ function Registration(props) {
             <div className="reg-form-container">
                 {isShowPasswordForm ? <PasswordForm title="Create your Music Hunter account" userData={userData} nextHandler={passwordNextHandler}></PasswordForm> :
                     <React.Fragment>
-                        {isSuccess ?
-                            <Success title="Success" text="Now you can login at platform!" attachment={() => successAttachment(successNextHanlder)}></Success> :
-                            <React.Fragment>
-                                <div className="title">Registration</div>
-                                <label for="email-input">
-                                    <input type="text" name="email-input" placeholder="Enter your email address" autoComplete="off" ref={emailInput}></input>
-                                </label>
-                                <button onClick={clickContinueButtonHandler}>Continue</button>
-                                <div className="helper">
-                                    <span>Need help?</span>
-                                </div>
-                                <div className="delimiter">
-                                    <div></div>
-                                    <div className="delimiter-title">or</div>
-                                    <div></div>
-                                </div>
-                                {/* <GoogleLogin
-                                    clientId={googleAPI.clientId}
-                                    render={renderProps => (
-                                        <button onClick={renderProps.onClick} style={googleButtonStyle} disabled={renderProps.disabled}><img style={googleButtonStyle.img} src={googleIcon}></img> Sign In with Google</button>
-                                    )}
-                                    buttonText="Login"
-                                    onSuccess={responseGoogle}
-                                    onFailure={responseGoogle}
-                                    cookiePolicy={'single_host_origin'}
-                                    isSignedIn={true}
-                                /> */}
-                                <GoogleButton onSuccess={responseGoogle} onFailure={responseGoogle}></GoogleButton>
-                            </React.Fragment>}
+                        {isSuccess ? <Success title="Success" text="Now you can login at platform!" attachment={() => successAttachment(successNextHanlder)}></Success> : null}
+                        {isShowInfoReceiver ? <InfoReceiver onSuccess={infoReceiverSuccessHandler}></InfoReceiver> : null}
+                        {isShowEmailInputForm ? <React.Fragment>
+                            <div className="title">Registration</div>
+                            <label for="email-input">
+                                <input type="text" name="email-input" placeholder="Enter your email address" autoComplete="off" ref={emailInput}></input>
+                            </label>
+                            <button onClick={clickContinueButtonHandler}>Continue</button>
+                            <div className="helper">
+                                <span>Need help?</span>
+                            </div>
+                            <div className="delimiter">
+                                <div></div>
+                                <div className="delimiter-title">or</div>
+                                <div></div>
+                            </div>
+                            <GoogleButton onSuccess={responseGoogle} onFailure={responseGoogle}></GoogleButton>
+                        </React.Fragment> : null}
                     </React.Fragment>
                 }
 
@@ -159,7 +132,7 @@ export default connect(
             dispatch({ type: 'SET_IS_SHOW_LOGIN_FORM', payload: value })
         },
         setLoginState: (value) => {
-            dispatch({type: 'LOGIN_USER', payload: value})
+            dispatch({ type: 'LOGIN_USER', payload: value })
         }
     })
 )(Registration);
