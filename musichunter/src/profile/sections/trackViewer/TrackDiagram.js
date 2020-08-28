@@ -13,7 +13,7 @@ for (let i = 0; i < 702; i += 3) {
 function randomInteger(min, max) {
     // получить случайное число от (min-0.5) до (max+0.5)
     let rand = min - 0.5 + Math.random() * (max - min + 1);
-    console.log(Math.round(rand));
+    // console.log(Math.round(rand));
     return Math.round(rand);
 
 }

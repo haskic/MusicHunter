@@ -8,14 +8,14 @@ export default function MessageMember(props) {
 
 
     function memberClickHandler() {
-        setContext({ messages: props.member.messages, name: props.member.name, activeMember: props.index });
+        setContext({ messages: props.member.messages, name: props.member.name, activeMember: {index: props.index, hash: props.member.hash} });
     }
 
     return (
         <div className="message-member" onClick={memberClickHandler}
             style={{
-                backgroundColor: props.index === context.activeMember ? 'rgb(239,239,239)' : 'white',
-                borderLeft: props.index === context.activeMember ? '2px solid rgb(0,0,240)' : 'none'
+                backgroundColor: props.index === context.activeMember.index ? 'rgb(239,239,239)' : 'white',
+                borderLeft: props.index === context.activeMember.index ? '2px solid rgb(0,0,240)' : 'none'
             }}>
             <div className="photo-info">
                 <div className="photo-container">

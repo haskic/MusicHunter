@@ -91,7 +91,6 @@ function Category(props) {
         categoryArray.forEach(element => {
             let newSlides = [];
             let slidesSubArray = splitIntoSubArray(element.playlists, elementsInOneSlide);
-            console.log("SUB array  =", slidesSubArray);
             slidesSubArray.forEach((slideElement, index) => {
                 newSlides.push(<div className="slide-container">
                     {slideElement.map((value) => {
@@ -124,7 +123,6 @@ function Category(props) {
             //     }
 
             // }
-            console.log("NEW SLIDES", newSlides);
             newCategoryList.push(<div className="category">
                 <div className="category-container">
                     <div className="category-title">{element.title}</div>

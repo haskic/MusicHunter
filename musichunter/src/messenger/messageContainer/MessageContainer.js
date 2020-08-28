@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import Message from './../message/Message';
 
 import MessengerContext from './../messengerContext/MessengerContext';
@@ -52,8 +52,31 @@ const default_messages = [
 ]
 
 export default function MessageContainer(props) {
-    const [context,setContext] = useContext(MessengerContext);
+    const [context, setContext] = useContext(MessengerContext);
+    const [textInput, setTextInput] = useState("");
+    const messageContainerElement = useRef(null);
 
+    useEffect(() => {
+        messageContainerElement.current.scrollTop = messageContainerElement.current.scrollHeight;
+    }, [context])
+
+    function keyDownInputHandlder(e){
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendButtonHandler();
+          }
+    }
+    function messageTextOnChange(e) {
+        if (e.target.value.length <= 255) {
+            setTextInput(e.target.value);
+        }
+    }
+    function sendButtonHandler() {
+        props.sendMessage(textInput, context.activeMember.hash);
+        setTextInput("");
+        console.log("Scroll element = ",messageContainerElement.current);
+        console.log("MAX",messageContainerElement.current.scrollHeight);
+    }
     return (
         <div className="messages-main">
             <div className="recipient-container">
@@ -68,7 +91,7 @@ export default function MessageContainer(props) {
                     <button>Delete history</button>
                 </div>
             </div>
-            <div className="message-container">
+            <div className="message-container" ref={messageContainerElement}>
                 {context.messages && context.messages.map((message) => {
                     return <Message message={message} photo={default_image}></Message>
                 })}
@@ -77,15 +100,14 @@ export default function MessageContainer(props) {
                 <div className="message-sender-header">
                     Write your message and add tracks
                 </div>
-                <textarea id="message-sender">
-
+                <textarea id="message-sender" value={textInput} onChange={(e) => messageTextOnChange(e)} onKeyDown={(e) => keyDownInputHandlder(e)}>
                 </textarea>
                 <div className="message-sender-footer">
                     <div className="left-options">
                         <button>Add track</button>
                     </div>
                     <div className="right-options">
-                        <button id="send-button">Send</button>
+                        <button id="send-button" onClick={sendButtonHandler}>Send</button>
                     </div>
                 </div>
             </div>

@@ -99,12 +99,14 @@ const testMembers = [
     {
         name: 'Tech N9ne',
         photo: testImage,
-        messages: default_messages
+        messages: default_messages,
+        hash: "kot3sany@gmail.com"
     },
     {
         name: 'Zhakarchenko',
         photo: testImage,
-        messages: default_messages2
+        messages: default_messages2,
+        hash: "lolkektor@gmail.com"
     }
 ]
 
