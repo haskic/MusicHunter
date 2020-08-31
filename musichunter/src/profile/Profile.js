@@ -1,5 +1,6 @@
 import React from 'react';
-import {Switch,Route,useRouteMatch,Link} from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './scss/Profile.scss';
 
 import default_image from './default_profile_image.jpg';
@@ -8,7 +9,7 @@ import AlbumViewer from './sections/albumViewer/AlbumViewer';
 
 
 
-function Profile() {
+function Profile(props) {
     let { path, url } = useRouteMatch();
     return (<div className="profile">
         <div className="profile-container">
@@ -17,7 +18,7 @@ function Profile() {
                     <img src={default_image}></img>
                 </div>
                 <div className="user-data">
-                    <div>Name LastName</div>
+                    <div>{props.store.currentUser?.name}</div>
                     <div>Los Angeles</div>
                 </div>
             </div>
@@ -47,5 +48,18 @@ function Profile() {
 
 }
 
+export default connect(
+    state => ({ store: state }),
+    dispatch => ({
+        changeIslogin: (value) => {
+            dispatch({ type: 'ZHAKAR', isLogin: value })
+        },
+        changeCurrentTrack: (value) => {
+            dispatch({ type: 'PLAYLIST_SET_COUNTER', counterValue: value })
+        },
+        changeIsPlayingState: (value) => {
+            dispatch({ type: 'SET_PLAYING_STATE', isPlaying: value })
+        },
 
-export default Profile;
+    })
+)(Profile);
