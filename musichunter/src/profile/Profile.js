@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, useRouteMatch, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './scss/Profile.scss';
@@ -11,6 +11,33 @@ import AlbumViewer from './sections/albumViewer/AlbumViewer';
 
 function Profile(props) {
     let { path, url } = useRouteMatch();
+    const [isEditMode, setIsEditMode] = useState(false);
+    function editButtonHandler() {
+        setIsEditMode(true);
+    }
+    function saveButtonHandler() {
+        setIsEditMode(false);
+
+    }
+    useEffect(() => {
+        let nameElement = document.getElementById("user-name-info");
+        let locationElement = document.getElementById("user-location-info");
+
+        if (isEditMode) {
+            nameElement.setAttribute("contenteditable", true);
+            locationElement.setAttribute("contenteditable", true);
+            locationElement.style.background = "black";
+            nameElement.style.background = "black";
+        }
+        else {
+            nameElement.setAttribute("contenteditable", false);
+            locationElement.setAttribute("contenteditable", false);
+            locationElement.style.background = "rgba(0,0,0,0)";
+            nameElement.style.background = "rgba(0,0,0,0)";
+        }
+
+    }, [isEditMode])
+
     return (<div className="profile">
         <div className="profile-container">
             <div className="profile-header">
@@ -18,8 +45,8 @@ function Profile(props) {
                     <img src={default_image}></img>
                 </div>
                 <div className="user-data">
-                    <div>{props.store.currentUser?.name}</div>
-                    <div>Los Angeles</div>
+                    <div id="user-name-info">{props.store.currentUser?.name}</div>
+                    <div id="user-location-info">Los Angeles</div>
                 </div>
             </div>
             <div className="profile-sections">
@@ -32,7 +59,8 @@ function Profile(props) {
                 </div>
                 <div className="section-buttons">
                     <button>Share</button>
-                    <button>Edit</button>
+
+                    {isEditMode ? <button style={{ background: 'green' }} onClick={saveButtonHandler}>Save</button> : <button onClick={editButtonHandler}>Edit</button>}
                 </div>
             </div>
             <div className="content-data">

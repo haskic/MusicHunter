@@ -38,15 +38,15 @@
 }
 
 .user-data {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     padding-top: 70px;
-    width: 75%;
     color: white;
     div {
         margin-bottom: 10px;
         font-weight: 400;
         font-size: 12pt;
+        display: inline-flex;
     }
     div:first-child {
         font-size: 20pt;
