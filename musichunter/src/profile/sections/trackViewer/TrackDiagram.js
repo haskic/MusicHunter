@@ -20,7 +20,7 @@ function randomInteger(min, max) {
 
 }
 
-function updateDiagram(canvas, currentX) {
+function updateDiagram(canvas, currentX) { 
     let rect = canvas.current.getBoundingClientRect();
     let ctx = canvas.current.getContext('2d');
     ctx.clearRect(0, 0, rect.width, rect.height);

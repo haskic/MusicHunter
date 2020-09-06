@@ -21,4 +21,15 @@ export default {
             }
         });
     },
+    googleVerify: function (googleTokenObj, callback){
+        axios.post('https://localhost:5001/api/public/googleVerify',googleTokenObj,{
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then((res) => {
+            if (callback){
+                callback(res);
+            }
+        });
+    }
 }
