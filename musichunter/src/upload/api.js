@@ -116,5 +116,30 @@ export default {
                 callback(res);
             }
         });
-    }
+    },
+    addTrackToUser: function (trackToUserObj,token,callback){
+        axios.post('https://localhost:5001/api/user/addtrack',JSON.stringify(trackToUserObj),{
+            headers: {
+                'Content-Type': 'application/json',
+                'token': token
+            },
+        }).then((res) => {
+            if (callback){
+                callback(res);
+            }
+        });
+    },
+    addPlaylistToUser: function (playlistToUserObj,token,callback){
+        axios.post('https://localhost:5001/api/user/addplaylist',JSON.stringify(playlistToUserObj),{
+            headers: {
+                'Content-Type': 'application/json',
+                'token': token
+            },
+        }).then((res) => {
+            if (callback){
+                callback(res);
+            }
+        });
+    },
+
 }

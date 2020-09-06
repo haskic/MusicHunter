@@ -16,7 +16,7 @@ import ProgressBar from './uploadProgressBar/ProgressBar';
 import Success from '../events/success/Success';
 
 
-function Uploader() {
+function Uploader(props) {
     const [isShowFileInfo, setisShowFileInfo] = useState(false);
     const [isMultipleFiles, setIsMultipleFiles] = useState(false)
     const [fileData, setfileData] = useState({});

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import API from './../api';
 import * as mm from 'music-metadata-browser';
 import animator from './../../animation/animator';
@@ -33,13 +33,13 @@ function File(props) {
 
             const blob = new Blob([metadata.common.picture[0].data], { type: metadata.common.picture[0].format });
             let imageFormat = "";
-            if (metadata.common.picture[0].format === "image/jpeg"){
+            if (metadata.common.picture[0].format === "image/jpeg") {
                 imageFormat = ".jpg";
             }
             console.log("Result format : ", "picture" + imageFormat);
-           
+
             const url = window.URL.createObjectURL(blob);
-            var imageFile ="picture.jpg";
+            var imageFile = "picture.jpg";
             setImageFile(blob);
             // const img = document.getElementById('song-image');
             // img.src = url;
@@ -62,9 +62,9 @@ function File(props) {
             setHashUrl(res.data.hashUrl);
             setuploadProgress(100);
         });
-        
+
     }
-    function blobToFile(theBlob, fileName){
+    function blobToFile(theBlob, fileName) {
         //A Blob() is almost a File() - it's just missing the two properties below which we will add
         theBlob.lastModifiedDate = new Date();
         theBlob.name = fileName;
@@ -84,30 +84,39 @@ function File(props) {
         }
         setImageFile(files[0]);
     }
-    function successAnimation(){
-            animator.animate(document.getElementsByClassName("slide-2")[0], "nextSlide-animated");
+    function successAnimation() {
+        animator.animate(document.getElementsByClassName("uploadSlide-2")[0], "nextSlide-animated");
     }
     function saveButtonHandler() {
         console.log("SAVE BUTTON CLICK");
         let trackObj = { Name: fileData.title, Artist: fileData.artist, HashUrl: hashUrl, OwnerId: 1 };
         let formDataImage = new FormData();
         let imageName;
-        if (imageFile.type === 'image/jpeg'){
+        if (imageFile.type === 'image/jpeg') {
             imageName = 'picture.jpg';
         }
-        else if (imageFile.type === 'image/png'){
+        else if (imageFile.type === 'image/png') {
             imageName = 'picture.png';
         }
-        formDataImage.append('files',imageFile, imageName);
-        API.uploadImage(formDataImage,token,null, (res) => {
+        formDataImage.append('files', imageFile, imageName);
+        API.uploadImage(formDataImage, token, null, (res) => {
             let imageUrl = res.data.hashUrl;
             trackObj.ImageUrl = imageUrl;
-            console.log("IMAGE RESPONSE",res);
+            console.log("IMAGE RESPONSE", res);
             API.addTrack(trackObj, token, (res) => {
                 console.log("SAVE BUTTON RESPONSE ", res.data);
-                if (res.data.status){
-                    successAnimation();
-                }
+                console.log("Store = ",props.store);
+                let trackToUserObj = {
+                    TrackHash: hashUrl,
+                    UserHash: props.store.currentUser.hash
+                };
+                console.log("TrackToUserObj :", trackToUserObj);
+                API.addTrackToUser(trackToUserObj, token, (res) => {
+                    if (res.data.status) {
+                        successAnimation();
+                    }
+                });
+
             });
         });
     }
@@ -123,8 +132,8 @@ function File(props) {
                 <label for="file-upload" className="custom-file-upload"><img src={cameraIcon}></img> Update image</label>
             </div>
             <div className="track-info">
-                <label for="track-title"><span>Title</span><input name="track-title" type="text" defaultValue={fileData.title} onChange={(e) => setFileData({...fileData,...{title: e.target.value}})}></input></label>
-                <label for="track-genre">Genre<input name="track-genre" type="text"  defaultValue={fileData.genre} onChange={(e) => setFileData({...fileData,...{genre: e.target.value}})}></input></label>
+                <label for="track-title"><span>Title</span><input name="track-title" type="text" defaultValue={fileData.title} onChange={(e) => setFileData({ ...fileData, ...{ title: e.target.value } })}></input></label>
+                <label for="track-genre">Genre<input name="track-genre" type="text" defaultValue={fileData.genre} onChange={(e) => setFileData({ ...fileData, ...{ genre: e.target.value } })}></input></label>
                 <label for="track-description" className="description-label">Description<textarea name="track-description"></textarea></label>
                 <div className="privacy-block">
                     <div>Privacy:</div>
@@ -138,9 +147,11 @@ function File(props) {
             </div>
             <input id="file-upload" type="file" multiple={false} onChange={(e) => onFileSelect(e)}></input>
         </div>
-
     </div>);
-
 }
 
-export default File;
+
+
+export default connect(
+    state => ({ store: state }),
+)(File);
