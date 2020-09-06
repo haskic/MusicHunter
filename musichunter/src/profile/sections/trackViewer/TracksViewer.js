@@ -65,7 +65,8 @@ function TrackViewer(props) {
                 artist: value.Artist,
                 coverImage: "https://localhost:5001/images/" + value.ImageUrl,
                 src: "https://localhost:5001/music/" + value.HashUrl,
-                hash: value.HashUrl
+                hash: value.HashUrl,
+                points: JSON.parse(value.Histogram).pointArray
             }}></Track>
         })}
 

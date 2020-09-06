@@ -60,7 +60,7 @@ function Track(props) {
                     <div className="track-name">{props.track.name}</div>
                 </div>
             </div>
-            <TrackDiagram hash={props.track.hash}></TrackDiagram>
+            <TrackDiagram hash={props.track.hash} points={props.track.points}></TrackDiagram>
             <div className="track-options">
                 <button>Like</button>
                 <button>Reposts</button>
