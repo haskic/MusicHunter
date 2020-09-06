@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import GoogleLogin from 'react-google-login';
-
+import API from './../api/api';
 import googleAPI from './../../API/googleAPI';
 
 
@@ -15,14 +15,18 @@ function IsLoginChecker(props) {
             email: response.profileObj.email,
             imageUrl: response.profileObj.imageUrl
         };
-        props.setLoginState(currentUser);
+        console.log("Google response:",response);
+        API.googleVerify({TokenId: response.tokenId},(res) => {
+            props.setLoginState({...currentUser,...{token: res.data.token, hash: res.data.userHash}});
+            // console.log("RESPONS SERVER",res);
+        });    
     }
 
     return (
         <React.Fragment>
             <GoogleLogin
                 clientId={googleAPI.clientId}
-                render={null}
+                render={renderProps => null}
                 buttonText="Login"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}

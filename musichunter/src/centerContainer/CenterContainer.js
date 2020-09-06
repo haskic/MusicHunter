@@ -12,6 +12,7 @@ import './scss/CenterContainer.scss';
 import googleAPI from './../API/googleAPI';
 import googleIcon from './../auth/icons/google.png';
 import GoogleLogin from 'react-google-login';
+import IsLoginChecker from '../auth/isLoginChecker/IsLoginChecker';
 
 
 const googleButtonStyle = {
@@ -57,7 +58,8 @@ function CenterContainer(props) {
             <Route path="/messenger" component={Messenger}></Route>
             <Route path="/" component={HomePage}></Route>
         </Switch>
-        <GoogleLogin
+        <IsLoginChecker></IsLoginChecker>
+        {/* <GoogleLogin
             clientId={googleAPI.clientId}
             render={renderProps => null}
             buttonText="Login"
@@ -65,7 +67,7 @@ function CenterContainer(props) {
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
             isSignedIn={true}
-        />
+        /> */}
 
     </div>);
 }
