@@ -203,7 +203,7 @@ function FileList(props) {
             console.log("Progress", progressEvent.loaded);
             setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
         }, (res) => {
-            setHashes(prevState => [...prevState, { id: file.id, hash: res.data.hash }]);
+            setHashes(prevState => [...prevState, { id: file.id, hash: res.data.hashUrl }]);
             console.log("HASH LIST:", hashes);
         });
     }
@@ -237,10 +237,10 @@ function FileList(props) {
         setfileList(items);
     }
     function successAnimation() {
-        animator.animate(document.getElementsByClassName("slide-1")[0], "hide-animated");
-        animator.animate(document.getElementsByClassName("slide-2")[0], "nextSlide-animated");
+        animator.animate(document.getElementsByClassName("uploadSlide-1")[0], "hide-animated");
+        animator.animate(document.getElementsByClassName("uploadSlide-2")[0], "nextSlide-animated");
         setTimeout(() => {
-            document.getElementsByClassName("slide-1")[0].style.display = "none";
+            document.getElementsByClassName("uploadSlide-1")[0].style.display = "none";
         }, 500);
     }
     function saveButtonHandler() {
@@ -255,7 +255,7 @@ function FileList(props) {
             OwnerId: 112,
             ImageUrl: "",
         };
-        console.log("TRACKLIST:", tracklist);
+        console.log("TRACKLIST:", tracklist);           
         API.addTracks(tracklist, token, () => {
             const imageFormData = new FormData();
             imageFormData.append("files", playlistInfo.playlistInfo.image);
@@ -263,9 +263,14 @@ function FileList(props) {
                 playlistobj.ImageUrl = response.data.hashUrl;
                 API.addPlaylist(playlistobj, token, (response) => {
                     let relations = [];
+                    console.log("Track list ",tracklist);
+                    console.log("Track list ",hashes);
+
                     tracklist.forEach((value) => {
-                        relations.push({ TrackHashUrl: value.Hash, PlaylistHash: response.data.hash });
+                        console.log("Track list item: ",value);
+                        relations.push({ TrackHashUrl: value.HashUrl, PlaylistHash: response.data.hash });
                     });
+                    console.log("Relations = ",relations);
                     API.addPlaylistRelations(relations, token, (response) => {
                         console.log("RELATIONS: " + response.data.message);
                         if (response.data.status) {
