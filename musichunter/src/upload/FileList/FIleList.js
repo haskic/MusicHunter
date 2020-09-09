@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {connect} from 'react-redux';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -189,8 +190,8 @@ function FileList(props) {
 
 
         }
-        console.log("File ADD [EVENT] fileList after change: ",[...fileList,...newFileList]);
-        setfileList([...fileList,...newFileList]);
+        console.log("File ADD [EVENT] fileList after change: ", [...fileList, ...newFileList]);
+        setfileList([...fileList, ...newFileList]);
     }
     function hashUpdater(newHashObj) {
         setHashes(prevState => [...prevState, newHashObj]);
@@ -255,25 +256,35 @@ function FileList(props) {
             OwnerId: 112,
             ImageUrl: "",
         };
-        console.log("TRACKLIST:", tracklist);           
+        console.log("TRACKLIST:", tracklist);
         API.addTracks(tracklist, token, () => {
             const imageFormData = new FormData();
             imageFormData.append("files", playlistInfo.playlistInfo.image);
             API.uploadImage(imageFormData, token, null, (response) => {
                 playlistobj.ImageUrl = response.data.hashUrl;
-                API.addPlaylist(playlistobj, token, (response) => {
+                API.addPlaylist(playlistobj, token, (addPlaylistResponse) => {
                     let relations = [];
-                    console.log("Track list ",tracklist);
-                    console.log("Track list ",hashes);
+                    console.log("Track list ", tracklist);
+                    console.log("Track list ", hashes);
 
                     tracklist.forEach((value) => {
-                        console.log("Track list item: ",value);
-                        relations.push({ TrackHashUrl: value.HashUrl, PlaylistHash: response.data.hash });
+                        console.log("Track list item: ", value);
+                        relations.push({ TrackHashUrl: value.HashUrl, PlaylistHash: addPlaylistResponse.data.hash });
                     });
-                    console.log("Relations = ",relations);
+                    console.log("Relations = ", relations);
                     API.addPlaylistRelations(relations, token, (response) => {
                         console.log("RELATIONS: " + response.data.message);
                         if (response.data.status) {
+                            let playlistToUserObj = {
+                                PlaylistHash: addPlaylistResponse.data.hash,
+                                UserHash: props.store.currentUser.hash
+                            }
+                            API.addPlaylistToUser(playlistToUserObj, token, (res) => {
+                                if (res.data.status) {
+                                    successAnimation();
+                                }
+                            });
+
                             successAnimation();
                         }
 
@@ -389,5 +400,6 @@ function FileList(props) {
     </div>);
 
 }
-
-export default FileList;
+export default connect(
+    state => ({ store: state }),
+)(FileList);
