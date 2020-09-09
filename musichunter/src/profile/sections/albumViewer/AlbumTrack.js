@@ -8,7 +8,7 @@ function AlbumTrack(props) {
         <div className="left-side" style={props.current? {color: 'blue'}: null}>
             <img src={props.track.coverImage}></img>
             {props.number}
-            <span>{props.track.name}</span>
+            <span>{props.track.Name}</span>
         </div>
         <div className="right-side"><img src={playIcon}></img><div>{props.track.listens}</div></div>
     </div>);

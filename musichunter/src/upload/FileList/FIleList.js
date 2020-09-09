@@ -262,6 +262,9 @@ function FileList(props) {
             imageFormData.append("files", playlistInfo.playlistInfo.image);
             API.uploadImage(imageFormData, token, null, (response) => {
                 playlistobj.ImageUrl = response.data.hashUrl;
+                console.log('ImageUrl = ',response.data.hashUrl);
+                console.log('ImageUrl = ',playlistobj.ImageUrl);
+
                 API.addPlaylist(playlistobj, token, (addPlaylistResponse) => {
                     let relations = [];
                     console.log("Track list ", tracklist);
