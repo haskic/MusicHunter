@@ -6,7 +6,7 @@ function AlbumTrack(props) {
 
     return (<div className="track-item">
         <div className="left-side" style={props.current? {color: 'blue'}: null}>
-            <img src={props.track.coverImage}></img>
+            <img src={"https://localhost:5001/images/" + props.track.ImageUrl}></img>
             {props.number}
             <span>{props.track.Name}</span>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -247,24 +247,25 @@ function FileList(props) {
     function saveButtonHandler() {
         let tracklist = [];
 
-        fileList.forEach((value, index) => {
-            tracklist.push({ Name: value.fileData.title, Artist: value.fileData.title, HashUrl: hashes[index].hash, OwnerId: 13 });
-        });
         let playlistobj = {
             Name: playlistInfo.playlistInfo.title,
             Type: playlistInfo.playlistInfo.playlistType,
             OwnerId: 112,
             ImageUrl: "",
         };
-        console.log("TRACKLIST:", tracklist);
-        API.addTracks(tracklist, token, () => {
-            const imageFormData = new FormData();
-            imageFormData.append("files", playlistInfo.playlistInfo.image);
-            API.uploadImage(imageFormData, token, null, (response) => {
-                playlistobj.ImageUrl = response.data.hashUrl;
-                console.log('ImageUrl = ',response.data.hashUrl);
-                console.log('ImageUrl = ',playlistobj.ImageUrl);
+        // console.log("TRACKLIST:", tracklist);
 
+        const imageFormData = new FormData();
+        imageFormData.append("files", playlistInfo.playlistInfo.image);
+        API.uploadImage(imageFormData, token, null, (response) => {
+            playlistobj.ImageUrl = response.data.hashUrl;
+            console.log('ImageUrl = ', response.data.hashUrl);
+            console.log('ImageUrl = ', playlistobj.ImageUrl);
+            fileList.forEach((value, index) => {
+                tracklist.push({ Name: value.fileData.title, Artist: value.fileData.title, HashUrl: hashes[index].hash, OwnerId: 13, ImageUrl: playlistobj.ImageUrl });
+            });
+            API.addTracks(tracklist, token, () => {
+                
                 API.addPlaylist(playlistobj, token, (addPlaylistResponse) => {
                     let relations = [];
                     console.log("Track list ", tracklist);
@@ -294,7 +295,9 @@ function FileList(props) {
                     });
                 });
             });
+
         });
+
 
     }
 
