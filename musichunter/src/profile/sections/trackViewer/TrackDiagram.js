@@ -58,7 +58,8 @@ function TrackDiagram(props) {
         //     clearInterval(updateInterval);
 
         // }
-    }, []);
+        console.log("Props.points changed");
+    }, [props.points]);
     useEffect(() => {
         if (points.length > 0 && updateInterval === null && props.hash === props.store.currentSong.hash) {
             let audioPlayer = document.getElementById("audio-player");

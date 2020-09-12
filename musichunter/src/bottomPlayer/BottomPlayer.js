@@ -55,13 +55,13 @@ function BottomPlayer(props) {
     }, [props.store.isPlaying]);
     useEffect(() => {
         audioPlayer.onended = function () {
-            console.log("NEW URL = ", props.store.playlist.tracklist[props.store.playlistCounter]);
-            // console.log("NEW URL = ", props.store.playlist.tracklist[props.store.playlistCounter + 1].url);
+            console.log("NEW URL = ", props.store.playlist.tracks[props.store.playlistCounter]);
+            // console.log("NEW URL = ", props.store.playlist.tracks[props.store.playlistCounter + 1].url);
             console.log("PLAYLIST = ",props.store.playlist);
-            console.log("NEXT SONG = ",props.store.playlist.tracklist[props.store.playlistCounter + 1]);
+            console.log("NEXT SONG = ",props.store.playlist.tracks[props.store.playlistCounter + 1]);
             props.changeSong("");
 
-            props.changeSong(props.store.playlist.tracklist[props.store.playlistCounter + 1]);
+            props.changeSong(props.store.playlist.tracks[props.store.playlistCounter + 1]);
 
             props.changeCurrentTrack(props.store.playlistCounter + 1);
         }   
