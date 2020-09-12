@@ -53,7 +53,7 @@ function reducer(state = {}, action) {
     }
     if (action.type == "SET_PLAYLIST_AND_PLAY"){
         newState.playlist = action.playlist;
-        newState.currentSong = action.playlist.tracklist[0];
+        newState.currentSong = action.playlist.tracks[0];
         newState.isPlaying = true;
         return newState;
     }

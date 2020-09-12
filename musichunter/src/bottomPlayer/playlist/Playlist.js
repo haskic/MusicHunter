@@ -47,7 +47,7 @@ function Playlist(props) {
                     newTrackList.push(
                         <div className="track-item" key={index}>
                             <SongExposition artistName={element.artist}
-                                songName={element.name} albumCoverImage={element.coverImage}
+                                songName={element.name} albumCoverImage={element.imageUrl}
                                 isShowPlayOnHover={true} playIconImage={play2Icon} pauseIconImage={pause2Icon}
                                 isPlaying={false}
                                 isShowIcon={false}
@@ -63,7 +63,7 @@ function Playlist(props) {
                 else {
                     newTrackList.push(
                         <div className="track-item" key={index}>
-                            <SongExposition artistName={element.artist} songName={element.name} albumCoverImage={element.coverImage} playIconImage={play2Icon}
+                            <SongExposition artistName={element.artist} songName={element.name} albumCoverImage={element.imageUrl} playIconImage={play2Icon}
                                 pauseIconImage={pause2Icon} isShowIcon={true} isPlaying={isPlayingGlobal ? true : false}
                                 clickAlbumCoverHandler={() => { props.changePlayingToggle() }}></SongExposition>
                             <div className="right-form">
@@ -98,7 +98,7 @@ function Playlist(props) {
                 <div className="header">
                     <div className="top-title">Next Up</div>
                     <div className="clear-button-container">
-                        <button>Clear</button>
+                        <button>Clear</button>  
                     </div>
                     <div className="exit-button-container" onClick={playlistIconClickHandler}>
                         <img src={crossIcon}></img>
@@ -106,7 +106,7 @@ function Playlist(props) {
                 </div>
                 <div className="track-list">
                     <ReactReduxContext.Consumer>
-                        {({ store }) => { playlistUpdater(props.store.playlist.tracklist, store.getState().playlistCounter, store.getState().isPlaying) }}
+                        {({ store }) => { playlistUpdater(props.store.playlist.tracks, store.getState().playlistCounter, store.getState().isPlaying) }}
                     </ReactReduxContext.Consumer>
                     {tracklist}
                 </div>

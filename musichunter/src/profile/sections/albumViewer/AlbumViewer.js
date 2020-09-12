@@ -7,31 +7,31 @@ import default_song from './../../../song.mp3';
 import default_cover from './../../../yelawofCover.jpg';
 
 const default_album = {
-    Name: "IGOR 2019",
-    Artist: "Tyler the creator",
-    ImageUrl: default_cover,
-    Hash: "123123141532album",
-    Tracks: [
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack1" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack2" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack3" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack4" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack5" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack6" }
+    name: "IGOR 2019",
+    artist: "Tyler the creator",
+    imageUrl: default_cover,
+    hash: "123123141532album",
+    tracks: [
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack1" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack2" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack3" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack4" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack5" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack6" }
     ]
 }
 const default_album2 = {
-    Name: "IGOR 2019",
-    Artist: "Tyler the creator",
-    ImageUrl: default_cover,
-    Hash: "123123141532album12",
-    Tracks: [
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack1" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack2" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack3" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack4" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack5" },
-        { Name: "IGOR'S THEME", Artist: "Tyler the creator", ImageUrl: default_cover, HashUrl: default_song, listens: 1337, Hash: "albumtrack6" }
+    name: "IGOR 2019",
+    artist: "Tyler the creator",
+    imageUrl: default_cover,
+    hash: "123123141532album12",
+    tracks: [
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack1" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack2" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack3" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack4" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack5" },
+        { name: "IGOR'S THEME", artist: "Tyler the creator", imageUrl: default_cover, hashUrl: default_song, listens: 1337, hash: "albumtrack6" }
     ]
 }
 

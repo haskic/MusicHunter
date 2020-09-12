@@ -30,7 +30,7 @@ function Album(props) {
             //         props.changeSong(props.track);
             //     })
             // }
-            if (props.store.playlist.hash !== props.album.Hash) {
+            if (props.store.playlist.hash !== props.album.hash) {
                 let mypromise = new Promise((resolve, reject) => {
                     props.changeSong({ src: "" });
                     resolve();
@@ -41,7 +41,7 @@ function Album(props) {
                 })
                 console.log("PLAYLIST CHANHED !!!!");
                 // props.changeSong({ hash: "", src: "" });
-                setcurrentTrack(props.album.Tracks[0]);
+                setcurrentTrack(props.album.tracks[0]);
             }
             props.changeIsPlayingState(true);
             setisPlaying(true);
@@ -49,7 +49,7 @@ function Album(props) {
     }
     useEffect(() => {
         console.log("PLAYLIST CHANGE")
-        if (props.store.playlist.hash === props.album.Hash) {
+        if (props.store.playlist.hash === props.album.hash) {
             if (props.store.isPlaying) {
                 setisPlaying(true);
             }
@@ -62,7 +62,7 @@ function Album(props) {
         }
     }, [props.store.currentSong, props.store.isPlaying, props.store.playlist]);
     useEffect(() => {
-        if (props.album.Hash == props.store.playlist.hash) {
+        if (props.album.hash == props.store.playlist.hash) {
             setcurrentTrack(props.store.currentSong);
         }
 
@@ -77,7 +77,7 @@ function Album(props) {
 
     return (<div className="album-container">
         <div className="album-cover">
-            <img src={serverUrl + props.album.ImageUrl}></img>
+            <img src={serverUrl + props.album.imageUrl}></img>
         </div>
         <div className="album-data">
             <div className="album-control-info">
@@ -85,12 +85,12 @@ function Album(props) {
                     {isPlaying ? <img src={pauseIcon}></img> : <img src={playIcon}></img>}
                 </div>
                 <div className="album-info">
-                    <div className="album-artist">{props.album.Artist}</div>
-                    <div className="album-name">{props.album.Name}</div>
+                    <div className="album-artist">{props.album.artist}</div>
+                    <div className="album-name">{props.album.name}</div>
                 </div>
             </div>
-            <TrackDiagram points={points} hash={currentTrack.hash} albumHash={props.album.Hash}></TrackDiagram>
-            <TrackList tracklist={props.album.Tracks} currentTrack={currentTrack}></TrackList>
+            <TrackDiagram points={points} hash={currentTrack.hash} albumHash={props.album.hash}></TrackDiagram>
+            <TrackList tracklist={props.album.tracks} currentTrack={currentTrack}></TrackList>
             <div className="album-options">
                 <button>Like</button>
                 <button>Reposts</button>

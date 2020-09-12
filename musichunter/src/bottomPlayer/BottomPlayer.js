@@ -170,7 +170,7 @@ function BottomPlayer(props) {
     return (
         <div className="bottom-player">
             <ReactReduxContext.Consumer>
-                {({ store }) => <audio id="audio-player" src={store.getState().currentSong.src} type="audio/mpeg" >
+                {({ store }) => <audio id="audio-player" src={store.getState().currentSong.hashUrl} type="audio/mpeg" >
                 </audio>}
             </ReactReduxContext.Consumer>
             <div className="bottom-player-container" onDragStart={(e) => e.preventDefault()}>
@@ -194,7 +194,7 @@ function BottomPlayer(props) {
                 <div className="bottom-player-container-volumebar noselect">
                     <VolumeBar></VolumeBar>
                 </div>
-                <SongExposition artistName={props.store.currentSong.artist} songName={props.store.currentSong.name} albumCoverImage={props.store.currentSong.coverImage}></SongExposition>
+                <SongExposition artistName={props.store.currentSong.artist} songName={props.store.currentSong.name} albumCoverImage={props.store.currentSong.imageUrl}></SongExposition>
                 <div>
                     <Playlist></Playlist>
                 </div>
