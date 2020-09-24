@@ -2,18 +2,12 @@ import axios from 'axios';
 
 export default {
 
-    regisration: function (userObj, token, onProgressHandler, callback) {
-        axios.post('https://localhost:5001/api/regisration', userObj, {
+    regisration: function (userObj, token, callback) {
+        axios.post('https://localhost:5001/api/public/registration', userObj, {
             headers: {
-                'Content-Type': 'multipart/form-data',
-                "token": token
+                'Content-Type': 'application/json',
+                
             },
-            onUploadProgress: progressEvent => {
-                if (onProgressHandler) {
-                    onProgressHandler(progressEvent);
-
-                }
-            }
         }).then((res) => {
             if (callback) {
                 callback(res);

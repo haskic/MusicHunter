@@ -4,6 +4,9 @@ import crossIcon from './../../bottomPlayer/icons/cross.png';
 import './scss/Registration.scss';
 import PasswordForm from '../passwordForm/PasswordForm';
 import Success from '../../events/success/Success';
+import API from './../api/api';
+
+import token from './../../testData/token';
 
 import GoogleButton from '../components/GoogleButton';
 import InfoReceiver from './components/InfoReceiver';
@@ -61,8 +64,11 @@ function Registration(props) {
     }
     function infoReceiverSuccessHandler(infoObj) {
         setUserData({ ...userData, ...{ name: infoObj.name,lastname: infoObj.lastname } });
-        setisShowInfoReceiver(false);
-        setisSuccess(true);
+        API.regisration(userData,token,() => {
+            setisShowInfoReceiver(false);
+            setisSuccess(true)  ;
+        });
+        
     }
     function responseGoogle(response) {
         console.log("Google Response ", response);
