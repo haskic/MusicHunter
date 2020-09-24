@@ -25,5 +25,16 @@ export default {
                 callback(res);
             }
         });
+    },
+    login: function (userObj, callback){
+        axios.post('https://localhost:5001/api/public/login',userObj,{
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then((res) => {
+            if (callback){
+                callback(res);
+            }
+        });
     }
 }

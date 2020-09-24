@@ -6,6 +6,7 @@ import crossIcon from './../../bottomPlayer/icons/cross.png';
 import './scss/Login.scss';
 import PasswordForm from '../passwordForm/PasswordForm';
 import GoogleButton from '../components/GoogleButton';
+import api from '../api/api';
 
 function Login(props) {
 
@@ -36,9 +37,10 @@ function Login(props) {
 
     function passwordNextHandler(password) {
 
-        if (true) {
+        api.login({ email: userData.email, password: password }, (res) => {
+            props.setLoginState({ ...userData, ...{ token: res.data.token, hash: res.data.userHash } });
             console.log("Login success");
-        }
+        });
 
     }
 
@@ -103,7 +105,7 @@ export default connect(
             dispatch({ type: 'SET_IS_SHOW_LOGIN_FORM', payload: value })
         },
         setLoginState: (value) => {
-            dispatch({type: 'LOGIN_USER', payload: value})
+            dispatch({ type: 'LOGIN_USER', payload: value })
         }
     })
 )(Login);
