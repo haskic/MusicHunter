@@ -63,8 +63,11 @@ function Registration(props) {
         setisShowInfoReceiver(true);
     }
     function infoReceiverSuccessHandler(infoObj) {
-        setUserData({ ...userData, ...{ name: infoObj.name,lastname: infoObj.lastname } });
-        API.regisration(userData,token,() => {
+        console.log("INfo obj",infoObj);
+        // setUserData({ ...userData, ...{ Nickname: infoObj.name +  infoObj.lastname } });
+        // console.log("INfo obj",{ ...userData, ...{ nickname: infoObj.name +  infoObj.lastname } });
+
+        API.regisration({ ...userData, ...{ nickname: infoObj.name +  infoObj.lastname } },token,() => {
             setisShowInfoReceiver(false);
             setisSuccess(true)  ;
         });

@@ -39,6 +39,8 @@ function Login(props) {
 
         api.login({ email: userData.email, password: password }, (res) => {
             props.setLoginState({ ...userData, ...{ token: res.data.token, hash: res.data.userHash } });
+            props.changeIsShowState({ isShow: false });
+
             console.log("Login success");
         });
 
