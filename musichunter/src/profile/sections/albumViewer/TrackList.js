@@ -10,7 +10,7 @@ function TrackList(props) {
                 return <AlbumTrack track={value} number={index + 1} current={true}/>
             }
             else{
-                return <AlbumTrack track={value} number={index + 1} current={false}/>
+                return <AlbumTrack track={value} number={index + 1} current={false} setTrack={props.setTrack}/>
             }
         })}
     </div>)

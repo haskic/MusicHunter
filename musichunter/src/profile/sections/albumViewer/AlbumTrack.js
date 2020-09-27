@@ -5,7 +5,7 @@ import './scss/AlbumTrack.scss';
 function AlbumTrack(props) {
 
     return (<div className="track-item">
-        <div className="left-side" style={props.current? {color: 'blue'}: null}>
+        <div className="left-side" style={props.current? {color: 'blue'}: null} onClick={() => props.setTrack(props.track)}>
             <img src={props.track.imageUrl}></img>
             {props.number}
             <span>{props.track.name}</span>

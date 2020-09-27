@@ -75,13 +75,11 @@ function Album(props) {
         }
 
     }, [props.store.currentSong])
-    // useEffect(() => {
 
-    //     return () => {
-    //         console.log("TRACK UNMOUNT");
-    //     }
-    // }, [])
-
+    function albumTrackSelect(track){
+        // setcurrentTrack(track);
+        props.changeSong(track);
+    }
 
     return (<div className="album-container">
         <div className="album-cover">
@@ -98,7 +96,7 @@ function Album(props) {
                 </div>
             </div>
             <TrackDiagram points={currentPoints} hash={currentTrack.hash} albumHash={props.album.hash}></TrackDiagram>
-            <TrackList tracklist={props.album.tracks} currentTrack={currentTrack} albumHash={props.album.hash}></TrackList>
+            <TrackList tracklist={props.album.tracks} currentTrack={currentTrack} albumHash={props.album.hash} setTrack={(track) => albumTrackSelect(track)}></TrackList>
             <div className="album-options">
                 <button>Like</button>
                 <button>Reposts</button>
