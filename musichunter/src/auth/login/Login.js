@@ -8,6 +8,7 @@ import PasswordForm from '../passwordForm/PasswordForm';
 import GoogleButton from '../components/GoogleButton';
 import api from '../api/api';
 import Error from '../../events/error/Error';
+import Cookies from 'universal-cookie';
 
 function Login(props) {
 
@@ -51,26 +52,16 @@ function Login(props) {
             else {
                 let userObj = JSON.parse(res.data.user);
                 props.setLoginState({ ...userObj, ...{ token: res.data.token } });
+                cookiesSaver(res.data.token);
                 props.changeIsShowState({ isShow: false });
                 console.log("Login success");
             }
         });
     }
 
-    function passwordNextHandler(password) {
-        api.login({ email: userData.email, password: password }, (res) => {
-            console.log("Response ", res.data);
-            if (!res.data.status) {
-                setIsError(true);
-                setErrorMessage(res.data.message);
-            }
-            else {
-                let userObj = JSON.parse(res.data.user);
-                props.setLoginState({ ...userObj, ...{ token: res.data.token } });
-                props.changeIsShowState({ isShow: false });
-                console.log("Login success");
-            }
-        });
+    function cookiesSaver(token){
+        const cookies = new Cookies();
+        cookies.set("default_token",token)
 
     }
 

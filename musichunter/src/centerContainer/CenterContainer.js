@@ -59,16 +59,6 @@ function CenterContainer(props) {
             <Route path="/" component={HomePage}></Route>
         </Switch>
         <IsLoginChecker></IsLoginChecker>
-        {/* <GoogleLogin
-            clientId={googleAPI.clientId}
-            render={renderProps => null}
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-            isSignedIn={true}
-        /> */}
-
     </div>);
 }
 
