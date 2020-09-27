@@ -6,11 +6,11 @@ function TrackList(props) {
 
     return (<div className="tracklist">
         {props.tracklist.map((value, index) => {
-            if (value.hash == props.currentTrack.hash){
+            if (value.hashUrl == props.currentTrack.hashUrl){
                 return <AlbumTrack track={value} number={index + 1} current={true}/>
             }
             else{
-                return <AlbumTrack track={value} number={index + 1} />
+                return <AlbumTrack track={value} number={index + 1} current={false}/>
             }
         })}
     </div>)
