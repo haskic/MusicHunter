@@ -7,15 +7,19 @@ import './scss/Login.scss';
 import PasswordForm from '../passwordForm/PasswordForm';
 import GoogleButton from '../components/GoogleButton';
 import api from '../api/api';
+import Error from '../../events/error/Error';
 
 function Login(props) {
 
     const loginElement = useRef(null);
     const emailInput = useRef(null);
+    const passwordInput = useRef(null);
 
     const [isShowPasswordForm, setisShowPasswordForm] = useState(false);
     const [userData, setUserData] = useState({});
 
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     function clickOutOfFormHandler(event) {
         if (event.target.className === loginElement.current.className) {
@@ -30,15 +34,33 @@ function Login(props) {
     }
 
     function clickContinueButtonHandler() {
-        setUserData(Object.assign(userData, { email: emailInput.current.value }));
+        if (!isShowPasswordForm){
+            setUserData(Object.assign(userData, { email: emailInput.current.value }));
+            setisShowPasswordForm(true);
+            return;
+        }     
+        setUserData(Object.assign(userData, { password: passwordInput.current.value }));
+        api.login(userData, (res) => {
+            console.log("Response ", res.data);
+            if (!res.data.status) {
 
-        setisShowPasswordForm(true);
+            }
+            let userObj = JSON.parse(res.data.user);
+            props.setLoginState({ ...userObj, ...{ token: res.data.token } });
+            props.changeIsShowState({ isShow: false });
+            console.log("Login success");
+        });
     }
 
     function passwordNextHandler(password) {
 
         api.login({ email: userData.email, password: password }, (res) => {
-            props.setLoginState({ ...userData, ...{ token: res.data.token, hash: res.data.userHash } });
+            console.log("Response ", res.data);
+            if (!res.data.status) {
+
+            }
+            let userObj = JSON.parse(res.data.user);
+            props.setLoginState({ ...userObj, ...{ token: res.data.token } });
             props.changeIsShowState({ isShow: false });
 
             console.log("Login success");
@@ -63,25 +85,29 @@ function Login(props) {
         </div>
         <div className="login-form">
             <div className="login-form-container">
-                {isShowPasswordForm ? <PasswordForm title="Login" userData={userData} nextHandler={passwordNextHandler}></PasswordForm> :
-                    <React.Fragment>
-                        <div className="title">Login</div>
 
-                        <label for="email-input">
-                            <input type="text" name="email-input" placeholder="Enter your email address" autoComplete="off" ref={emailInput}></input>
-                        </label>
-                        <button onClick={clickContinueButtonHandler}>Continue</button>
-                        <div className="helper">
-                            <span>Need help?</span>
-                        </div>
-                        <div className="delimiter">
-                            <div></div>
-                            <div className="delimiter-title">or</div>
-                            <div></div>
-                        </div>
-                        <GoogleButton onSuccess={responseGoogle}></GoogleButton>
-                    </React.Fragment>
-                }
+                <React.Fragment>
+                    <div className="title">Login</div>
+
+                    <label for="email-input">
+                        <input type="text" name="email-input" placeholder="Email" autoComplete="off" ref={emailInput}></input>
+                    </label>
+                    {isShowPasswordForm ? <label for="password-input">
+                        <input type="password" name="password-input" placeholder="Password" autoComplete="off" ref={passwordInput}></input>
+                    </label> : null}
+                    <Error message={"Alexader"}></Error>
+                    <button onClick={clickContinueButtonHandler}>Continue</button>
+                    <div className="helper">
+                        <span>Need help?</span>
+                    </div>
+                    <div className="delimiter">
+                        <div></div>
+                        <div className="delimiter-title">or</div>
+                        <div></div>
+                    </div>
+                    <GoogleButton onSuccess={responseGoogle}></GoogleButton>
+                </React.Fragment>
+
 
             </div>
         </div>
