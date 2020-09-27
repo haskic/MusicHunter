@@ -67,7 +67,7 @@ function Registration(props) {
         // setUserData({ ...userData, ...{ Nickname: infoObj.name +  infoObj.lastname } });
         // console.log("INfo obj",{ ...userData, ...{ nickname: infoObj.name +  infoObj.lastname } });
 
-        API.regisration({ ...userData, ...{ nickname: infoObj.name +  infoObj.lastname } },token,() => {
+        API.regisration({ ...userData, ...{ name: infoObj.name, lastname: infoObj.lastname } },token,() => {
             setisShowInfoReceiver(false);
             setisSuccess(true)  ;
         });
