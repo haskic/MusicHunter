@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
 import { connect } from 'react-redux';
+import Cookies from 'universal-cookie';
+
 import Registration from '../auth/registration/Registration';
 import animator from './../animation/animator';
 
@@ -41,6 +43,11 @@ function TopMenu(props) {
     }
     function logoutHandler() {
         props.logoutUser();
+        clearCookies();
+    }
+    function clearCookies(){
+        const cookies = new Cookies();
+        cookies.remove("default_token");
     }
     return (
         <div className="top-menu">
@@ -69,7 +76,7 @@ function TopMenu(props) {
                                     <div>Settings</div>
                                     <GoogleLogout
                                         render={renderProps => (
-                                            <div onClick={() => { renderProps.onClick(); logoutHandler() }} style={googleButtonStyle} disabled={renderProps.disabled} >Sign Out</div>
+                                            <div onClick={() => { renderProps.onClick(); logoutHandler(); }} style={googleButtonStyle} disabled={renderProps.disabled} >Sign Out</div>
                                         )}
                                     ></GoogleLogout>
                                 </div>
