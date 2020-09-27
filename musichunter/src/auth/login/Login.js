@@ -34,36 +34,42 @@ function Login(props) {
     }
 
     function clickContinueButtonHandler() {
-        if (!isShowPasswordForm){
-            setUserData(Object.assign(userData, { email: emailInput.current.value }));
+        if (!isShowPasswordForm) {
             setisShowPasswordForm(true);
             return;
-        }     
-        setUserData(Object.assign(userData, { password: passwordInput.current.value }));
-        api.login(userData, (res) => {
+        }
+        let userObj = {
+            email: emailInput.current.value,
+            password: passwordInput.current.value
+        }
+        api.login(userObj, (res) => {
             console.log("Response ", res.data);
             if (!res.data.status) {
-
+                setIsError(true);
+                setErrorMessage(res.data.message);
             }
-            let userObj = JSON.parse(res.data.user);
-            props.setLoginState({ ...userObj, ...{ token: res.data.token } });
-            props.changeIsShowState({ isShow: false });
-            console.log("Login success");
+            else {
+                let userObj = JSON.parse(res.data.user);
+                props.setLoginState({ ...userObj, ...{ token: res.data.token } });
+                props.changeIsShowState({ isShow: false });
+                console.log("Login success");
+            }
         });
     }
 
     function passwordNextHandler(password) {
-
         api.login({ email: userData.email, password: password }, (res) => {
             console.log("Response ", res.data);
             if (!res.data.status) {
-
+                setIsError(true);
+                setErrorMessage(res.data.message);
             }
-            let userObj = JSON.parse(res.data.user);
-            props.setLoginState({ ...userObj, ...{ token: res.data.token } });
-            props.changeIsShowState({ isShow: false });
-
-            console.log("Login success");
+            else {
+                let userObj = JSON.parse(res.data.user);
+                props.setLoginState({ ...userObj, ...{ token: res.data.token } });
+                props.changeIsShowState({ isShow: false });
+                console.log("Login success");
+            }
         });
 
     }
@@ -95,7 +101,7 @@ function Login(props) {
                     {isShowPasswordForm ? <label for="password-input">
                         <input type="password" name="password-input" placeholder="Password" autoComplete="off" ref={passwordInput}></input>
                     </label> : null}
-                    <Error message={"Alexader"}></Error>
+                    {isError ? <Error message={errorMessage}></Error> : null}
                     <button onClick={clickContinueButtonHandler}>Continue</button>
                     <div className="helper">
                         <span>Need help?</span>
