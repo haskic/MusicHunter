@@ -37,7 +37,7 @@ function Album(props) {
                     resolve();
                 });
                 mypromise.then(() => {
-                    props.changePlaylist(props.album);
+                    props.changePlaylistAndPlay(props.album);
 
                 })
                 console.log("PLAYLIST CHANHED !!!!");
@@ -76,9 +76,14 @@ function Album(props) {
 
     }, [props.store.currentSong])
 
-    function albumTrackSelect(track){
+    function albumTrackSelect(track) {
         // setcurrentTrack(track);
         props.changeSong(track);
+        props.changeIsPlayingState(true);
+        if (props.album.hash !== props.store.playlist.hash) {
+            props.changePlaylist(props.album);
+        }
+       
     }
 
     return (<div className="album-container">
@@ -126,8 +131,11 @@ export default connect(
         changeIsPlayingState: (value) => {
             dispatch({ type: 'SET_PLAYING_STATE', isPlaying: value })
         },
-        changePlaylist: (value) => {
+        changePlaylistAndPlay: (value) => {
             dispatch({ type: 'SET_PLAYLIST_AND_PLAY', playlist: value })
+        },
+        changePlaylist: (value) => {
+            dispatch({ type: 'SET_PLAYLIST', playlist: value })
         }
     })
 )(Album);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import HomePage from '../home/HomePage';
 import Uploader from './../upload/Uploader';
@@ -32,33 +32,23 @@ const googleButtonStyle = {
 
 
 function CenterContainer(props) {
-
     useEffect(() => {
-
 
     }, [])
 
-    function responseGoogle(response) {
-        console.log("Google Response ", response);
-        const currentUser = {
-            name: response.profileObj.name,
-            email: response.profileObj.email,
-            imageUrl: response.profileObj.imageUrl
-        };
-        props.setLoginState(currentUser);
+    const [isLogin, setIsLogin] = useState(false);
+    function onSuccessAutoLogin() {
+        setIsLogin(true);
     }
-
-
-
     return (<div className='center-container'>
-        <Switch>
+        {isLogin ? <Switch>
             <Route path="/profile" component={Profile}></Route>
             <Route path="/home" component={HomePage}></Route>
             <Route path="/upload" component={Uploader}></Route>
             <Route path="/messenger" component={Messenger}></Route>
             <Route path="/" component={HomePage}></Route>
-        </Switch>
-        <IsLoginChecker></IsLoginChecker>
+        </Switch> : null}
+        <IsLoginChecker onSuccessLogin={() => onSuccessAutoLogin()}></IsLoginChecker>
     </div>);
 }
 
@@ -81,7 +71,7 @@ export default connect(
             dispatch({ type: 'SET_IS_SHOW_LOGIN_FORM', payload: value })
         },
         setLoginState: (value) => {
-            dispatch({type: 'LOGIN_USER', payload: value})
+            dispatch({ type: 'LOGIN_USER', payload: value })
         }
     })
 )(CenterContainer);

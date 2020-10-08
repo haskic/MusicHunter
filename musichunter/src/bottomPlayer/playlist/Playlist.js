@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactReduxContext, connect } from 'react-redux';
 
 import playlistBlackIcon from './../icons/playlistBlack.png';
@@ -14,7 +14,7 @@ import SongExposition from '../songExposition/SongExposition';
 
 function Playlist(props) {
     const [playlistIcon, setPlaylistIcon] = useState(playlistBlackIcon);
-    const [tracklist, settracklist] = useState([]);
+    const [tracklist, setTracklist] = useState([]);
     const [notConvertedTrackList, setnotConvertedTrackList] = useState([]);
     const [currentTrack, setcurrentTrack] = useState(0);
     const [isPlaying, setisPlaying] = useState(false);
@@ -31,6 +31,8 @@ function Playlist(props) {
         var re = new RegExp(`\\b${str}\\b`, 'gi');
         element.className = element.className.replace(re, "");
     }
+
+
     function playlistUpdater(trackArray, playlistCounter, isPlayingGlobal) {
         if (isPlayingGlobal == isPlaying && playlistCounter == currentTrack && notConvertedTrackList[notConvertedTrackList.length - 1]?.name == trackArray[trackArray.length - 1]?.name && notConvertedTrackList.length != 0 && trackArray.length == notConvertedTrackList.length) {
             return 0;
@@ -75,9 +77,54 @@ function Playlist(props) {
                     );
                 }
             });
-            settracklist(newTrackList);
+            setTracklist(newTrackList);
         }
     }
+
+    function trackRenderer(track, currentSong) {
+        console.log("Track rendere")
+
+        if (track.hashUrl == currentSong.hashUrl) {
+            console.log("hashes equal", track.hashUrl, currentSong.hashUrl)
+            return <div className="track-item">
+                <SongExposition artistName={track.artist}
+                    songName={track.name} albumCoverImage={track.imageUrl}
+                    isShowPlayOnHover={false} playIconImage={play2Icon} pauseIconImage={pause2Icon}
+                    isPlaying={isPlaying}
+                    isShowIcon={true}
+                    clickAlbumCoverHandler={() => {props.changePlayingToggle(); }}></SongExposition>
+                <div className="right-form">
+                    <img src={crossIcon} title="remove from Next Up"></img>
+                    <img src={heartBlackIcon} title="Like"></img>
+                    <div>2:42</div>
+                </div>
+            </div>
+        }
+
+        return <div className="track-item">
+            <SongExposition artistName={track.artist} songName={track.name} albumCoverImage={track.imageUrl} playIconImage={play2Icon}
+                pauseIconImage={pause2Icon} isShowIcon={false} isShowPlayOnHover={true}
+                clickAlbumCoverHandler={() => { props.changeSong(track); props.changeIsPlayingState(true); }}></SongExposition>
+            <div className="right-form">
+                <img src={crossIcon} title="remove from Next Up"></img>
+                <img src={heartBlackIcon} title="Like"></img>
+                <div>2:42</div>
+            </div>
+        </div>
+    }
+
+    useEffect(() => {
+        setTracklist(props.store.playlist.tracks);
+    }, [props.store.playlist]);
+
+    useEffect(() => {
+        setcurrentTrack(props.store.currentSong);
+    }, [props.store.currentSong]);
+    useEffect(() => {
+        setisPlaying(props.store.isPlaying);
+    }, [props.store.isPlaying]);
+
+
     function playlistIconClickHandler() {
         let el = document.getElementsByClassName("playlist-list-container")[0];
         removeClass(' animated-show', el);
@@ -98,17 +145,21 @@ function Playlist(props) {
                 <div className="header">
                     <div className="top-title">Next Up</div>
                     <div className="clear-button-container">
-                        <button>Clear</button>  
+                        <button>Clear</button>
                     </div>
                     <div className="exit-button-container" onClick={playlistIconClickHandler}>
                         <img src={crossIcon}></img>
                     </div>
                 </div>
                 <div className="track-list">
-                    <ReactReduxContext.Consumer>
+                    {/* <ReactReduxContext.Consumer>
                         {({ store }) => { playlistUpdater(props.store.playlist.tracks, store.getState().playlistCounter, store.getState().isPlaying) }}
                     </ReactReduxContext.Consumer>
-                    {tracklist}
+                    {tracklist} */}
+                    {console.log("SOME UPDATES")}
+                    {tracklist.map((track) => {
+                        return trackRenderer(track, currentTrack);
+                    })}
                 </div>
             </div>
         </div>
