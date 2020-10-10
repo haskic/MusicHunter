@@ -15,7 +15,7 @@ const serverUrl = "https://localhost:5001/images/"
 function Album(props) {
     const [isPlaying, setisPlaying] = useState(false);
     const [currentTrack, setcurrentTrack] = useState({ hash: "" });
-    const [currentPoints, setCurrentPoints] = useState(JSON.parse(props.album.tracks[1].histogram).pointArray);
+    const [currentPoints, setCurrentPoints] = useState(JSON.parse(props.album.tracks[0].histogram).pointArray);
     function controlClickHandler() {
         if (isPlaying) {
             props.changeIsPlayingState(false);
@@ -101,7 +101,7 @@ function Album(props) {
                     <div className="album-name">{props.album.name}</div>
                 </div>
             </div>
-            <TrackDiagram points={currentPoints} hash={currentTrack.hash} albumHash={props.album.hash}></TrackDiagram>
+            <TrackDiagram points={currentPoints} hashUrl={currentTrack.hashUrl} albumHash={props.album.hash}></TrackDiagram>
             <TrackList tracklist={props.album.tracks} currentTrack={currentTrack} albumHash={props.album.hash} setTrack={(track) => albumTrackSelect(track)}></TrackList>
             <div className="album-options">
                 <button>Like</button>

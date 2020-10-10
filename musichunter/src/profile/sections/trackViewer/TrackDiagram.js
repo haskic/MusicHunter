@@ -28,6 +28,12 @@ function TrackDiagram(props) {
     const [updateInterval, setupdateInterval] = useState(null);
     const [points, setPoints] = useState([]);
     useEffect(() => {
+        return () => {
+            clearInterval(updateInterval);
+            console.log("useeffect[updatedInterval] deleted", updateInterval)
+        };
+    }, [updateInterval])
+    useEffect(() => {
         let newPoints = [];
         for (let i = 0; i < 702; i += 3) {
             // let heightValue = randomInteger(15, 50);
@@ -61,36 +67,43 @@ function TrackDiagram(props) {
         console.log("Props.points changed");
     }, [props.points]);
     useEffect(() => {
-        if (points.length > 0 && updateInterval === null && props.hash === props.store.currentSong.hash) {
+        console.log("TRY TO SET INTERVAL .................................")
+        if (points.length > 0 && updateInterval === null && props.hashUrl === props.store.currentSong.hashUrl) {
+            console.log("SET INTERVAL .................................")
             let audioPlayer = document.getElementById("audio-player");
             let timer = setInterval(() => {
                 let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
                 // console.log("UPDATING");
                 updateDiagram(canvasElement, currentX);
             }, 50);
-            setupdateInterval(timer);
+            setupdateInterval(prevState => {
+                if (prevState !== null) {
+                    clearInterval(prevState);
+                }
+                return timer;
+            });
             console.log("TIMER ID  = ", updateInterval);
             console.log("TIMER ID normal = ", timer);
         }
         drawDiagram();
     }, [points])
-    useEffect(() => {
-        return () => {
-            clearInterval(updateInterval);
-            console.log("useeffect[updatedInterval] deleted")
-        };
-    }, [updateInterval])
+
     useEffect(() => {
         console.log("CHANGE TRACK TRIGGER");
         if (props.albumHash) {
-            if (props.albumHash == props.store.playlist.hash && props.hash === props.store.currentSong.hash) {
+            if (props.albumHash == props.store.playlist.hash && props.hashUrl === props.store.currentSong.hashUrl) {
                 setisActive(true);
                 let audioPlayer = document.getElementById("audio-player");
                 let timer = setInterval(() => {
                     let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
                     updateDiagram(canvasElement, currentX);
                 }, 50);
-                setupdateInterval(timer);
+                setupdateInterval(prevState => {
+                    if (prevState !== null) {
+                        clearInterval(prevState);
+                    }
+                    return timer;
+                });
                 // console.log("TIMER ID  = ", updateInterval);
                 // console.log("TIMER ID normal = ", timer);
             }
@@ -102,7 +115,7 @@ function TrackDiagram(props) {
             }
         }
         else {
-            if (props.hash === props.store.currentSong.hash) {
+            if (props.hashUrl === props.store.currentSong.hashUrl) {
                 setisActive(true);
                 let audioPlayer = document.getElementById("audio-player");
                 if (points.length > 0) {
@@ -110,7 +123,12 @@ function TrackDiagram(props) {
                         let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
                         updateDiagram(canvasElement, currentX);
                     }, 50);
-                    setupdateInterval(timer);
+                    setupdateInterval(prevState => {
+                        if (prevState !== null) {
+                            clearInterval(prevState);
+                        }
+                        return timer;
+                    });
                     // console.log("TIMER ID  = ", updateInterval);
                     // console.log("TIMER ID normal = ", timer);
                 }
@@ -133,7 +151,7 @@ function TrackDiagram(props) {
         let rect = canvas.current.getBoundingClientRect();
         let ctx = canvas.current.getContext('2d');
         ctx.clearRect(0, 0, rect.width, rect.height);
-        // console.log("POINTS", points);
+        console.log("Update diagram fucntion");
         points.forEach((element, index) => {
             if (element.x <= currentX - element.width) {
                 ctx.fillStyle = 'rgba(0,0,254,1)';
