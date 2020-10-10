@@ -43,6 +43,7 @@ function Album(props) {
                 console.log("PLAYLIST CHANHED !!!!");
                 // props.changeSong({ hash: "", src: "" });
                 setcurrentTrack(props.album.tracks[0]);
+                console.log("Track info",props.album.tracks[0]);
             }
             props.changeIsPlayingState(true);
             setisPlaying(true);

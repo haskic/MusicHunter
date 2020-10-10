@@ -14,7 +14,7 @@ function Track(props) {
             setisPlaying(false);
         }
         else {
-            if (props.store.currentSong.hash !== props.track.hash) {
+            if (props.store.currentSong.hashUrl !== props.track.hashUrl) {
                 let mypromise = new Promise((resolve, reject) => {
                     props.changeSong({ src: "" });
                     resolve();
@@ -28,7 +28,7 @@ function Track(props) {
         }
     }
     useEffect(() => {
-        if (props.store.currentSong.hash == props.track.hash) {
+        if (props.store.currentSong.hashUrl == props.track.hashUrl) {
             if (props.store.isPlaying) {
                 setisPlaying(true);
             }
@@ -60,7 +60,7 @@ function Track(props) {
                     <div className="track-name">{props.track.name}</div>
                 </div>
             </div>
-            <TrackDiagram hash={props.track.hash} points={props.track.points}></TrackDiagram>
+            <TrackDiagram hash={undefined} points={JSON.parse(props.track.histogram).pointArray}></TrackDiagram>
             <div className="track-options">
                 <button>Like</button>
                 <button>Reposts</button>

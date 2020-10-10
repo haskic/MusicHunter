@@ -48,6 +48,7 @@ function TrackViewer(props) {
     const [tracks, setTracks] = useState([]);
     useEffect(() => {
         API.getTracks(props.store.currentUser.hash, props.store.currentUser.token, (res) => {
+            console.log("TRACK DATA = ", res);
             setTracks(JSON.parse(res.data.tracks));
             console.log("TRACK DATA = ", res);
         });
@@ -60,14 +61,7 @@ function TrackViewer(props) {
         <Track track={default_track5}></Track> */}
         {tracks.map && tracks.map((value) => {
             console.log("IMAGE URL =",value.ImageUrl);
-            return <Track track={{
-                name: value.Name,
-                artist: value.Artist,
-                imageUrl: "https://localhost:5001/images/" + value.ImageUrl,
-                hashUrl: "https://localhost:5001/music/" + value.HashUrl,
-                hash: value.HashUrl,
-                points: JSON.parse(value.Histogram).pointArray
-            }}></Track>
+            return <Track track={value}></Track>
         })}
 
     </div>);
