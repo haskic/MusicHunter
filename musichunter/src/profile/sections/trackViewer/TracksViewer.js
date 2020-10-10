@@ -63,7 +63,7 @@ function TrackViewer(props) {
             return <Track track={{
                 name: value.Name,
                 artist: value.Artist,
-                coverImage: "https://localhost:5001/images/" + value.ImageUrl,
+                imageUrl: "https://localhost:5001/images/" + value.ImageUrl,
                 hashUrl: "https://localhost:5001/music/" + value.HashUrl,
                 hash: value.HashUrl,
                 points: JSON.parse(value.Histogram).pointArray

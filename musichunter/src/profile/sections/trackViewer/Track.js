@@ -48,7 +48,7 @@ function Track(props) {
     }, [])
     return (<div className="track-container">
         <div className="album-cover">
-            <img src={props.track.coverImage}></img>
+            <img src={props.track.imageUrl}></img>
         </div>
         <div className="track-data">
             <div className="track-control-info">
