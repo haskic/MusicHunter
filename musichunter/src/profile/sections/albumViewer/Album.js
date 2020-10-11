@@ -68,8 +68,8 @@ function Album(props) {
             setcurrentTrack(props.store.currentSong);
             if (props.store.currentSong?.histogram) {
                 console.log("POINTS CHANGED");
-                setCurrentPoints(JSON.parse(props.store.currentSong.histogram).pointArray);
-
+                // setCurrentPoints(JSON.parse(props.store.currentSong.histogram).pointArray);
+                console.log(JSON.parse(props.store.currentSong.histogram).pointArray);
             }
             // setCurrentPoints(JSON.parse(props.store.currentSong.histogram).pointArray);
             console.log("New current track:", props.store.currentSong);
@@ -81,6 +81,9 @@ function Album(props) {
         // setcurrentTrack(track);
         props.changeSong(track);
         props.changeIsPlayingState(true);
+        setcurrentTrack(track);
+
+        setCurrentPoints(JSON.parse(track.histogram).pointArray);
         if (props.album.hash !== props.store.playlist.hash) {
             props.changePlaylist(props.album);
         }

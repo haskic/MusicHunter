@@ -41,7 +41,7 @@ function TrackDiagram(props) {
             // ctx.fillRect(i, 0, 2.5, heightValue);
             newPoints.push({ x: i, y: 70, width: 2.2, height: -props.points[i] });
         }
-        setPoints(newPoints);
+        setPoints((prevState) => newPoints);
         // console.log("NEWPOINTS", newPoints, props.hash);
         // drawDiagram();
         // if (props.hash === props.store.currentSong.hash) {
@@ -64,27 +64,50 @@ function TrackDiagram(props) {
         //     clearInterval(updateInterval);
 
         // }
-        console.log("Props.points changed");
+        console.log("Props.points changed",props.points);
     }, [props.points]);
     useEffect(() => {
-        console.log("TRY TO SET INTERVAL .................................")
-        if (points.length > 0 && updateInterval === null && props.hashUrl === props.store.currentSong.hashUrl) {
+        console.log("TRY TO SET INTERVAL .................................");
+        console.log("POINTS STATE ", points);
+
+        if (points.length > 0 &&  props.hashUrl === props.store.currentSong.hashUrl) {
             console.log("SET INTERVAL .................................")
             let audioPlayer = document.getElementById("audio-player");
-            let timer = setInterval(() => {
-                let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
-                // console.log("UPDATING");
-                updateDiagram(canvasElement, currentX);
-            }, 50);
-            setupdateInterval(prevState => {
-                if (prevState !== null) {
-                    clearInterval(prevState);
-                }
-                return timer;
-            });
-            console.log("TIMER ID  = ", updateInterval);
-            console.log("TIMER ID normal = ", timer);
+            if (props.store.isPlaying === true) {
+                let timer = setInterval(() => {
+                    let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
+                    // console.log("UPDATING");
+                    updateDiagram(canvasElement, currentX);
+                }, 50);
+                setupdateInterval(prevState => {
+                    if (prevState !== null) {
+                        clearInterval(prevState);
+                    }
+                    return timer;
+                });
+                console.log("TIMER ID  = ", updateInterval);
+                console.log("TIMER ID normal = ", timer);
+            }
+            // else {
+            //     let timer = setInterval(() => {
+            //         let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
+            //         // console.log("UPDATING");
+            //         updateDiagram(canvasElement, currentX);
+            //     }, 50);
+            //     setupdateInterval(prevState => {
+            //         if (prevState !== null) {
+            //             clearInterval(prevState);
+            //         }
+            //         return timer;
+            //     });
+            //     console.log("TIMER ID  = ", updateInterval);
+            //     console.log("TIMER ID normal = ", timer);
+
+
+            // }
+
         }
+
         drawDiagram();
     }, [points])
 
@@ -148,10 +171,10 @@ function TrackDiagram(props) {
 
 
     function updateDiagram(canvas, currentX) {
+        console.log("Updating diagram");
         let rect = canvas.current.getBoundingClientRect();
         let ctx = canvas.current.getContext('2d');
         ctx.clearRect(0, 0, rect.width, rect.height);
-        console.log("Update diagram fucntion");
         points.forEach((element, index) => {
             if (element.x <= currentX - element.width) {
                 ctx.fillStyle = 'rgba(0,0,254,1)';
