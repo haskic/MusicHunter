@@ -36,41 +36,34 @@ function TrackDiagram(props) {
     useEffect(() => {
         let newPoints = [];
         for (let i = 0; i < 702; i += 3) {
-            // let heightValue = randomInteger(15, 50);
-            // console.log("HEIGHTValue = ", heightValue);
-            // ctx.fillRect(i, 0, 2.5, heightValue);
             newPoints.push({ x: i, y: 70, width: 2.2, height: -props.points[i] });
         }
         setPoints((prevState) => newPoints);
-        // console.log("NEWPOINTS", newPoints, props.hash);
-        // drawDiagram();
-        // if (props.hash === props.store.currentSong.hash) {
-        //     setisActive(true);
-        //     let audioPlayer = document.getElementById("audio-player");
-        //     let timer = setInterval(() => {
-        //         let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
-        //         updateDiagram(canvasElement, currentX);
-        //     }, 50);
-        //     if (updateInterval === null) {
-        //         setupdateInterval(timer);
-        //     }
-        //     console.log("TIMER ID  = ", updateInterval);
-        //     console.log("TIMER ID normal = ", timer);
-
-        // }
-
-        // return () => {
-        //     console.log("Trackdiagram deleted");
-        //     clearInterval(updateInterval);
-
-        // }
-        console.log("Props.points changed",props.points);
+        console.log("Props.points changed", props.points);
     }, [props.points]);
+    useEffect(() => {
+        if (!props.isActive) {
+            clearInterval(updateInterval);
+        }
+        else {
+            let audioPlayer = document.getElementById("audio-player");
+            let timer = setInterval(() => {
+                let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
+                updateDiagram(canvasElement, currentX);
+            }, 50);
+            setupdateInterval(prevState => {
+                if (prevState !== null) {
+                    clearInterval(prevState);
+                }
+                return timer;
+            });
+        }
+    }, [props.isActive])
     useEffect(() => {
         console.log("TRY TO SET INTERVAL .................................");
         console.log("POINTS STATE ", points);
 
-        if (points.length > 0 &&  props.hashUrl === props.store.currentSong.hashUrl) {
+        if (points.length > 0 && props.hashUrl === props.store.currentSong.hashUrl) {
             console.log("SET INTERVAL .................................")
             let audioPlayer = document.getElementById("audio-player");
             if (props.store.isPlaying === true) {
@@ -115,7 +108,7 @@ function TrackDiagram(props) {
         console.log("CHANGE TRACK TRIGGER");
         if (props.albumHash) {
             if (props.albumHash == props.store.playlist.hash && props.hashUrl === props.store.currentSong.hashUrl) {
-                setisActive(true);
+                // setisActive(true);
                 let audioPlayer = document.getElementById("audio-player");
                 let timer = setInterval(() => {
                     let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
@@ -132,14 +125,14 @@ function TrackDiagram(props) {
             }
             else {
                 clearInterval(updateInterval);
-                setisActive(false);
+                // setisActive(false);
                 drawDiagram();
 
             }
         }
         else {
             if (props.hashUrl === props.store.currentSong.hashUrl) {
-                setisActive(true);
+                // setisActive(true);
                 let audioPlayer = document.getElementById("audio-player");
                 if (points.length > 0) {
                     let timer = setInterval(() => {
@@ -160,7 +153,7 @@ function TrackDiagram(props) {
             }
             else {
                 clearInterval(updateInterval);
-                setisActive(false);
+                // setisActive(false);
                 drawDiagram();
 
             }

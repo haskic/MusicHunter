@@ -22,15 +22,6 @@ function Album(props) {
             setisPlaying(false);
         }
         else {
-            // if (props.store.playlist.hash !== props.album.hash) {
-            //     let mypromise = new Promise((resolve, reject) => {
-            //         props.changeSong({ src: "" });
-            //         resolve();
-            //     });
-            //     mypromise.then(() => {
-            //         props.changeSong(props.track);
-            //     })
-            // }
             if (props.store.playlist.hash !== props.album.hash) {
                 let mypromise = new Promise((resolve, reject) => {
                     props.changeSong({ src: "" });
@@ -41,14 +32,20 @@ function Album(props) {
 
                 })
                 console.log("PLAYLIST CHANHED !!!!");
-                // props.changeSong({ hash: "", src: "" });
                 setcurrentTrack(props.album.tracks[0]);
-                console.log("Track info",props.album.tracks[0]);
+                console.log("Track info", props.album.tracks[0]);
             }
             props.changeIsPlayingState(true);
             setisPlaying(true);
         }
     }
+    useEffect(() => {
+        if (props.store.playlist.hash === props.album.hash) {
+            setcurrentTrack(props.store.currentSong);
+            setCurrentPoints(JSON.parse(props.store.currentSong.histogram).pointArray);
+
+        }
+    }, [])
     useEffect(() => {
         console.log("PLAYLIST CHANGE")
         if (props.store.playlist.hash === props.album.hash) {
@@ -87,7 +84,7 @@ function Album(props) {
         if (props.album.hash !== props.store.playlist.hash) {
             props.changePlaylist(props.album);
         }
-       
+
     }
 
     return (<div className="album-container">
@@ -104,7 +101,7 @@ function Album(props) {
                     <div className="album-name">{props.album.name}</div>
                 </div>
             </div>
-            <TrackDiagram points={currentPoints} hashUrl={currentTrack.hashUrl} albumHash={props.album.hash}></TrackDiagram>
+            <TrackDiagram points={currentPoints} hashUrl={currentTrack.hashUrl} albumHash={props.album.hash} isActive={isPlaying}></TrackDiagram>
             <TrackList tracklist={props.album.tracks} currentTrack={currentTrack} albumHash={props.album.hash} setTrack={(track) => albumTrackSelect(track)}></TrackList>
             <div className="album-options">
                 <button>Like</button>
