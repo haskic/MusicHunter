@@ -48,13 +48,14 @@ function reducer(state = {}, action) {
     if (action.type == "SET_PLAYLIST"){
         // newState.playlist = {name: "DEFAULT PLAYLIST", tracklist: action.tracklist}
         newState.playlist = action.playlist
-
+        newState.playlistCounter = 0;
         return newState;
     }
     if (action.type == "SET_PLAYLIST_AND_PLAY"){
         newState.playlist = action.playlist;
         newState.currentSong = action.playlist.tracks[0];
         newState.isPlaying = true;
+        newState.playlistCounter = 0;
         return newState;
     }
     if (action.type == "LOGIN_USER"){

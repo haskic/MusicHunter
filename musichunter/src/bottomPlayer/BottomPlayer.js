@@ -59,10 +59,12 @@ function BottomPlayer(props) {
             // console.log("NEW URL = ", props.store.playlist.tracks[props.store.playlistCounter + 1].url);
             console.log("PLAYLIST = ",props.store.playlist);
             console.log("NEXT SONG = ",props.store.playlist.tracks[props.store.playlistCounter + 1]);
-            props.changeSong("");
+            console.log("DATA ",props.store.playlist.tracks.length,props.store.playlistCounter);
 
+            if (props.store.playlist.tracks.length - 1 == props.store.playlistCounter){
+                return;
+            }
             props.changeSong(props.store.playlist.tracks[props.store.playlistCounter + 1]);
-
             props.changeCurrentTrack(props.store.playlistCounter + 1);
         }   
     }, [props.store.playlistCounter,props.store.playlist]);
