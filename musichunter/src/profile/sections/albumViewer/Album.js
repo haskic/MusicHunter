@@ -23,14 +23,7 @@ function Album(props) {
         }
         else {
             if (props.store.playlist.hash !== props.album.hash) {
-                let mypromise = new Promise((resolve, reject) => {
-                    props.changeSong({ src: "" });
-                    resolve();
-                });
-                mypromise.then(() => {
-                    props.changePlaylistAndPlay(props.album);
-
-                })
+                props.changePlaylistAndPlay(props.album);
                 console.log("PLAYLIST CHANHED !!!!");
                 setcurrentTrack(props.album.tracks[0]);
                 console.log("Track info", props.album.tracks[0]);
@@ -76,19 +69,23 @@ function Album(props) {
         setcurrentTrack({ hash: "" });
     }, [props.store.currentSong])
 
-    function albumTrackSelect(track) {
+    function albumTrackSelect(track,trackNumber) {
         // setcurrentTrack(track);
         if (track.hashUrl === props.store.currentSong.hashUrl) {
             return;
         }
         props.changeSong(track);
         props.changeIsPlayingState(true);
+        console.log("TRACK NUmber ==================",trackNumber);
+
         setcurrentTrack(track);
 
         setCurrentPoints(JSON.parse(track.histogram).pointArray);
         if (props.album.hash !== props.store.playlist.hash) {
             props.changePlaylist(props.album);
         }
+        props.changePlaylistCounter(trackNumber - 1);
+
 
     }
 
@@ -107,7 +104,7 @@ function Album(props) {
                 </div>
             </div>
             <TrackDiagram points={currentPoints} hashUrl={currentTrack.hashUrl} albumHash={props.album.hash} isActive={isPlaying}></TrackDiagram>
-            <TrackList tracklist={props.album.tracks} currentTrack={currentTrack} albumHash={props.album.hash} setTrack={(track) => albumTrackSelect(track)}></TrackList>
+            <TrackList tracklist={props.album.tracks} currentTrack={currentTrack} albumHash={props.album.hash} setTrack={(track,trackNumber) => albumTrackSelect(track,trackNumber)}></TrackList>
             <div className="album-options">
                 <button>Like</button>
                 <button>Reposts</button>
@@ -125,7 +122,7 @@ export default connect(
         changeIslogin: (value) => {
             dispatch({ type: 'ZHAKAR', isLogin: value })
         },
-        changeCurrentTrack: (value) => {
+        changePlaylistCounter: (value) => {
             dispatch({ type: 'PLAYLIST_SET_COUNTER', counterValue: value })
         },
         changePlayingToggle: () => {

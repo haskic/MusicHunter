@@ -53,7 +53,7 @@ function Playlist(props) {
                                 isShowPlayOnHover={true} playIconImage={play2Icon} pauseIconImage={pause2Icon}
                                 isPlaying={false}
                                 isShowIcon={false}
-                                clickAlbumCoverHandler={() => { props.changeCurrentTrack(index); props.changeSong(element); props.changeIsPlayingState(true); }}></SongExposition>
+                                clickAlbumCoverHandler={() => { props.changePlaylistCounter(index); props.changeSong(element); props.changeIsPlayingState(true); }}></SongExposition>
                             <div className="right-form">
                                 <img src={crossIcon} title="remove from Next Up"></img>
                                 <img src={heartBlackIcon} title="Like"></img>
@@ -81,7 +81,7 @@ function Playlist(props) {
         }
     }
 
-    function trackRenderer(track, currentSong) {
+    function trackRenderer(track, currentSong, trackIndexInPlaylist) {
         console.log("Track rendere")
 
         if (track.hashUrl == currentSong.hashUrl) {
@@ -92,7 +92,7 @@ function Playlist(props) {
                     isShowPlayOnHover={false} playIconImage={play2Icon} pauseIconImage={pause2Icon}
                     isPlaying={isPlaying}
                     isShowIcon={true}
-                    clickAlbumCoverHandler={() => {props.changePlayingToggle(); }}></SongExposition>
+                    clickAlbumCoverHandler={() => { props.changePlayingToggle(); }}></SongExposition>
                 <div className="right-form">
                     <img src={crossIcon} title="remove from Next Up"></img>
                     <img src={heartBlackIcon} title="Like"></img>
@@ -104,7 +104,7 @@ function Playlist(props) {
         return <div className="track-item">
             <SongExposition artistName={track.artist} songName={track.name} albumCoverImage={track.imageUrl} playIconImage={play2Icon}
                 pauseIconImage={pause2Icon} isShowIcon={false} isShowPlayOnHover={true}
-                clickAlbumCoverHandler={() => { props.changeSong(track); props.changeIsPlayingState(true); }}></SongExposition>
+                clickAlbumCoverHandler={() => { props.changeSong(track); props.changeIsPlayingState(true); props.changePlaylistCounter(trackIndexInPlaylist); }}></SongExposition>
             <div className="right-form">
                 <img src={crossIcon} title="remove from Next Up"></img>
                 <img src={heartBlackIcon} title="Like"></img>
@@ -157,8 +157,8 @@ function Playlist(props) {
                     </ReactReduxContext.Consumer>
                     {tracklist} */}
                     {console.log("SOME UPDATES")}
-                    {tracklist.map((track) => {
-                        return trackRenderer(track, currentTrack);
+                    {tracklist.map((track, index) => {
+                        return trackRenderer(track, currentTrack, index);
                     })}
                 </div>
             </div>
@@ -172,7 +172,7 @@ export default connect(
         changeIslogin: (value) => {
             dispatch({ type: 'ZHAKAR', isLogin: value })
         },
-        changeCurrentTrack: (value) => {
+        changePlaylistCounter: (value) => {
             dispatch({ type: 'PLAYLIST_SET_COUNTER', counterValue: value })
         },
         changePlayingToggle: () => {
