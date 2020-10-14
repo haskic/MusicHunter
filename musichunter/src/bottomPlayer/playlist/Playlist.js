@@ -11,22 +11,23 @@ import pause2Icon from './../icons/pause2.png';
 
 import './../scss/Playlist.scss';
 import SongExposition from '../songExposition/SongExposition';
+import PlaylistIcon from './PlaylistIcon';
 
 function Playlist(props) {
-    const [playlistIcon, setPlaylistIcon] = useState(playlistBlackIcon);
+    // const [playlistIcon, setPlaylistIcon] = useState(playlistBlackIcon);
     const [tracklist, setTracklist] = useState([]);
     const [notConvertedTrackList, setnotConvertedTrackList] = useState([]);
     const [currentTrack, setcurrentTrack] = useState(0);
     const [isPlaying, setisPlaying] = useState(false);
     const [isShow, setisShow] = useState(false);
-    function playlistIconToggle() {
-        if (playlistIcon == playlistBlackIcon) {
-            setPlaylistIcon(playlistBlueIcon);
-        }
-        else {
-            setPlaylistIcon(playlistBlackIcon);
-        }
-    }
+    // function playlistIconToggle() {
+    //     if (playlistIcon == playlistBlackIcon) {
+    //         setPlaylistIcon(playlistBlueIcon);
+    //     }
+    //     else {
+    //         setPlaylistIcon(playlistBlackIcon);
+    //     }
+    // }
     function removeClass(str, element) {
         var re = new RegExp(`\\b${str}\\b`, 'gi');
         element.className = element.className.replace(re, "");
@@ -140,7 +141,8 @@ function Playlist(props) {
     }
     return (
         <div className="playlist-container" >
-            <img src={playlistIcon} onMouseEnter={() => playlistIconToggle()} onMouseLeave={() => playlistIconToggle()} onClick={() => playlistIconClickHandler()}></img>
+            {/* <img src={playlistIcon} onMouseEnter={() => playlistIconToggle()} onMouseLeave={() => playlistIconToggle()} onClick={() => playlistIconClickHandler()}></img> */}
+            <PlaylistIcon clickHandler={() => playlistIconClickHandler()}></PlaylistIcon>
             <div className="playlist-list-container">
                 <div className="header">
                     <div className="top-title">Next Up</div>
