@@ -8,6 +8,8 @@ import TrackDiagram from './TrackDiagram';
 
 function Track(props) {
     const [isPlaying, setisPlaying] = useState(false);
+    const [track, setTrack] = useState(null);
+
     function controlClickHandler() {
         if (isPlaying) {
             props.changeIsPlayingState(false);
@@ -15,6 +17,7 @@ function Track(props) {
         }
         else {
             if (props.store.currentSong.hashUrl !== props.track.hashUrl) {
+                console.log("TRACKE CHANGE WOWOWOWOWWOWOOWOWOWOWOWOWOWO");
                 let mypromise = new Promise((resolve, reject) => {
                     props.changeSong({ src: "" });
                     resolve();
@@ -31,17 +34,21 @@ function Track(props) {
         if (props.store.currentSong.hashUrl == props.track.hashUrl) {
             if (props.store.isPlaying) {
                 setisPlaying(true);
+                console.log("AAA");
             }
             else {
+                console.log("BBB");
                 setisPlaying(false);
             }
-        }
+        }   
         else {
+            console.log("CCC");
             setisPlaying(false);
         }
     }, [props.store.currentSong, props.store.isPlaying]);
     useEffect(() => {
-
+        setTrack(props.track);
+        console.log("TRack",props.track);
         return () => {
             console.log("TRACK UNMOUNT");
         }
@@ -60,7 +67,7 @@ function Track(props) {
                     <div className="track-name">{props.track.name}</div>
                 </div>
             </div>
-            <TrackDiagram hashUrl={props.track.hashUrl} points={JSON.parse(props.track.histogram).pointArray}></TrackDiagram>
+            <TrackDiagram hashUrl={props.track.hashUrl} points={JSON.parse(props.track.histogram).pointArray} ></TrackDiagram>
             <div className="track-options">
                 <button>Like</button>
                 <button>Reposts</button>

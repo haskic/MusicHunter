@@ -70,12 +70,16 @@ function Album(props) {
             }
             // setCurrentPoints(JSON.parse(props.store.currentSong.histogram).pointArray);
             console.log("New current track:", props.store.currentSong);
+            return;
         }
-
+        setcurrentTrack({hash: ""});
     }, [props.store.currentSong])
 
     function albumTrackSelect(track) {
         // setcurrentTrack(track);
+        if (track.hashUrl === props.store.currentSong.hashUrl) {
+            return;
+        }
         props.changeSong(track);
         props.changeIsPlayingState(true);
         setcurrentTrack(track);

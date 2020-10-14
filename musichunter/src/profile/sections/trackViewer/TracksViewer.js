@@ -50,7 +50,6 @@ function TrackViewer(props) {
         API.getTracks(props.store.currentUser.hash, props.store.currentUser.token, (res) => {
             console.log("TRACK DATA = ", res);
             setTracks(JSON.parse(res.data.tracks));
-            console.log("TRACK DATA = ", res);
         });
     }, [])
     return (<div className="track-viewer">

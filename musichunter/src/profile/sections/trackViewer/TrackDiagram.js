@@ -28,6 +28,10 @@ function TrackDiagram(props) {
     const [updateInterval, setupdateInterval] = useState(null);
     const [points, setPoints] = useState([]);
     useEffect(() => {
+        console.log("DIAGRAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM WAS CREATEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+        
+    }, [])
+    useEffect(() => {
         return () => {
             clearInterval(updateInterval);
             console.log("useeffect[updatedInterval] deleted", updateInterval)
@@ -81,24 +85,6 @@ function TrackDiagram(props) {
                 console.log("TIMER ID  = ", updateInterval);
                 console.log("TIMER ID normal = ", timer);
             }
-            // else {
-            //     let timer = setInterval(() => {
-            //         let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
-            //         // console.log("UPDATING");
-            //         updateDiagram(canvasElement, currentX);
-            //     }, 50);
-            //     setupdateInterval(prevState => {
-            //         if (prevState !== null) {
-            //             clearInterval(prevState);
-            //         }
-            //         return timer;
-            //     });
-            //     console.log("TIMER ID  = ", updateInterval);
-            //     console.log("TIMER ID normal = ", timer);
-
-
-            // }
-
         }
 
         drawDiagram();
