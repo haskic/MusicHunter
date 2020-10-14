@@ -63,6 +63,7 @@ function Album(props) {
     useEffect(() => {
         if (props.album.hash == props.store.playlist.hash) {
             setcurrentTrack(props.store.currentSong);
+            setCurrentPoints(JSON.parse(props.store.currentSong.histogram).pointArray);
             if (props.store.currentSong?.histogram) {
                 console.log("POINTS CHANGED");
                 // setCurrentPoints(JSON.parse(props.store.currentSong.histogram).pointArray);
@@ -72,7 +73,7 @@ function Album(props) {
             console.log("New current track:", props.store.currentSong);
             return;
         }
-        setcurrentTrack({hash: ""});
+        setcurrentTrack({ hash: "" });
     }, [props.store.currentSong])
 
     function albumTrackSelect(track) {
