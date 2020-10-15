@@ -83,10 +83,10 @@ function Playlist(props) {
     }
 
     function trackRenderer(track, currentSong, trackIndexInPlaylist) {
-        console.log("Track rendere")
+        // console.log("Track rendere")
 
         if (track.hashUrl == currentSong.hashUrl) {
-            console.log("hashes equal", track.hashUrl, currentSong.hashUrl)
+            // console.log("hashes equal", track.hashUrl, currentSong.hashUrl)
             return <div className="track-item">
                 <SongExposition artistName={track.artist}
                     songName={track.name} albumCoverImage={track.imageUrl}

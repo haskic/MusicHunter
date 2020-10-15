@@ -17,6 +17,7 @@ function Album(props) {
     const [currentTrack, setcurrentTrack] = useState({ hash: "" });
     const [currentPoints, setCurrentPoints] = useState(JSON.parse(props.album.tracks[0].histogram).pointArray);
     function controlClickHandler() {
+        console.log("LOL");
         if (isPlaying) {
             props.changeIsPlayingState(false);
             setisPlaying(false);

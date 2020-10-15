@@ -20,6 +20,10 @@ function Profile(props) {
 
     }
     useEffect(() => {
+        console.log("Profile renderer");
+        
+    }, [])
+    useEffect(() => {
         let nameElement = document.getElementById("user-name-info");
         let locationElement = document.getElementById("user-location-info");
 
@@ -66,7 +70,8 @@ function Profile(props) {
             <div className="content-data">
                 <Switch>
                     <Route path={`${path}/all`} component={() => <div>ALexander</div>}></Route>
-                    <Route path={`${path}/tracks`} component={TrackViewer}></Route>
+                    <Route path={`${path}/tracks`} render={(properties) => <TrackViewer {...properties} userHash={props.store.currentUser.hash}></TrackViewer>}></Route>
+                    {/* <Route path={`${path}/tracks`} component={TrackViewer}></Route> */}
                     <Route path={`${path}/albums`} component={AlbumViewer}></Route>
                     <Route path="/" component={() => <div>DEfault</div>}></Route>
                 </Switch>

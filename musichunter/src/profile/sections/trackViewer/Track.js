@@ -8,7 +8,7 @@ import TrackDiagram from './TrackDiagram';
 
 function Track(props) {
     const [isPlaying, setisPlaying] = useState(false);
-    const [track, setTrack] = useState(null);
+    const [points, setPoints] = useState(JSON.parse(props.track.histogram).pointArray);
 
     function controlClickHandler() {
         if (isPlaying) {
@@ -18,13 +18,9 @@ function Track(props) {
         else {
             if (props.store.currentSong.hashUrl !== props.track.hashUrl) {
                 console.log("TRACKE CHANGE WOWOWOWOWWOWOOWOWOWOWOWOWOWO");
-                let mypromise = new Promise((resolve, reject) => {
-                    props.changeSong({ src: "" });
-                    resolve();
-                });
-                mypromise.then(() => {
-                    props.changeSong(props.track);
-                })
+
+                props.changeSong(props.track);
+                props.clickHandler(props.index);
             }
             props.changeIsPlayingState(true);
             setisPlaying(true);
@@ -46,13 +42,9 @@ function Track(props) {
             setisPlaying(false);
         }
     }, [props.store.currentSong, props.store.isPlaying]);
-    useEffect(() => {
-        setTrack(props.track);
-        console.log("TRack",props.track);
-        return () => {
-            console.log("TRACK UNMOUNT");
-        }
-    }, [])
+    // useEffect(() => {
+        
+    // }, [])
     return (<div className="track-container">
         <div className="album-cover">
             <img src={props.track.imageUrl}></img>
@@ -67,7 +59,7 @@ function Track(props) {
                     <div className="track-name">{props.track.name}</div>
                 </div>
             </div>
-            <TrackDiagram hashUrl={props.track.hashUrl} points={JSON.parse(props.track.histogram).pointArray} ></TrackDiagram>
+            <TrackDiagram hashUrl={props.track.hashUrl} points={points} ></TrackDiagram>
             <div className="track-options">
                 <button>Like</button>
                 <button>Reposts</button>
@@ -95,5 +87,6 @@ export default connect(
         changeIsPlayingState: (value) => {
             dispatch({ type: 'SET_PLAYING_STATE', isPlaying: value })
         },
+
     })
 )(Track);

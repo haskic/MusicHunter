@@ -28,13 +28,13 @@ function TrackDiagram(props) {
     const [updateInterval, setupdateInterval] = useState(null);
     const [points, setPoints] = useState([]);
     useEffect(() => {
-        console.log("DIAGRAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM WAS CREATEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+        // console.log("DIAGRAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM WAS CREATEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
         
     }, [])
     useEffect(() => {
         return () => {
             clearInterval(updateInterval);
-            console.log("useeffect[updatedInterval] deleted", updateInterval)
+            // console.log("useeffect[updatedInterval] deleted", updateInterval)
         };
     }, [updateInterval])
     useEffect(() => {
@@ -64,11 +64,11 @@ function TrackDiagram(props) {
         }
     }, [props.isActive])
     useEffect(() => {
-        console.log("TRY TO SET INTERVAL .................................");
-        console.log("POINTS STATE ", points);
+        // console.log("TRY TO SET INTERVAL .................................");
+        // console.log("POINTS STATE ", points);
 
         if (points.length > 0 && props.hashUrl === props.store.currentSong.hashUrl) {
-            console.log("SET INTERVAL .................................")
+            // console.log("SET INTERVAL .................................")
             let audioPlayer = document.getElementById("audio-player");
             if (props.store.isPlaying === true) {
                 let timer = setInterval(() => {
@@ -82,8 +82,8 @@ function TrackDiagram(props) {
                     }
                     return timer;
                 });
-                console.log("TIMER ID  = ", updateInterval);
-                console.log("TIMER ID normal = ", timer);
+                // console.log("TIMER ID  = ", updateInterval);
+                // console.log("TIMER ID normal = ", timer);
             }
         }
 
@@ -91,7 +91,7 @@ function TrackDiagram(props) {
     }, [points])
 
     useEffect(() => {
-        console.log("CHANGE TRACK TRIGGER");
+        // console.log("CHANGE TRACK TRIGGER");
         if (props.albumHash) {
             if (props.albumHash == props.store.playlist.hash && props.hashUrl === props.store.currentSong.hashUrl) {
                 // setisActive(true);
@@ -150,7 +150,7 @@ function TrackDiagram(props) {
 
 
     function updateDiagram(canvas, currentX) {
-        console.log("Updating diagram");
+        // console.log("Updating diagram");
         let rect = canvas.current.getBoundingClientRect();
         let ctx = canvas.current.getContext('2d');
         ctx.clearRect(0, 0, rect.width, rect.height);
