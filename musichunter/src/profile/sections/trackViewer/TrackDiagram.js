@@ -29,7 +29,7 @@ function TrackDiagram(props) {
     const [points, setPoints] = useState([]);
     useEffect(() => {
         // console.log("DIAGRAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM WAS CREATEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-        
+
     }, [])
     useEffect(() => {
         return () => {
@@ -43,7 +43,7 @@ function TrackDiagram(props) {
             newPoints.push({ x: i, y: 70, width: 2.2, height: -props.points[i] });
         }
         setPoints((prevState) => newPoints);
-        console.log("Props.points changed", props.points);
+        // console.log("Props.points changed", props.points);
     }, [props.points]);
     useEffect(() => {
         if (!props.isActive) {
@@ -66,6 +66,7 @@ function TrackDiagram(props) {
     useEffect(() => {
         // console.log("TRY TO SET INTERVAL .................................");
         // console.log("POINTS STATE ", points);
+        drawDiagram();
 
         if (points.length > 0 && props.hashUrl === props.store.currentSong.hashUrl) {
             // console.log("SET INTERVAL .................................")
@@ -85,9 +86,11 @@ function TrackDiagram(props) {
                 // console.log("TIMER ID  = ", updateInterval);
                 // console.log("TIMER ID normal = ", timer);
             }
+            let currentX = audioPlayer.currentTime / audioPlayer.duration * 702;
+            // console.log("UPDATING");
+            updateDiagram(canvasElement, currentX);
         }
 
-        drawDiagram();
     }, [points])
 
     useEffect(() => {
@@ -150,7 +153,7 @@ function TrackDiagram(props) {
 
 
     function updateDiagram(canvas, currentX) {
-        // console.log("Updating diagram");
+        console.log("Updating diagram");
         let rect = canvas.current.getBoundingClientRect();
         let ctx = canvas.current.getContext('2d');
         ctx.clearRect(0, 0, rect.width, rect.height);
