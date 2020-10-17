@@ -45,7 +45,7 @@ function TopMenu(props) {
         props.logoutUser();
         clearCookies();
     }
-    function clearCookies(){
+    function clearCookies() {
         const cookies = new Cookies();
         cookies.remove("default_token");
     }

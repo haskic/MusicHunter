@@ -42,6 +42,18 @@ function Profile(props) {
 
     }, [isEditMode])
 
+    function routerHandler(params){
+        console.log("PARAMS = ",params.match.params)
+        if (params.match.params.section == "tracks"){
+            return <TrackViewer {...params} userHash={props.store.currentUser.hash}></TrackViewer>
+        }
+        else if (params.match.params.section == "albums"){
+            return <AlbumViewer {...params} userHash={props.store.currentUser.hash}></AlbumViewer>
+
+        }
+    }
+
+
     return (<div className="profile">
         <div className="profile-container">
             <div className="profile-header">
@@ -69,11 +81,13 @@ function Profile(props) {
             </div>
             <div className="content-data">
                 <Switch>
-                    <Route path={`/profile/:userhash/all`} component={() => <div>ALexander</div>}></Route>
-                    <Route path={`/profile/:userhash/tracks`} render={(properties) => <TrackViewer {...properties} userHash={props.store.currentUser.hash}></TrackViewer>}></Route>
+                    {/* <Route path={`/profile/:userhash/all`} component={() => <div>ALexander</div>}></Route> */}
+                    <Route path={`/profile/:userhash/:section`} render={(properties) => routerHandler(properties)}></Route>
+                   
+                    {/* <Route path={`/profile/:userhash/tracks`} render={(properties) => <TrackViewer {...properties} userHash={props.store.currentUser.hash}></TrackViewer>}></Route> */}
                     {/* <Route path={`tracks`} component={TrackViewer}></Route> */}
-                    <Route path={`/profile/:userhash/albums`} component={AlbumViewer}></Route>
-                    <Route path={`/profile/:userhash/`} component={() => <div>DEfault</div>}></Route>
+                    {/* <Route path={`/profile/:userhash/albums`} component={AlbumViewer}></Route>
+                    <Route path={`/profile/:userhash/`} component={() => <div>DEfault</div>}></Route> */}
                 </Switch>
             </div>
         </div>
