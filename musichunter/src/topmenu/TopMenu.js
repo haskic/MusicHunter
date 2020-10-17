@@ -71,7 +71,7 @@ function TopMenu(props) {
                             {props.store.currentUser.name}
                             <div className="profile-menu">
                                 <div className="profile-menu-container">
-                                    <Link to="/profile"><div>Profile</div></Link>
+                                    <Link to={`/profile/${props.store.currentUser.hash}`} ><div>Profile</div></Link>
                                     <div>Likes</div>
                                     <div>Settings</div>
                                     <GoogleLogout

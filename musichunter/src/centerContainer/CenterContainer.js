@@ -42,7 +42,7 @@ function CenterContainer(props) {
     }
     return (<div className='center-container'>
         {isLogin ? <Switch>
-            <Route path="/profile" component={Profile}></Route>
+            <Route path="/profile/:userHash" component={Profile}></Route>
             <Route path="/home" component={HomePage}></Route>
             <Route path="/upload" component={Uploader}></Route>
             <Route path="/messenger" component={Messenger}></Route>

@@ -10,7 +10,7 @@ import AlbumViewer from './sections/albumViewer/AlbumViewer';
 
 
 function Profile(props) {
-    let { path, url } = useRouteMatch();
+    const [path, setPath] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
     function editButtonHandler() {
         setIsEditMode(true);
@@ -21,7 +21,7 @@ function Profile(props) {
     }
     useEffect(() => {
         console.log("Profile renderer");
-        
+        setPath(props.location.pathname);
     }, [])
     useEffect(() => {
         let nameElement = document.getElementById("user-name-info");
@@ -55,11 +55,11 @@ function Profile(props) {
             </div>
             <div className="profile-sections">
                 <div className="sections">
-                    <div><Link to={`${path}/all`}>All</Link></div>
-                    <div><Link to={`${path}/tracks`}>My tracks</Link></div>
-                    <div><Link to={`${path}/albums`}>My albums</Link></div>
-                    <div><Link to={`${path}/playlists`}>Playlists</Link></div>
-                    <div><Link to={`${path}/reposts`}>Reposts</Link></div>
+                    <div><Link to={path + '/all'}>All</Link></div>
+                    <div><Link to={path + '/tracks'}>My tracks</Link></div>
+                    <div><Link to={path + '/albums'}>My albums</Link></div>
+                    <div><Link to={path + '/playlists'}>Playlists</Link></div>
+                    <div><Link to={path + '/reposts'}>Reposts</Link></div>
                 </div>
                 <div className="section-buttons">
                     <button>Share</button>
@@ -69,11 +69,11 @@ function Profile(props) {
             </div>
             <div className="content-data">
                 <Switch>
-                    <Route path={`${path}/all`} component={() => <div>ALexander</div>}></Route>
-                    <Route path={`${path}/tracks`} render={(properties) => <TrackViewer {...properties} userHash={props.store.currentUser.hash}></TrackViewer>}></Route>
-                    {/* <Route path={`${path}/tracks`} component={TrackViewer}></Route> */}
-                    <Route path={`${path}/albums`} component={AlbumViewer}></Route>
-                    <Route path="/" component={() => <div>DEfault</div>}></Route>
+                    <Route path={`/profile/:userhash/all`} component={() => <div>ALexander</div>}></Route>
+                    <Route path={`/profile/:userhash/tracks`} render={(properties) => <TrackViewer {...properties} userHash={props.store.currentUser.hash}></TrackViewer>}></Route>
+                    {/* <Route path={`tracks`} component={TrackViewer}></Route> */}
+                    <Route path={`/profile/:userhash/albums`} component={AlbumViewer}></Route>
+                    <Route path={`/profile/:userhash/`} component={() => <div>DEfault</div>}></Route>
                 </Switch>
             </div>
         </div>
