@@ -262,7 +262,7 @@ function FileList(props) {
             console.log('ImageUrl = ', response.data.hashUrl);
             console.log('ImageUrl = ', playlistobj.ImageUrl);
             fileList.forEach((value, index) => {
-                tracklist.push({ Name: value.fileData.title, Artist: value.fileData.title, HashUrl: hashes[index].hash, OwnerId: 13, ImageUrl: playlistobj.ImageUrl });
+                tracklist.push({ Name: value.fileData.title, Artist: value.fileData.artist, HashUrl: hashes[index].hash, OwnerId: 13, ImageUrl: playlistobj.ImageUrl });
             });
             API.addTracks(tracklist, token, () => {
                 
