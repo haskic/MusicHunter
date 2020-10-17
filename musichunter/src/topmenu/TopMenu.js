@@ -7,6 +7,8 @@ import Cookies from 'universal-cookie';
 import Registration from '../auth/registration/Registration';
 import animator from './../animation/animator';
 
+import searchHandler from './search/searchHandler';
+
 import Notifications from './Notifications';
 import './scss/TopMenu.scss';
 
@@ -15,6 +17,7 @@ import mainLogo from './logo/musicHunterLogo4.png';
 
 import NotificationsContext from '../NotificationsContext';
 import Login from '../auth/login/Login';
+import Search from './search/Search';
 
 const googleButtonStyle = {
     display: 'flex',
@@ -63,7 +66,8 @@ function TopMenu(props) {
                 <Link to="/home"><div className="top-menu-container-home">Home</div></Link>
                 <div className="top-menu-container-library">Library</div>
                 <div className="top-menu-container-search">
-                    <input type="text" placeholder="Search"></input>
+                    {/* <input type="text" placeholder="Search"></input> */}
+                    <Search></Search>
                 </div>
                 {props.store.isLogin ?
                     <React.Fragment>
