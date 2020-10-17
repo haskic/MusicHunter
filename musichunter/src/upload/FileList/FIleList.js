@@ -100,7 +100,7 @@ function FileList(props) {
     const [startDate, setStartDate] = useState(new Date());
     const [fileList, setfileList] = useState([]);
     const [progressState, setProgressState] = useState({});
-    const [hashes, setHashes] = useState([]);
+    const [hashes, setHashes] = useState({});
     const playlistInfo = usePlaylistInfo({ title: "", genre: "", playlistType: "playlist", description: "" });
     // let callBack = React.useMemo((hashString,file) => {
     //     hashUpdater({id: file.id, hash: hashString});
@@ -129,6 +129,7 @@ function FileList(props) {
                     }
                     sendFile({ id: index, entity: props.files[index] });
                     newFilelist.push({ id: index.toString(), content: props.files[index].name, fileData: fileData })
+                    console.log("IN LIST PUSHED:",props.files[index].name);
                     console.log("NewFileList: ", newFilelist);
                 });
             }
@@ -204,7 +205,7 @@ function FileList(props) {
             console.log("Progress", progressEvent.loaded);
             setProgressState({ ...progressState, [file.id]: progressEvent.loaded * 100 / file.entity.size });
         }, (res) => {
-            setHashes(prevState => [...prevState, { id: file.id, hash: res.data.hashUrl }]);
+            setHashes(prevState => { return {...prevState, ...{ [file.id.toString()]: res.data.hashUrl }}});
             console.log("HASH LIST:", hashes);
         });
     }
@@ -212,7 +213,7 @@ function FileList(props) {
         setfileList([...fileList, file]);
     }
 
-    function saveAndLoad() {
+    function saveAndLoad() {    
         const fileInput = document.getElementById("file-upload");
         const fileFromFileInput = fileInput.files[0];
         let fileOne = new Blob([fileFromFileInput]);
@@ -262,7 +263,7 @@ function FileList(props) {
             console.log('ImageUrl = ', response.data.hashUrl);
             console.log('ImageUrl = ', playlistobj.ImageUrl);
             fileList.forEach((value, index) => {
-                tracklist.push({ Name: value.fileData.title, Artist: value.fileData.artist, HashUrl: hashes[index].hash, OwnerId: 13, ImageUrl: playlistobj.ImageUrl });
+                tracklist.push({ Name: value.fileData.title, Artist: value.fileData.artist, HashUrl: hashes[value.id], OwnerId: 13, ImageUrl: playlistobj.ImageUrl });
             });
             API.addTracks(tracklist, token, () => {
                 

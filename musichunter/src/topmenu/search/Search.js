@@ -28,7 +28,7 @@ const testResults = [
 export default function Search(props) {
 
     const [searchText, setSearchText] = React.useState("");
-    const [results, setResults] = React.useState(testResults);
+    const [results, setResults] = React.useState([]);
     function keyHanlder(event) {
         var key = event.keyCode || event.which;
         if (key == 13) {
