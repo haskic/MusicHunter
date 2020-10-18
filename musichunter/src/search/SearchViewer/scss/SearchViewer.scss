@@ -27,8 +27,8 @@
             .search-left-menu {
                 display: flex;
                 width: 25%;
-                justify-content: flex-start;
                 padding: 25px;
+                flex-direction: column;
                 .menu {
                     display: flex;
                     ul {
@@ -43,6 +43,7 @@
                                 align-items: center;
                                 padding-left: 10px;
                                 cursor: pointer;
+                                font-size: 11pt;
                             }
                             .menu-item-selected {
                                 background-color: rgb(41, 32, 245);
@@ -51,7 +52,9 @@
                                 display: flex;
                                 align-items: center;
                                 padding-left: 10px;
+                                color: white;
                                 cursor: pointer;
+                                font-size: 11pt;
                             }
                             .arrow-right {
                                 width: 0;
@@ -63,6 +66,18 @@
                             }
                             margin-bottom: 5px;
                         }
+                    }
+                }
+                .search-left-menu-description{
+                    display: flex;
+                    margin-top: 25px;
+                    font-size: 9pt;
+                    font-weight: 600;
+                    padding-left: 10px;
+                    .language-button{
+                        color: rgb(41, 32, 245);
+                        cursor: pointer;
+                        padding-right: 5px;
                     }
                 }
             }
