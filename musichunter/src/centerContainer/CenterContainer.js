@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import HomePage from '../home/HomePage';
 import Uploader from './../upload/Uploader';
 import Messenger from './../messenger/Messenger';
+import SearchViewer from './../search/SearchViewer/SearchViewer';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Profile from '../profile/Profile';
 
@@ -46,7 +47,9 @@ function CenterContainer(props) {
             <Route path="/home" component={HomePage}></Route>
             <Route path="/upload" component={Uploader}></Route>
             <Route path="/messenger" component={Messenger}></Route>
+            <Route path="/search" component={SearchViewer}></Route>
             <Route path="/" component={HomePage}></Route>
+
         </Switch> : null}
         <IsLoginChecker onSuccessLogin={() => onSuccessAutoLogin()}></IsLoginChecker>
     </div>);

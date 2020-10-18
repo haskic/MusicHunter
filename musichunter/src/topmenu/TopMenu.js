@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 import Registration from '../auth/registration/Registration';
 import animator from './../animation/animator';
 
-import searchHandler from './search/searchHandler';
+// import searchHandler from './search/searchHandler';
 
 import Notifications from './Notifications';
 import './scss/TopMenu.scss';
@@ -17,7 +17,7 @@ import mainLogo from './logo/musicHunterLogo4.png';
 
 import NotificationsContext from '../NotificationsContext';
 import Login from '../auth/login/Login';
-import Search from './search/Search';
+import Search from './../search/Search';
 
 const googleButtonStyle = {
     display: 'flex',

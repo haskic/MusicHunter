@@ -1,5 +1,6 @@
 import React from 'react';
 
+import searchIcon from './icon/searchIcon.png';
 
 
 const testResults = [
@@ -28,7 +29,9 @@ const testResults = [
 export default function Search(props) {
 
     const [searchText, setSearchText] = React.useState("");
+    // const [results, setResults] = React.useState(testResults);
     const [results, setResults] = React.useState([]);
+
     function keyHanlder(event) {
         var key = event.keyCode || event.which;
         if (key == 13) {
@@ -47,6 +50,7 @@ export default function Search(props) {
             <div className="search-result">
                 {results.map((result) => {
                     return <div className="search-item">
+                        <img src={searchIcon}></img>
                         <div>{result.title}</div>
                     </div>
                 })}
