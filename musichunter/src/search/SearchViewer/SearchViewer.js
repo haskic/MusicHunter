@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import Track from './../../profile/sections/trackViewer/Track';
+import { connect } from 'react-redux';
+import queryString, { parse } from 'query-string';
+import API from './../api/api';
 
 import './scss/SearchViewer.scss';
 
@@ -24,7 +29,28 @@ const menuItems = [
 function SearchViewer(props) {
 
     const [selectedMenuItem, setSelectedMenuItem] = useState(0);
+    const [results, setResults] = useState([]);
+    useEffect(() => {
+        console.log("LOCATION = ", JSON.stringify(props.location, null, 2));
+        const parsed = queryString.parse(props.location.search);
+        console.log("LOCATION = ", parsed);
+        API.searchByText(parsed.line, props.store.currentUser.token, (response) => {
 
+            console.log("Response: ", JSON.parse(response.data.tracks));
+            setResults(JSON.parse(response.data.tracks));
+        });
+    }, [])
+    function setPlaylistByTrack(trackIndex) {
+        props.changePlaylist({
+            tracks: results,
+            name: `Tracks of User ${props.userHash}`,
+            type: 'playlist',
+            hash: `tracks${props.userHash}`,
+
+        });
+        console.log("TRACK INDEX = = = = = = = ", trackIndex);
+        props.changePlaylistCounter(trackIndex);
+    }
     return (
         <div className="search-page">
             <div className="search-page-container">
@@ -43,12 +69,15 @@ function SearchViewer(props) {
                             </ul>
                         </div>
                         <div className="search-left-menu-description">
-                                <div className="language-button">Language:</div>
-                                <div className="language-selected">English (US)</div>
+                            <div className="language-button">Language:</div>
+                            <div className="language-selected">English (US)</div>
                         </div>
                     </div>
                     <div className="search-content">
-                        search content
+                        {results.map((value, index) => {
+                            console.log("IMAGE URL =", value.ImageUrl);
+                            return <Track track={value} index={index} clickHandler={(trackIndex) => setPlaylistByTrack(trackIndex)}></Track>
+                        })}
                     </div>
                 </div>
             </div>
@@ -61,4 +90,15 @@ function SearchViewer(props) {
 
 
 
-export default SearchViewer;
+export default connect(
+    state => ({ store: state }),
+    dispatch => ({
+        changePlaylist: (value) => {
+            dispatch({ type: 'SET_PLAYLIST', playlist: value })
+        },
+        changePlaylistCounter: (value) => {
+            dispatch({ type: 'PLAYLIST_SET_COUNTER', counterValue: value })
+        },
+
+    })
+)(SearchViewer);
