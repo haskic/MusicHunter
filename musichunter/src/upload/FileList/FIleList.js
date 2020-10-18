@@ -125,7 +125,10 @@ function FileList(props) {
                         album: metadata.common.album,
                         artist: metadata.common.artist,
                         comment: metadata.common.comment,
-                        genre: metadata.common.genre[0],
+                        // genre: metadata.common.genre[0],
+                    }
+                    if (fileData.title == undefined){
+                        fileData.title = props.files[index].name;
                     }
                     sendFile({ id: index, entity: props.files[index] });
                     newFilelist.push({ id: index.toString(), content: props.files[index].name, fileData: fileData })
@@ -180,9 +183,11 @@ function FileList(props) {
                     album: metadata.common.album,
                     artist: metadata.common.artist,
                     comment: metadata.common.comment,
-                    genre: metadata.common.genre[0],
+                    // genre: metadata.common.genre[0],
                 }
-
+                if (fileData.title == undefined){
+                    fileData.title = files[i].name;
+                }
                 newFileList.push({ content: files[i].name, id: lastFileIndex.toString(), fileData: fileData });
                 sendFile({ id: lastFileIndex, entity: files[i] });
                 // console.log("NewFileList: ", newFilelist);
