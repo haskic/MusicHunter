@@ -1,36 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import Track from './../../profile/sections/trackViewer/Track';
 import { connect } from 'react-redux';
-import queryString, { parse } from 'query-string';
+import queryString from 'query-string';
 import API from './../api/api';
 
 import './scss/SearchViewer.scss';
 
 const menuItems = [
     {
-        text: "Everything"
+        text: "Everything",
+
     },
     {
-        text: "Tracks"
+        text: "Tracks",
+
     },
     {
-        text: "People"
+        text: "People",
+
     },
     {
-        text: "Albums"
+        text: "Albums",
+
     },
     {
-        text: "Playlists"
+        text: "Playlists",
+
     }
 ]
 
 
 function SearchViewer(props) {
-
     const [selectedMenuItem, setSelectedMenuItem] = useState(0);
     const [results, setResults] = useState([]);
     const location = useLocation();
+    const history = useHistory();
+
     useEffect(() => {
         console.log("LOCATION = ", JSON.stringify(props.location, null, 2));
         const parsed = queryString.parse(props.location.search);
@@ -41,6 +47,13 @@ function SearchViewer(props) {
             setResults(JSON.parse(response.data.tracks));
         });
     }, [location])
+
+    function menuHanlder(menuItem) {
+        const parsed = queryString.parse(props.location.search);
+        parsed.section = menuItem.text;
+        history.push("/search?" + queryString.stringify(parsed));
+        console.log("MENU HANDLER");
+    }
 
     function setPlaylistByTrack(trackIndex) {
         props.changePlaylist({
@@ -62,7 +75,7 @@ function SearchViewer(props) {
                         <div className="menu">
                             <ul>
                                 {menuItems.map((item, index) => {
-                                    return <li onClick={() => setSelectedMenuItem(index)}>
+                                    return <li onClick={() => { setSelectedMenuItem(index); menuHanlder(item); }}>
                                         <div className={index == selectedMenuItem ? "menu-item-selected" : "menu-item"}>{item.text}</div>
                                         {index == selectedMenuItem ? <div class="arrow-right"></div> : null}
 

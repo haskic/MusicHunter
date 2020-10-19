@@ -1,6 +1,8 @@
 import React from 'react';
 import searchIcon from './icon/searchIcon.png';
-import { useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import queryString from 'query-string';
+
 
 const testResults = [
     {
@@ -31,20 +33,24 @@ export default function Search(props) {
     // const [results, setResults] = React.useState(testResults);
     const [results, setResults] = React.useState([]);
     let history = useHistory();
-    
+    const location = useLocation();
+
+
     function keyHanlder(event) {
         var key = event.keyCode || event.which;
         if (key == 13) {
             if (props.searchHandler) {
                 props.searchHandler(searchText);
             }
-            console.log("Enter was pressed ", searchText,props);
-            history.push("/search?line=" + searchText);
+            console.log("Enter was pressed ", searchText, props);
+            const parsed = queryString.parse(location.search);
+            parsed.line = searchText;
+            history.push("/search?" + queryString.stringify(parsed));
 
         }
     }
 
- 
+
     return (
         <React.Fragment>
             <input type="text" placeholder={props.placeholder ? props.placeholder : "Search"} onChange={(event) => setSearchText(event.target.value)}
