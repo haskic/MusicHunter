@@ -47,7 +47,7 @@ function CenterContainer(props) {
             <Route path="/home" component={HomePage}></Route>
             <Route path="/upload" component={Uploader}></Route>
             <Route path="/messenger" component={Messenger}></Route>
-            <Route path="/search" component={SearchViewer}></Route>
+            <Route path="/search" render={(properties) => <SearchViewer {...properties}></SearchViewer>}></Route>
             <Route path="/" component={HomePage}></Route>
 
         </Switch> : null}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { useLocation } from 'react-router-dom';
 import Track from './../../profile/sections/trackViewer/Track';
 import { connect } from 'react-redux';
 import queryString, { parse } from 'query-string';
@@ -30,6 +30,7 @@ function SearchViewer(props) {
 
     const [selectedMenuItem, setSelectedMenuItem] = useState(0);
     const [results, setResults] = useState([]);
+    const location = useLocation();
     useEffect(() => {
         console.log("LOCATION = ", JSON.stringify(props.location, null, 2));
         const parsed = queryString.parse(props.location.search);
@@ -39,7 +40,8 @@ function SearchViewer(props) {
             console.log("Response: ", JSON.parse(response.data.tracks));
             setResults(JSON.parse(response.data.tracks));
         });
-    }, [])
+    }, [location])
+
     function setPlaylistByTrack(trackIndex) {
         props.changePlaylist({
             tracks: results,
