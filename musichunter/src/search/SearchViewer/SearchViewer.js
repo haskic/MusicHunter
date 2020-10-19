@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import Track from './../../profile/sections/trackViewer/Track';
+import Album from './../../profile/sections/albumViewer/Album';
+
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import API from './../api/api';
@@ -41,11 +43,12 @@ function SearchViewer(props) {
         console.log("LOCATION = ", JSON.stringify(props.location, null, 2));
         const parsed = queryString.parse(props.location.search);
         console.log("LOCATION = ", parsed);
-        API.searchByText(parsed.line, props.store.currentUser.token, (response) => {
+        API.searchByText(parsed.line, parsed.section, props.store.currentUser.token, (response) => {
 
-            console.log("Response: ", JSON.parse(response.data.tracks));
-            setResults(JSON.parse(response.data.tracks));
+            console.log("Response: ", JSON.parse(response.data.resultSearch));
+            setResults(JSON.parse(response.data.resultSearch));
         });
+
     }, [location])
 
     function menuHanlder(menuItem) {
@@ -91,7 +94,12 @@ function SearchViewer(props) {
                     <div className="search-content">
                         {results.map((value, index) => {
                             console.log("IMAGE URL =", value.ImageUrl);
-                            return <Track track={value} index={index} clickHandler={(trackIndex) => setPlaylistByTrack(trackIndex)}></Track>
+                            if (value.type == "track") {
+                                return <Track track={value} index={index} clickHandler={(trackIndex) => setPlaylistByTrack(trackIndex)}></Track>
+                            }
+                            if (value.type == "album") {
+                                return <Album album={value}></Album>
+                            }
                         })}
                     </div>
                 </div>
